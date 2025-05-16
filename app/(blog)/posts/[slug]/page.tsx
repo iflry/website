@@ -42,12 +42,12 @@ export async function generateMetadata(
     stega: false,
   });
   const previousImages = (await parent).openGraph?.images || [];
-  const ogImage = resolveOpenGraphImage(post?.coverImage);
+  const ogImage = resolveOpenGraphImage(post?.image);
 
   return {
     authors: post?.author?.name ? [{ name: post?.author?.name }] : [],
     title: post?.title,
-    description: post?.excerpt,
+    //description: post?.excerpt,
     openGraph: {
       images: ogImage ? [ogImage, ...previousImages] : previousImages,
     },
@@ -81,7 +81,7 @@ export default async function PostPage({ params }: Props) {
           )}
         </div>
         <div className="mb-8 sm:mx-0 md:mb-16">
-          <CoverImage image={post.coverImage} priority />
+          <CoverImage image={post.image} priority />
         </div>
         <div className="mx-auto max-w-2xl">
           <div className="mb-6 block md:hidden">

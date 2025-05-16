@@ -36,18 +36,17 @@ function Intro(props: { title: string | null | undefined; description: any }) {
 function HeroPost({
   title,
   slug,
-  excerpt,
-  coverImage,
+  image,
   date,
   author,
 }: Pick<
   Exclude<HeroQueryResult, null>,
-  "title" | "coverImage" | "date" | "excerpt" | "author" | "slug"
+  "title" | "image" | "date" | "author" | "slug"
 >) {
   return (
     <article>
       <Link className="group mb-8 block md:mb-16" href={`/posts/${slug}`}>
-        <CoverImage image={coverImage} priority />
+        <CoverImage image={image} priority />
       </Link>
       <div className="mb-20 md:mb-28 md:grid md:grid-cols-2 md:gap-x-16 lg:gap-x-8">
         <div>
@@ -61,11 +60,6 @@ function HeroPost({
           </div>
         </div>
         <div>
-          {excerpt && (
-            <p className="text-pretty mb-4 text-lg leading-relaxed">
-              {excerpt}
-            </p>
-          )}
           {author && <Avatar name={author.name} picture={author.picture} />}
         </div>
       </div>
@@ -88,8 +82,7 @@ export default async function Page() {
         <HeroPost
           title={heroPost.title}
           slug={heroPost.slug}
-          coverImage={heroPost.coverImage}
-          excerpt={heroPost.excerpt}
+          image={heroPost.image}
           date={heroPost.date}
           author={heroPost.author}
         />

@@ -1,30 +1,97 @@
 "use client";
-/**
- * This config is used to set up Sanity Studio that's mounted on the `app/(sanity)/studio/[[...tool]]/page.tsx` route
- */
+
+import React from 'react';
 import { visionTool } from "@sanity/vision";
-import { PluginOptions, defineConfig } from "sanity";
-import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";
+import { PluginOptions, defineConfig, defineField } from "sanity";
 import {
   presentationTool,
   defineDocuments,
   defineLocations,
   type DocumentLocation,
 } from "sanity/presentation";
-import { structureTool } from "sanity/structure";
+import { StructureResolver, structureTool } from "sanity/structure";
 
 import { apiVersion, dataset, projectId, studioUrl } from "@/sanity/lib/api";
-import { pageStructure, singletonPlugin } from "@/sanity/plugins/settings";
-import { assistWithPresets } from "@/sanity/plugins/assist";
-import author from "@/sanity/schemas/documents/author";
+import { singletonPlugin } from "@/sanity/plugins/settings";
+import person from "@/sanity/schemas/documents/person";
 import post from "@/sanity/schemas/documents/post";
 import settings from "@/sanity/schemas/singletons/settings";
 import { resolveHref } from "@/sanity/lib/utils";
+import {documentInternationalization} from '@sanity/document-internationalization'
+import {internationalizedArray} from 'sanity-plugin-internationalized-array';
+import partner from '@/sanity/schemas/documents/partner';
 
 const homeLocation = {
   title: "Home",
   href: "/",
 } satisfies DocumentLocation;
+
+const LANGUAGES = [
+  {id: 'en', title: 'English', icon: "🇬🇧" },
+  {id: 'fr', title: 'French', icon: "🇫🇷"},
+  {id: 'es', title: 'Spanish', icon: "🇪🇸"},
+] 
+
+const SINGLETON_SCHEMA_TYPES = [settings]
+const LOCALIZED_SCHEMA_TYPES = [post]
+const DEFAULT_SCHEMA_TYPES = [person, partner]
+
+const structure: StructureResolver = (S) => {
+  const singletonItems = SINGLETON_SCHEMA_TYPES
+    .map((typeDef) => {
+      return S.listItem()
+        .title(typeDef.title!)
+        .icon(typeDef.icon)
+        .child(
+          S.editor()
+            .id(typeDef.name)
+            .schemaType(typeDef.name)
+            .documentId(typeDef.name)
+        )
+    })
+
+  // Create language-specific list items for localized content types
+  const localizedItems = LOCALIZED_SCHEMA_TYPES.map(schemaType => {    
+    return S.listItem()
+      .title(schemaType.title!)
+      .icon(schemaType.icon)
+      .child(
+        S.list()
+          .title(schemaType.title!)
+          .items([
+            ...LANGUAGES.map(language => 
+              S.listItem()
+                .title(language.title)
+                .icon(() => React.createElement('span', null, language.icon))
+                .child(
+                  S.documentTypeList(schemaType.name)
+                    .title(`${schemaType.title} (${language.title})`)
+                    .filter('_type == $type && language == $language')
+                    .params({ type: schemaType.name, language: language.id })
+                )
+            ),
+            S.divider(),
+            S.listItem()
+              .title('All languages')
+              .child(
+                S.documentTypeList(schemaType.name)
+                  .title(`All ${schemaType.title}`)
+              ),
+          ])
+      )
+  })
+
+  const defaultListItems = DEFAULT_SCHEMA_TYPES.map(schemaType => {
+    return S.listItem()
+      .title(schemaType.title!)
+      .icon(schemaType.icon)
+      .child(S.documentTypeList(schemaType.name))
+  })
+
+  return S.list()
+    .title("Content")
+    .items([...singletonItems, S.divider(), ...localizedItems, S.divider(), ...defaultListItems])
+}
 
 export default defineConfig({
   basePath: studioUrl,
@@ -32,14 +99,21 @@ export default defineConfig({
   dataset,
   schema: {
     types: [
-      // Singletons
-      settings,
-      // Documents
-      post,
-      author,
+      ...SINGLETON_SCHEMA_TYPES,
+      ...LOCALIZED_SCHEMA_TYPES,
+      ...DEFAULT_SCHEMA_TYPES,
     ],
   },
   plugins: [
+    documentInternationalization({
+      supportedLanguages: LANGUAGES,
+      schemaTypes: ['post'],
+    }),
+    internationalizedArray({
+      languages: LANGUAGES,
+      defaultLanguages: ['en'],
+      fieldTypes: ['string'],
+    }),
     presentationTool({
       resolve: {
         mainDocuments: defineDocuments([
@@ -73,14 +147,9 @@ export default defineConfig({
       },
       previewUrl: { previewMode: { enable: "/api/draft-mode/enable" } },
     }),
-    structureTool({ structure: pageStructure([settings]) }),
+    structureTool({ structure }),
     // Configures the global "new document" button, and document actions, to suit the Settings document singleton
     singletonPlugin([settings.name]),
-    // Add an image asset source for Unsplash
-    unsplashImageAsset(),
-    // Sets up AI Assist with preset prompts
-    // https://www.sanity.io/docs/ai-assist
-    assistWithPresets(),
     // Vision lets you query your content with GROQ in the studio
     // https://www.sanity.io/docs/the-vision-plugin
     process.env.NODE_ENV === "development" &&

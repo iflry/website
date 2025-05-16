@@ -2,19 +2,9 @@ import { DocumentTextIcon } from "@sanity/icons";
 import { format, parseISO } from "date-fns";
 import { defineField, defineType } from "sanity";
 
-import authorType from "./author";
+import personType from "./person";
+import { isUniqueOtherThanLanguage } from "@/sanity/lib/utils";
 
-/**
- * This file is the schema definition for a post.
- *
- * Here you'll be able to edit the different fields that appear when you 
- * create or edit a post in the studio.
- * 
- * Here you can see the different schema types that are available:
-
-  https://www.sanity.io/docs/schema-types
-
- */
 
 export default defineType({
   name: "post",
@@ -29,14 +19,32 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'language',
+      type: 'string',
+      readOnly: true,
+      hidden: true,
+    }),
+    defineField({
+      name: "type",
+      title: "Type",
+      type: "string",
+      options: {
+        list: [
+          { title: "Statement", value: "statement" },
+          { title: "Press Release", value: "press-release" },
+          { title: "Bureau Update", value: "bureau-update" },
+        ],
+      },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
-      description: "A slug is required for the post to show up in the preview",
       options: {
         source: "title",
         maxLength: 96,
-        isUnique: (value, context) => context.defaultIsUnique(value, context),
+        isUnique: (value, context) => isUniqueOtherThanLanguage(value, context),
       },
       validation: (rule) => rule.required(),
     }),
@@ -47,34 +55,14 @@ export default defineType({
       of: [{ type: "block" }],
     }),
     defineField({
-      name: "excerpt",
-      title: "Excerpt",
-      type: "text",
-    }),
-    defineField({
-      name: "coverImage",
-      title: "Cover Image",
+      name: "image",
+      title: "Image",
       type: "image",
-      options: {
-        hotspot: true,
-        aiAssist: {
-          imageDescriptionField: "alt",
-        },
-      },
       fields: [
         {
           name: "alt",
           type: "string",
-          title: "Alternative text",
-          description: "Important for SEO and accessiblity.",
-          validation: (rule) => {
-            return rule.custom((alt, context) => {
-              if ((context.document?.coverImage as any)?.asset?._ref && !alt) {
-                return "Required";
-              }
-              return true;
-            });
-          },
+          title: "Alternative text"
         },
       ],
       validation: (rule) => rule.required(),
@@ -89,19 +77,19 @@ export default defineType({
       name: "author",
       title: "Author",
       type: "reference",
-      to: [{ type: authorType.name }],
+      to: [{ type: personType.name }],
     }),
   ],
   preview: {
     select: {
       title: "title",
-      author: "author.name",
+      person: "person.name",
       date: "date",
-      media: "coverImage",
+      media: "image",
     },
-    prepare({ title, media, author, date }) {
+    prepare({ title, media, person, date }) {
       const subtitles = [
-        author && `by ${author}`,
+        person && `by ${person}`,
         date && `on ${format(parseISO(date), "LLL d, yyyy")}`,
       ].filter(Boolean);
 
