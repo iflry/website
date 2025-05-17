@@ -1,5 +1,4 @@
 import { BlockContentIcon } from "@sanity/icons";
-import { format, parseISO } from "date-fns";
 import { defineField, defineType } from "sanity";
 
 import personType from "./person";
@@ -91,7 +90,7 @@ export default defineType({
     prepare({ title, media, person, date }) {
       const subtitles = [
         person && `by ${person}`,
-        date && `on ${format(parseISO(date), "LLL d, yyyy")}`,
+        date && `on ${new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`,
       ].filter(Boolean);
 
       return { title, media, subtitle: subtitles.join(" ") };

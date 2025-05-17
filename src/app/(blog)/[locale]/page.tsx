@@ -3,10 +3,10 @@ import { Suspense } from "react";
 
 import Avatar from "./avatar";
 import CoverImage from "./cover-image";
-import DateComponent from "./date";
 import MoreStories from "./more-stories";
 import Onboarding from "./onboarding";
-import PortableText from "./portable-text";
+import DateComponent from "@/src/components/date";
+import PortableText from "@/src/components/portable-text";
 
 import type { HeroQueryResult } from "@/sanity.types";
 import * as demo from "@/sanity/lib/demo";
@@ -67,12 +67,13 @@ function HeroPost({
   );
 }
 
-export default async function Page() {
+export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   const [settings, heroPost] = await Promise.all([
     sanityFetch({
       query: settingsQuery,
     }),
-    sanityFetch({ query: heroQuery }),
+    sanityFetch({ query: heroQuery, params: { language: locale } }),
   ]);
 
   return (
@@ -95,7 +96,7 @@ export default async function Page() {
             More Stories
           </h2>
           <Suspense>
-            <MoreStories skip={heroPost._id} limit={100} />
+            <MoreStories skip={heroPost._id} limit={100} language={locale} />
           </Suspense>
         </aside>
       )}

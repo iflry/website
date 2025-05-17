@@ -1,7 +1,6 @@
 import { SchemaIcon } from "@sanity/icons";
 import { defineField, defineType } from "sanity";
 import personType from './person';
-import { format } from 'date-fns';
 import memberType from "./member";
 
 const roleType = [
@@ -95,7 +94,7 @@ export default defineType({
         title: "Start",
         type: "date",
         validation: (rule) => rule.required(),
-        initialValue: () => format(new Date(), 'yyyy-MM-dd'),
+        initialValue: () => new Date().toISOString().split('T')[0],
     }),
     defineField({
         name: "end",

@@ -13,20 +13,20 @@ const postFields = /* groq */ `
 `;
 
 export const heroQuery = defineQuery(`
-  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) [0] {
+  *[_type == "post" && defined(slug.current) && language == $language] | order(date desc, _updatedAt desc) [0] {
     content,
     ${postFields}
   }
 `);
 
 export const moreStoriesQuery = defineQuery(`
-  *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {
+  *[_type == "post" && _id != $skip && defined(slug.current) && language == $language] | order(date desc, _updatedAt desc) [0...$limit] {
     ${postFields}
   }
 `);
 
 export const postQuery = defineQuery(`
-  *[_type == "post" && slug.current == $slug] [0] {
+  *[_type == "post" && slug.current == $slug && language == $language] [0] {
     content,
     ${postFields}
   }

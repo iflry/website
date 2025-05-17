@@ -28,6 +28,11 @@ export default defineType({
         validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "location",
+      title: "Location",
+      type: "string",
+    }),
+    defineField({
       name: "website",
       title: "Website",
       type: "url",

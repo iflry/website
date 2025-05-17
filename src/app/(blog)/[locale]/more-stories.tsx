@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import Avatar from "./avatar";
 import CoverImage from "./cover-image";
-import DateComponent from "./date";
+import DateComponent from "@/src/components/date";
 
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { moreStoriesQuery } from "@/sanity/lib/queries";
@@ -10,6 +10,7 @@ import { moreStoriesQuery } from "@/sanity/lib/queries";
 export default async function MoreStories(params: {
   skip: string;
   limit: number;
+  language: string;
 }) {
   const data = await sanityFetch({ query: moreStoriesQuery, params });
 

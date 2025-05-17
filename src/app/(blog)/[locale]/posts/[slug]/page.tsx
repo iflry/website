@@ -7,9 +7,9 @@ import { Suspense } from "react";
 
 import Avatar from "../../avatar";
 import CoverImage from "../../cover-image";
-import DateComponent from "../../date";
+import DateComponent from "@/src/components/date";
 import MoreStories from "../../more-stories";
-import PortableText from "../../portable-text";
+import PortableText from "@/src/components/portable-text";
 
 import * as demo from "@/sanity/lib/demo";
 import { sanityFetch } from "@/sanity/lib/fetch";
@@ -17,7 +17,7 @@ import { postQuery, settingsQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 
 type Props = {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string, locale: string }>;
 };
 
 const postSlugs = defineQuery(
@@ -36,9 +36,10 @@ export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
+  const { slug, locale } = await params;
   const post = await sanityFetch({
     query: postQuery,
-    params,
+    params: { slug, language: locale },
     stega: false,
   });
   const previousImages = (await parent).openGraph?.images || [];
@@ -55,9 +56,10 @@ export async function generateMetadata(
 }
 
 export default async function PostPage({ params }: Props) {
+  const { slug, locale } = await params;
   const [post, settings] = await Promise.all([
-    sanityFetch({ query: postQuery, params }),
-    sanityFetch({ query: settingsQuery }),
+    sanityFetch({ query: postQuery, params: { slug, language: locale } }),
+    sanityFetch({ query: settingsQuery, params: { language: locale } }),
   ]);
 
   if (!post?._id) {
@@ -108,7 +110,7 @@ export default async function PostPage({ params }: Props) {
           Recent Stories
         </h2>
         <Suspense>
-          <MoreStories skip={post._id} limit={2} />
+          <MoreStories skip={post._id} limit={2} language={locale} />
         </Suspense>
       </aside>
     </div>
