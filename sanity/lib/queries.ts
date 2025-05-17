@@ -31,3 +31,41 @@ export const postQuery = defineQuery(`
     ${postFields}
   }
 `);
+
+export const pageQuery = defineQuery(`
+  *[_type == "page" && slug.current == $slug && language == $language] [0] {
+    _id,
+    content,
+    "title": coalesce(title, "Untitled"),
+    "slug": slug.current,
+  }
+`);
+
+export const pageTypeQuery = defineQuery(`
+  *[_type == "page" && type == $type && language == $language] [0] {
+    _id,
+    content,
+    "title": coalesce(title, "Untitled"),
+  }
+`)
+
+export const partnersQuery = defineQuery(`
+  *[_type == "partner"] {
+    _id,
+    "title": coalesce(title, "Untitled"),
+    "logo": logo.asset->url
+  }
+`)
+
+export const programmesQuery = defineQuery(`
+  *[_type == "programme"] {
+    _id,
+    email,
+    "title": coalesce(title, "Untitled"),
+    "managers": managers[]->{
+      _id,
+      "name": coalesce(name, "Untitled"),
+      "picture": picture.asset->url
+    }
+  }
+`)

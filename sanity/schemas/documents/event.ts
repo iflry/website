@@ -28,7 +28,17 @@ export default defineType({
           ],
           layout: "radio",
         },
+        initialValue: "seminar",
         validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: {
+        source: "title",
+      },
+      validation: (rule) => rule.required(),
     }),
     defineField({
         name: "location",

@@ -9,24 +9,20 @@ import DateComponent from "@/src/components/date";
 import PortableText from "@/src/components/portable-text";
 
 import type { HeroQueryResult } from "@/sanity.types";
-import * as demo from "@/sanity/lib/demo";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { heroQuery, settingsQuery } from "@/sanity/lib/queries";
+import { getTranslations } from "next-intl/server";
 
-function Intro(props: { title: string | null | undefined; description: any }) {
-  const title = props.title || demo.title;
-  const description = props.description?.length
-    ? props.description
-    : demo.description;
+function Intro({ title, description }: { title: string; description: any }) {
   return (
     <section className="mt-16 mb-16 flex flex-col items-center lg:mb-12 lg:flex-row lg:justify-between">
       <h1 className="text-balance text-6xl font-bold leading-tight tracking-tighter lg:pr-8 lg:text-8xl">
-        {title || demo.title}
+        {title}
       </h1>
       <h2 className="text-pretty mt-5 text-center text-lg lg:pl-8 lg:text-left">
         <PortableText
           className="prose-lg"
-          value={description?.length ? description : demo.description}
+          value={description}
         />
       </h2>
     </section>
@@ -69,6 +65,7 @@ function HeroPost({
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
+  const t = await getTranslations()
   const [settings, heroPost] = await Promise.all([
     sanityFetch({
       query: settingsQuery,
@@ -78,7 +75,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
 
   return (
     <div className="container mx-auto px-5">
-      <Intro title={settings?.title} description={settings?.description} />
+      <Intro title={t("title")} description={settings?.description} />
       {heroPost ? (
         <HeroPost
           title={heroPost.title}

@@ -11,10 +11,10 @@ import DateComponent from "@/src/components/date";
 import MoreStories from "../../more-stories";
 import PortableText from "@/src/components/portable-text";
 
-import * as demo from "@/sanity/lib/demo";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { postQuery, settingsQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
+import { getTranslations } from "next-intl/server";
 
 type Props = {
   params: Promise<{ slug: string, locale: string }>;
@@ -57,10 +57,8 @@ export async function generateMetadata(
 
 export default async function PostPage({ params }: Props) {
   const { slug, locale } = await params;
-  const [post, settings] = await Promise.all([
-    sanityFetch({ query: postQuery, params: { slug, language: locale } }),
-    sanityFetch({ query: settingsQuery, params: { language: locale } }),
-  ]);
+  const t = await getTranslations()
+  const post = await sanityFetch({ query: postQuery, params: { slug, language: locale } })
 
   if (!post?._id) {
     return notFound();
@@ -70,7 +68,7 @@ export default async function PostPage({ params }: Props) {
     <div className="container mx-auto px-5">
       <h2 className="mb-16 mt-10 text-2xl font-bold leading-tight tracking-tight md:text-4xl md:tracking-tighter">
         <Link href="/" className="hover:underline">
-          {settings?.title || demo.title}
+          {t("title")}
         </Link>
       </h2>
       <article>

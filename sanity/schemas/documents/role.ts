@@ -25,7 +25,8 @@ export default defineType({
         type: "string",
         options: {
             list: roleType
-        }
+        },
+        initialValue: "bureau-member"
     }),
     defineField({
         name: 'bureauRole',
@@ -33,13 +34,14 @@ export default defineType({
         type: 'string',
         options: {
             list: [
-                { title: "President", value: "President" },
-                { title: "Secretary General", value: "Secretary General" },
-                { title: "Treasurer", value: "Treasurer" },
-                { title: "Vice-President", value: "Vice-President" },
+                { title: "President", value: "president" },
+                { title: "Secretary General", value: "secretary-general" },
+                { title: "Treasurer", value: "treasurer" },
+                { title: "Vice-President", value: "vice-president" },
             ],
             layout: "radio",
         },
+        initialValue: "president",
         hidden: ({document}) => document?.type !== 'bureau-member'
     }),
     defineField({
@@ -48,12 +50,13 @@ export default defineType({
         type: 'string',
         options: {
             list: [
-                { title: "Executive Director", value: "Executive Director" },
-                { title: "Intern", value: "Intern" },
-                { title: "Project Manager", value: "Project Manager" }
+                { title: "Executive Director", value: "executive-director" },
+                { title: "Intern", value: "intern" },
+                { title: "Project Manager", value: "project-manager" }
             ],
             layout: "radio",
         },
+        initialValue: "intern",
         hidden: ({document}) => document?.type !== 'office'
     }),
     defineField({

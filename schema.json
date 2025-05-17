@@ -404,19 +404,19 @@
           "of": [
             {
               "type": "string",
-              "value": "President"
+              "value": "president"
             },
             {
               "type": "string",
-              "value": "Secretary General"
+              "value": "secretary-general"
             },
             {
               "type": "string",
-              "value": "Treasurer"
+              "value": "treasurer"
             },
             {
               "type": "string",
-              "value": "Vice-President"
+              "value": "vice-president"
             }
           ]
         },
@@ -429,15 +429,15 @@
           "of": [
             {
               "type": "string",
-              "value": "Executive Director"
+              "value": "executive-director"
             },
             {
               "type": "string",
-              "value": "Intern"
+              "value": "intern"
             },
             {
               "type": "string",
-              "value": "Project Manager"
+              "value": "project-manager"
             }
           ]
         },
@@ -1382,6 +1382,31 @@
         },
         "optional": true
       },
+      "type": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "members"
+            },
+            {
+              "type": "string",
+              "value": "partners"
+            },
+            {
+              "type": "string",
+              "value": "programmes"
+            },
+            {
+              "type": "string",
+              "value": "other"
+            }
+          ]
+        },
+        "optional": true
+      },
       "slug": {
         "type": "objectAttribute",
         "value": {
@@ -1638,6 +1663,14 @@
               "value": "workshop"
             }
           ]
+        },
+        "optional": true
+      },
+      "slug": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "slug"
         },
         "optional": true
       },

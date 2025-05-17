@@ -75,8 +75,8 @@ export type Role = {
   _updatedAt: string;
   _rev: string;
   type?: "bureau-member" | "ombudsperson" | "advisory-council" | "regional-representative" | "office" | "individual-member" | "honorary-member";
-  bureauRole?: "President" | "Secretary General" | "Treasurer" | "Vice-President";
-  officeRole?: "Executive Director" | "Intern" | "Project Manager";
+  bureauRole?: "president" | "secretary-general" | "treasurer" | "vice-president";
+  officeRole?: "executive-director" | "intern" | "project-manager";
   organization?: {
     _ref: string;
     _type: "reference";
@@ -227,6 +227,7 @@ export type Page = {
   _rev: string;
   title?: string;
   language?: string;
+  type?: "members" | "partners" | "programmes" | "other";
   slug?: Slug;
   content?: Array<{
     children?: Array<{
@@ -257,6 +258,7 @@ export type Event = {
   _rev: string;
   title?: string;
   type?: "ga" | "seminar" | "workshop";
+  slug?: Slug;
   location?: string;
   start?: string;
   end?: string;
@@ -679,10 +681,85 @@ export type PostQueryResult = {
     } | null;
   } | null;
 } | null;
+// Variable: pageQuery
+// Query: *[_type == "page" && slug.current == $slug && language == $language] [0] {    _id,    content,    "title": coalesce(title, "Untitled"),    "slug": slug.current,  }
+export type PageQueryResult = {
+  _id: string;
+  content: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  title: string | "Untitled";
+  slug: string | null;
+} | null;
+// Variable: pageTypeQuery
+// Query: *[_type == "page" && type == $type && language == $language] [0] {    _id,    content,    "title": coalesce(title, "Untitled"),  }
+export type PageTypeQueryResult = {
+  _id: string;
+  content: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  title: string | "Untitled";
+} | null;
+// Variable: partnersQuery
+// Query: *[_type == "partner"] {    _id,    "title": coalesce(title, "Untitled"),    "logo": logo.asset->url  }
+export type PartnersQueryResult = Array<{
+  _id: string;
+  title: string | "Untitled";
+  logo: string | null;
+}>;
+// Variable: programmesQuery
+// Query: *[_type == "programme"] {    _id,    email,    "title": coalesce(title, "Untitled"),    "managers": managers[]->{      _id,      "name": coalesce(name, "Untitled"),      "picture": picture.asset->url    }  }
+export type ProgrammesQueryResult = Array<{
+  _id: string;
+  email: string | null;
+  title: string | "Untitled";
+  managers: Array<{
+    _id: string;
+    name: string | "Untitled";
+    picture: string | null;
+  }> | null;
+}>;
 
-// Source: ./src/app/(blog)/[locale]/posts/[slug]/page.tsx
+// Source: ./src/app/(content)/[locale]/pages/[slug]/page.tsx
+// Variable: pageSlugs
+// Query: *[_type == "page" && defined(slug.current)]{"slug": slug.current}
+export type PageSlugsResult = Array<{
+  slug: string | null;
+}>;
+
+// Source: ./src/app/(content)/[locale]/posts/[slug]/page.tsx
 // Variable: postSlugs
-// Query: *[_type == "post" && defined(slug.current) && language == $language]{"slug": slug.current}
+// Query: *[_type == "post" && defined(slug.current)]{"slug": slug.current}
 export type PostSlugsResult = Array<{
   slug: string | null;
 }>;
@@ -695,6 +772,11 @@ declare module "@sanity/client" {
     "\n  *[_type == \"post\" && defined(slug.current) && language == $language] | order(date desc, _updatedAt desc) [0] {\n    content,\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  image,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n  }\n": HeroQueryResult;
     "\n  *[_type == \"post\" && _id != $skip && defined(slug.current) && language == $language] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  image,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n  }\n": MoreStoriesQueryResult;
     "\n  *[_type == \"post\" && slug.current == $slug && language == $language] [0] {\n    content,\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  image,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n  }\n": PostQueryResult;
-    "*[_type == \"post\" && defined(slug.current) && language == $language]{\"slug\": slug.current}": PostSlugsResult;
+    "\n  *[_type == \"page\" && slug.current == $slug && language == $language] [0] {\n    _id,\n    content,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n  }\n": PageQueryResult;
+    "\n  *[_type == \"page\" && type == $type && language == $language] [0] {\n    _id,\n    content,\n    \"title\": coalesce(title, \"Untitled\"),\n  }\n": PageTypeQueryResult;
+    "\n  *[_type == \"partner\"] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"logo\": logo.asset->url\n  }\n": PartnersQueryResult;
+    "\n  *[_type == \"programme\"] {\n    _id,\n    email,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"managers\": managers[]->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url\n    }\n  }\n": ProgrammesQueryResult;
+    "*[_type == \"page\" && defined(slug.current)]{\"slug\": slug.current}": PageSlugsResult;
+    "*[_type == \"post\" && defined(slug.current)]{\"slug\": slug.current}": PostSlugsResult;
   }
 }

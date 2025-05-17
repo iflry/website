@@ -8,7 +8,7 @@ import { token } from "@/sanity/lib/token";
  * Used to fetch data in Server Components, it has built in support for handling Draft Mode and perspectives.
  * When using the "published" perspective then time-based revalidation is used, set to match the time-to-live on Sanity's API CDN (60 seconds)
  * and will also fetch from the CDN.
- * When using the "previewDrafts" perspective then the data is fetched from the live API and isn't cached, it will also fetch draft content that isn't published yet.
+ * When using the "drafts" perspective then the data is fetched from the live API and isn't cached, it will also fetch draft content that isn't published yet.
  */
 export async function sanityFetch<const QueryString extends string>({
   query,
@@ -28,19 +28,19 @@ export async function sanityFetch<const QueryString extends string>({
 }) {
   const perspective =
     _perspective || (await draftMode()).isEnabled
-      ? "previewDrafts"
+      ? "drafts"
       : "published";
   const stega =
     _stega ||
-    perspective === "previewDrafts" ||
+    perspective === "drafts" ||
     process.env.VERCEL_ENV === "preview";
-  if (perspective === "previewDrafts") {
+  if (perspective === "drafts") {
     return client.fetch(query, await params, {
       stega,
-      perspective: "previewDrafts",
+      perspective: "drafts",
       // The token is required to fetch draft content
       token,
-      // The `previewDrafts` perspective isn't available on the API CDN
+      // The `drafts` perspective isn't available on the API CDN
       useCdn: false,
       // And we can't cache the responses as it would slow down the live preview experience
       next: { revalidate: 0 },

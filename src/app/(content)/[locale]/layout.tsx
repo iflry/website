@@ -14,22 +14,24 @@ import AlertBanner from "./alert-banner";
 import PortableText from "@/src/components/portable-text";
 import LanguageSelector from "@/src/components/language-selector";
 
-import * as demo from "@/sanity/lib/demo";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { settingsQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import { routing } from "../../../i18n/routing";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations()
   const settings = await sanityFetch({
     query: settingsQuery,
     // Metadata should never contain stega
     stega: false,
   });
-  const title = settings?.title || demo.title;
-  const description = settings?.description || demo.description;
+
+  const title = t("title")
+  const description = settings?.description;
 
   const ogImage = resolveOpenGraphImage(settings?.ogImage);
   let metadataBase: URL | undefined = undefined;
@@ -46,7 +48,7 @@ export async function generateMetadata(): Promise<Metadata> {
       template: `%s | ${title}`,
       default: title,
     },
-    description: toPlainText(description),
+    description: description ? toPlainText(description) : undefined,
     openGraph: {
       images: ogImage ? [ogImage] : [],
     },

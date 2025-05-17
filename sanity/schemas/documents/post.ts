@@ -35,6 +35,7 @@ export default defineType({
         ],
         layout: "radio",
       },
+      initialValue: "statement",
       validation: (rule) => rule.required(),
     }),
     defineField({

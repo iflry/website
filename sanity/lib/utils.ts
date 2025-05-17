@@ -26,11 +26,17 @@ export function resolveOpenGraphImage(image: any, width = 1200, height = 627) {
 
 export function resolveHref(
   documentType?: string,
+  language?: string,
   slug?: string,
 ): string | undefined {
+  const locale = language ? `/${language}` : "";
   switch (documentType) {
     case "post":
-      return slug ? `/posts/${slug}` : undefined;
+      return slug ? `${locale}/posts/${slug}` : undefined;
+    case "page":
+      return slug ? `${locale}/pages/${slug}` : undefined;
+    case "event":
+      return slug ? `${locale}/events/${slug}` : undefined;
     default:
       console.warn("Invalid document type:", documentType);
       return undefined;

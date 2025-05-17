@@ -27,10 +27,6 @@ import member from './sanity/schemas/documents/member';
 import page from './sanity/schemas/documents/page';
 import { EarthGlobeIcon } from '@sanity/icons';
 
-const homeLocation = {
-  title: "Home",
-  href: "/",
-} satisfies DocumentLocation;
 
 const LANGUAGES = [
   {id: 'en', title: 'English', icon: "🇬🇧" },
@@ -135,22 +131,135 @@ export default defineConfig({
         ]),
         locations: {
           settings: defineLocations({
-            locations: [homeLocation],
-            message: "This document is used on all pages",
-            tone: "caution",
+            locations: [{
+              title: "Home",
+              href: "/",
+            }],
+            message: "This document is used on all pages"
           }),
           post: defineLocations({
             select: {
               title: "title",
               slug: "slug.current",
+              language: "language",
             },
             resolve: (doc) => ({
               locations: [
                 {
-                  title: doc?.title || "Untitled",
-                  href: resolveHref("post", doc?.slug)!,
+                  title: doc?.title,
+                  href: resolveHref("post", doc?.language, doc?.slug)!,
                 },
-                homeLocation,
+                {
+                  title: "Posts",
+                  href: `/${doc?.language}/posts/`
+                },
+                {
+                  title: "Home",
+                  href: `/${doc?.language}/`
+                },
+              ],
+            }),
+          }),
+          page: defineLocations({
+            select: {
+              title: "title",
+              slug: "slug.current",
+              type: "type",
+              language: "language",
+            },
+            resolve: (doc) => {
+              if (doc?.type === "programmes") return {
+                locations: [
+                  {
+                    title: doc?.title,
+                    href: `/${doc?.language}/programmes`
+                  },
+                ],
+              }
+              else if (doc?.type === "partners") return {
+                locations: [
+                  {
+                    title: doc?.title,
+                    href: `/${doc?.language}/partners`
+                  },
+                ],
+              }
+              else if (doc?.type === "members") return {
+                locations: [
+                  {
+                    title: doc?.title,
+                    href: `/${doc?.language}/members`
+                  },
+                ],
+              }
+              else {
+                return {
+                  locations: [
+                    {
+                      title: doc?.title,
+                      href: resolveHref("page", doc?.language, doc?.slug)!,
+                    },
+                  ],
+                }
+              }
+            } 
+          }),
+          event: defineLocations({
+            select: {
+              title: "title",
+              slug: "slug.current",
+              language: "language",
+            },
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: doc?.title,
+                  href: resolveHref("event", doc?.language, doc?.slug)!,
+                },
+              ],
+            }),
+          }),
+          programme: defineLocations({
+            select: {},
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: "Programmes",
+                  href: "/programmes"
+                },
+              ],
+            }),
+          }),
+          partner: defineLocations({
+            select: {},
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: "Partners",
+                  href: "/partners"
+                },
+              ],
+            }),
+          }),
+          member: defineLocations({
+            select: {},
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: "Members",
+                  href: "/members"
+                },
+              ],
+            }),
+          }),
+          role: defineLocations({
+            select: {},
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: "People",
+                  href: "/people"
+                },
               ],
             }),
           }),
