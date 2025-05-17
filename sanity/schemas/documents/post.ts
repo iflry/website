@@ -1,4 +1,4 @@
-import { DocumentTextIcon } from "@sanity/icons";
+import { BlockContentIcon } from "@sanity/icons";
 import { format, parseISO } from "date-fns";
 import { defineField, defineType } from "sanity";
 
@@ -9,7 +9,7 @@ import { isUniqueOtherThanLanguage } from "@/sanity/lib/utils";
 export default defineType({
   name: "post",
   title: "Post",
-  icon: DocumentTextIcon,
+  icon: BlockContentIcon,
   type: "document",
   fields: [
     defineField({
@@ -34,6 +34,7 @@ export default defineType({
           { title: "Press Release", value: "press-release" },
           { title: "Bureau Update", value: "bureau-update" },
         ],
+        layout: "radio",
       },
       validation: (rule) => rule.required(),
     }),

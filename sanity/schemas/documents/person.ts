@@ -1,5 +1,6 @@
 import { UserIcon } from "@sanity/icons";
 import { defineField, defineType } from "sanity";
+import memberType from "./member";
 
 export default defineType({
   name: "person",
@@ -23,6 +24,15 @@ export default defineType({
       title: "Picture",
       type: "image",
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "organization",
+      title: "Organization",
+      type: "reference",
+      to: [{ type: memberType.name }],
+      options: {
+        filter: 'type != "regional-member"'
+      },
     }),
   ],
   preview: {

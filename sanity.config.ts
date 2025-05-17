@@ -20,6 +20,12 @@ import { resolveHref } from "@/sanity/lib/utils";
 import {documentInternationalization} from '@sanity/document-internationalization'
 import {internationalizedArray} from 'sanity-plugin-internationalized-array';
 import partner from '@/sanity/schemas/documents/partner';
+import event from '@/sanity/schemas/documents/event';
+import programme from './sanity/schemas/documents/programme';
+import role from './sanity/schemas/documents/role';
+import member from './sanity/schemas/documents/member';
+import page from './sanity/schemas/documents/page';
+import { EarthGlobeIcon } from '@sanity/icons';
 
 const homeLocation = {
   title: "Home",
@@ -33,8 +39,8 @@ const LANGUAGES = [
 ] 
 
 const SINGLETON_SCHEMA_TYPES = [settings]
-const LOCALIZED_SCHEMA_TYPES = [post]
-const DEFAULT_SCHEMA_TYPES = [person, partner]
+const LOCALIZED_SCHEMA_TYPES = [post, event, page]
+const DEFAULT_SCHEMA_TYPES = [person, partner, member, programme, role]
 
 const structure: StructureResolver = (S) => {
   const singletonItems = SINGLETON_SCHEMA_TYPES
@@ -68,14 +74,19 @@ const structure: StructureResolver = (S) => {
                     .title(`${schemaType.title} (${language.title})`)
                     .filter('_type == $type && language == $language')
                     .params({ type: schemaType.name, language: language.id })
+                    .initialValueTemplates([
+                      S.initialValueTemplateItem(`${schemaType.name}-${language.id}`)
+                    ])
                 )
             ),
             S.divider(),
             S.listItem()
               .title('All languages')
+              .icon(EarthGlobeIcon)
               .child(
                 S.documentTypeList(schemaType.name)
                   .title(`All ${schemaType.title}`)
+                  .initialValueTemplates([])
               ),
           ])
       )
@@ -107,7 +118,7 @@ export default defineConfig({
   plugins: [
     documentInternationalization({
       supportedLanguages: LANGUAGES,
-      schemaTypes: ['post'],
+      schemaTypes: LOCALIZED_SCHEMA_TYPES.map(schemaType => schemaType.name),
     }),
     internationalizedArray({
       languages: LANGUAGES,
