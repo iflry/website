@@ -1,3 +1,13 @@
 {
-    "title": "IFLRY"
+    "title": "IFLRY",
+    "role": {
+        "president": "Président",
+        "vice-president": "Vice-Président",
+        "secretary-general": "Secrétaire Général",
+        "treasurer": "Trésorier",
+        "executive-director": "Directeur Exécutif",
+        "intern": "Stagiaire",
+        "project-manager": "Gestionnaire de Projets",
+        "ombudsperson": "Ombudsman"
+    }
 }

@@ -749,6 +749,24 @@ export type ProgrammesQueryResult = Array<{
     picture: string | null;
   }> | null;
 }>;
+// Variable: peopleQuery
+// Query: *[_type == "role" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {      _id,  type,  email,  title,  bureauRole,  officeRole,  organization,  "name": person->name,  "picture": person->picture.asset->url  }
+export type PeopleQueryResult = Array<{
+  _id: string;
+  type: "advisory-council" | "bureau-member" | "honorary-member" | "individual-member" | "office" | "ombudsperson" | "regional-representative" | null;
+  email: string | null;
+  title: string | null;
+  bureauRole: "president" | "secretary-general" | "treasurer" | "vice-president" | null;
+  officeRole: "executive-director" | "intern" | "project-manager" | null;
+  organization: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "member";
+  } | null;
+  name: string | null;
+  picture: string | null;
+}>;
 
 // Source: ./src/app/(content)/[locale]/pages/[slug]/page.tsx
 // Variable: pageSlugs
@@ -776,6 +794,7 @@ declare module "@sanity/client" {
     "\n  *[_type == \"page\" && type == $type && language == $language] [0] {\n    _id,\n    content,\n    \"title\": coalesce(title, \"Untitled\"),\n  }\n": PageTypeQueryResult;
     "\n  *[_type == \"partner\"] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"logo\": logo.asset->url\n  }\n": PartnersQueryResult;
     "\n  *[_type == \"programme\"] {\n    _id,\n    email,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"managers\": managers[]->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url\n    }\n  }\n": ProgrammesQueryResult;
+    "\n  *[_type == \"role\" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {\n    \n  _id,\n  type,\n  email,\n  title,\n  bureauRole,\n  officeRole,\n  organization,\n  \"name\": person->name,\n  \"picture\": person->picture.asset->url\n\n  }\n": PeopleQueryResult;
     "*[_type == \"page\" && defined(slug.current)]{\"slug\": slug.current}": PageSlugsResult;
     "*[_type == \"post\" && defined(slug.current)]{\"slug\": slug.current}": PostSlugsResult;
   }

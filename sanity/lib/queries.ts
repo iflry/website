@@ -69,3 +69,21 @@ export const programmesQuery = defineQuery(`
     }
   }
 `)
+
+const roleFields = /* groq */ `
+  _id,
+  type,
+  email,
+  title,
+  bureauRole,
+  officeRole,
+  organization,
+  "name": person->name,
+  "picture": person->picture.asset->url
+`;
+
+export const peopleQuery = defineQuery(`
+  *[_type == "role" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {
+    ${roleFields}
+  }
+`)
