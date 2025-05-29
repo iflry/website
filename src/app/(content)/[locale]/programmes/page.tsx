@@ -1,7 +1,7 @@
 import PortableText from "@/src/components/portable-text";
 
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { pageTypeQuery, programmesQuery, settingsQuery } from "@/sanity/lib/queries";
+import { pageTypeQuery, programmesQuery } from "@/sanity/lib/queries";
 import Link from "next/link";
 import { PortableTextBlock } from "next-sanity";
 import { getTranslations } from "next-intl/server";
