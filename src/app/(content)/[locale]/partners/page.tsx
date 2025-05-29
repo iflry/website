@@ -2,7 +2,7 @@ import PortableText from "@/src/components/portable-text";
 
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { Image } from "next-sanity/image";
-import { pageTypeQuery, partnersQuery, settingsQuery } from "@/sanity/lib/queries";
+import { pageTypeQuery, partnersQuery } from "@/sanity/lib/queries";
 import Link from "next/link";
 import { PortableTextBlock } from "next-sanity";
 import { getTranslations } from "next-intl/server";
