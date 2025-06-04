@@ -12,9 +12,10 @@ import MoreStories from "../../more-stories";
 import PortableText from "@/src/components/portable-text";
 
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { postQuery, settingsQuery } from "@/sanity/lib/queries";
+import { postQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import { getTranslations } from "next-intl/server";
+import { routing } from "@/src/i18n/routing";
 
 type Props = {
   params: Promise<{ slug: string, locale: string }>;
@@ -25,11 +26,17 @@ const postSlugs = defineQuery(
 );
 
 export async function generateStaticParams() {
-  return await sanityFetch({
+  const posts = await sanityFetch({
     query: postSlugs,
     perspective: "published",
     stega: false,
   });
+  return routing.locales.flatMap((locale) =>
+    posts.map((post) => ({
+      locale,
+      slug: post.slug,
+    }))
+  );
 }
 
 export async function generateMetadata(
@@ -57,7 +64,7 @@ export async function generateMetadata(
 
 export default async function PostPage({ params }: Props) {
   const { slug, locale } = await params;
-  const t = await getTranslations({ locale })
+  const t = await getTranslations()
   const post = await sanityFetch({ query: postQuery, params: { slug, language: locale } })
 
   if (!post?._id) {
