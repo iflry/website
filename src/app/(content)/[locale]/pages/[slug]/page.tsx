@@ -8,6 +8,7 @@ import PortableText from "@/src/components/portable-text";
 import {getTranslations} from 'next-intl/server';
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { pageQuery } from "@/sanity/lib/queries";
+import { routing } from "@/src/i18n/routing";
 
 type Props = {
   params: Promise<{ slug: string, locale: string }>;
@@ -18,11 +19,17 @@ const pageSlugs = defineQuery(
 );
 
 export async function generateStaticParams() {
-  return await sanityFetch({
+  const pages = await sanityFetch({
     query: pageSlugs,
     perspective: "published",
     stega: false,
   });
+  return routing.locales.flatMap((locale) =>
+    pages.map((page) => ({
+      locale,
+      slug: page.slug,
+    }))
+  );
 }
 
 export async function generateMetadata(
