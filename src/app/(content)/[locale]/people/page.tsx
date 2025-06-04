@@ -1,18 +1,7 @@
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { peopleQuery } from "@/sanity/lib/queries";
-import Link from "next/link";
-import { getTranslations } from "next-intl/server";
 import RoleView, { RoleType, BureauRole, OfficeRole } from "./role-view";
-
-const typeOrder: Record<RoleType, { order: number, title: string }> = {
-  "bureau-member": { order: 1, title: "Bureau" },
-  "regional-representative": { order: 2, title: "Regional Representatives" },
-  "office": { order: 3, title: "Office" },
-  "honorary-member": { order: 4, title: "Honorary Members" },
-  "ombudsperson": { order: 5, title: "Ombudsperson" },
-  "advisory-council": { order: 6, title: "Advisory Council" },
-  "individual-member": { order: 7, title: "Individual Members" }
-};
+import { getTranslations } from "next-intl/server";
 
 const bureauRoleOrder: Record<BureauRole, number> = {
   "president": 1,
@@ -40,6 +29,16 @@ export default async function PeoplePage() {
       peopleByType[person.type].push(person);
     }
   });
+
+  const typeOrder: Record<RoleType, { order: number, title: string }> = {
+    "bureau-member": { order: 1, title: t("bureau") },
+    "regional-representative": { order: 2, title: t("regional-representatives") },
+    "office": { order: 3, title: t("office") },
+    "honorary-member": { order: 4, title: t("honorary-members") },
+    "ombudsperson": { order: 5, title: t("ombudsperson") },
+    "advisory-council": { order: 6, title: t("advisory-council") },
+    "individual-member": { order: 7, title: t("individual-members") }
+  };
   
   const orderedSections = Object.entries(peopleByType)
     .map(([type, peopleList]) => {
@@ -67,13 +66,7 @@ export default async function PeoplePage() {
     .sort((a, b) => a.order - b.order);
 
   return (
-    <div className="container mx-auto px-5">
-      <h2 className="mb-16 mt-10 text-2xl font-bold leading-tight tracking-tight md:text-4xl md:tracking-tighter">
-        <Link href="/" className="hover:underline">
-          {t("title")}
-        </Link>
-      </h2>
-      
+    <div className="container mx-auto px-5">      
       {orderedSections.map(section => (
         <div key={section.type} className="mb-16">
           <h3 className="mb-8 text-3xl font-bold">{section.title}</h3>

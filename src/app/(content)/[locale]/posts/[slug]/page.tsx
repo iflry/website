@@ -1,11 +1,10 @@
 import { defineQuery } from "next-sanity";
 import type { Metadata, ResolvingMetadata } from "next";
 import { type PortableTextBlock } from "next-sanity";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
-import Avatar from "../../avatar";
+import PersonView from "../../person-view";
 import CoverImage from "../../cover-image";
 import DateComponent from "@/src/components/date";
 import MoreStories from "../../more-stories";
@@ -14,7 +13,6 @@ import PortableText from "@/src/components/portable-text";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { postQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
-import { getTranslations } from "next-intl/server";
 import { routing } from "@/src/i18n/routing";
 
 type Props = {
@@ -64,7 +62,6 @@ export async function generateMetadata(
 
 export default async function PostPage({ params }: Props) {
   const { slug, locale } = await params;
-  const t = await getTranslations()
   const post = await sanityFetch({ query: postQuery, params: { slug, language: locale } })
 
   if (!post?._id) {
@@ -73,18 +70,13 @@ export default async function PostPage({ params }: Props) {
 
   return (
     <div className="container mx-auto px-5">
-      <h2 className="mb-16 mt-10 text-2xl font-bold leading-tight tracking-tight md:text-4xl md:tracking-tighter">
-        <Link href="/" className="hover:underline">
-          {t("title")}
-        </Link>
-      </h2>
       <article>
         <h1 className="text-balance mb-12 text-6xl font-bold leading-tight tracking-tighter md:text-7xl md:leading-none lg:text-8xl">
           {post.title}
         </h1>
         <div className="hidden md:mb-12 md:block">
           {post.author && (
-            <Avatar name={post.author.name} picture={post.author.picture} />
+            <PersonView name={post.author.name} picture={post.author.picture} />
           )}
         </div>
         <div className="mb-8 sm:mx-0 md:mb-16">
@@ -93,7 +85,7 @@ export default async function PostPage({ params }: Props) {
         <div className="mx-auto max-w-2xl">
           <div className="mb-6 block md:hidden">
             {post.author && (
-              <Avatar name={post.author.name} picture={post.author.picture} />
+              <PersonView name={post.author.name} picture={post.author.picture} />
             )}
           </div>
           <div className="mb-6 text-lg">

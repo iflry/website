@@ -10,6 +10,9 @@
     "typegen": "sanity schema extract && sanity typegen generate"
   },
   "dependencies": {
+    "@radix-ui/react-avatar": "^1.1.10",
+    "@radix-ui/react-navigation-menu": "^1.2.13",
+    "@radix-ui/react-slot": "^1.2.3",
     "@sanity/document-internationalization": "^3.3.1",
     "@sanity/icons": "^3.4.0",
     "@sanity/image-url": "^1.0.2",
@@ -21,6 +24,9 @@
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",
     "@vercel/speed-insights": "^1.0.13",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.513.0",
     "next": "^15.0.0",
     "next-intl": "^4.1.0",
     "next-sanity": "^9.7.0",
@@ -31,11 +37,13 @@
     "sanity-plugin-internationalized-array": "^3.1.3",
     "server-only": "^0.0.1",
     "styled-components": "^6.1.13",
+    "tailwind-merge": "^3.3.0",
     "tailwindcss": "^4.1.7",
     "typescript": "5.6.3"
   },
   "devDependencies": {
     "eslint": "^9.13.0",
-    "eslint-config-next": "^15.0.0"
+    "eslint-config-next": "^15.0.0",
+    "tw-animate-css": "^1.3.4"
   }
 }

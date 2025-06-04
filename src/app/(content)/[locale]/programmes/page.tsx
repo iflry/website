@@ -9,7 +9,6 @@ import { getTranslations } from "next-intl/server";
 
 export default async function ProgrammesPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const t = await getTranslations()
   const [page, programmes] = await Promise.all([
     sanityFetch({ query: pageTypeQuery, params: { type: "programmes", language: locale } }),
     sanityFetch({ query: programmesQuery }),
@@ -17,11 +16,6 @@ export default async function ProgrammesPage({ params }: { params: Promise<{ loc
 
   return (
     <div className="container mx-auto px-5">
-      <h2 className="mb-16 mt-10 text-2xl font-bold leading-tight tracking-tight md:text-4xl md:tracking-tighter">
-        <Link href="/" className="hover:underline">
-          {t("title")}
-        </Link>
-      </h2>
       <div>
         <h1 className="text-balance mb-12 text-6xl font-bold leading-tight tracking-tighter md:text-7xl md:leading-none lg:text-8xl">
           {page?.title}

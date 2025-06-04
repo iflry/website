@@ -21,6 +21,8 @@ import { routing } from "../../../i18n/routing";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
+import Link from "next/link";
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations()
@@ -72,6 +74,7 @@ export default async function RootLayout({
   const footer = data?.footer || [];
   const { isEnabled: isDraftMode } = await draftMode();
   const { locale } = await params;
+  const t = await getTranslations()
 
   if (!hasLocale(routing.locales, locale)) {
     notFound();
@@ -82,7 +85,41 @@ export default async function RootLayout({
       <body>
         <NextIntlClientProvider>
           <section className="min-h-screen">
-            {isDraftMode && <AlertBanner />}
+            <header>
+              {isDraftMode && <AlertBanner />}
+              <div className="container mx-auto px-5 py-12">
+                <div className="flex items-center justify-between">
+                  <Link href="/" className="text-6xl font-bold">
+                    {t("title")}
+                  </Link>
+
+                  <NavigationMenu>
+                    <NavigationMenuList>
+                      <NavigationMenuItem>
+                        <NavigationMenuTrigger>
+                          About Us
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent className="w-[150px]">
+                          <NavigationMenuLink href="/people">Our People</NavigationMenuLink>
+                          <NavigationMenuLink href="/members">Our Members</NavigationMenuLink>
+                          <NavigationMenuLink href="/partners">Our Partners</NavigationMenuLink>
+                        </NavigationMenuContent>
+                      </NavigationMenuItem>
+                      <NavigationMenuItem>
+                        <NavigationMenuLink href="/events" className={navigationMenuTriggerStyle()}>
+                          Events
+                        </NavigationMenuLink>
+                      </NavigationMenuItem>
+                      <NavigationMenuItem>
+                        <NavigationMenuLink href="/programmes" className={navigationMenuTriggerStyle()}>
+                          Programmes
+                        </NavigationMenuLink>
+                      </NavigationMenuItem>
+                    </NavigationMenuList>
+                  </NavigationMenu>
+                </div>
+              </div>
+            </header>
             <main>{children}</main>
             <footer className="bg-accent-1 border-accent-2 border-t">
               <div className="container mx-auto px-5">

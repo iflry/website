@@ -1,33 +1,15 @@
 import Link from "next/link";
 import { Suspense } from "react";
 
-import Avatar from "./avatar";
 import CoverImage from "./cover-image";
 import MoreStories from "./more-stories";
 import Onboarding from "./onboarding";
 import DateComponent from "@/src/components/date";
-import PortableText from "@/src/components/portable-text";
 
 import type { HeroQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { heroQuery, settingsQuery } from "@/sanity/lib/queries";
-import { getTranslations } from "next-intl/server";
-
-function Intro({ title, description }: { title: string; description: any }) {
-  return (
-    <section className="mt-16 mb-16 flex flex-col items-center lg:mb-12 lg:flex-row lg:justify-between">
-      <h1 className="text-balance text-6xl font-bold leading-tight tracking-tighter lg:pr-8 lg:text-8xl">
-        {title}
-      </h1>
-      <h2 className="text-pretty mt-5 text-center text-lg lg:pl-8 lg:text-left">
-        <PortableText
-          className="prose-lg"
-          value={description}
-        />
-      </h2>
-    </section>
-  );
-}
+import { heroQuery } from "@/sanity/lib/queries";
+import PersonView from "./person-view";
 
 function HeroPost({
   title,
@@ -56,7 +38,7 @@ function HeroPost({
           </div>
         </div>
         <div>
-          {author && <Avatar name={author.name} picture={author.picture} />}
+          {author && <PersonView name={author.name} picture={author.picture} />}
         </div>
       </div>
     </article>
@@ -65,17 +47,10 @@ function HeroPost({
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const t = await getTranslations()
-  const [settings, heroPost] = await Promise.all([
-    sanityFetch({
-      query: settingsQuery,
-    }),
-    sanityFetch({ query: heroQuery, params: { language: locale } }),
-  ]);
+  const heroPost = await sanityFetch({ query: heroQuery, params: { language: locale } })
 
   return (
     <div className="container mx-auto px-5">
-      <Intro title={t("title")} description={settings?.description} />
       {heroPost ? (
         <HeroPost
           title={heroPost.title}

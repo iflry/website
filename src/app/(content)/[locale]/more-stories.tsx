@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import Avatar from "./avatar";
+import PersonView from "./person-view";
 import CoverImage from "./cover-image";
 import DateComponent from "@/src/components/date";
 
@@ -32,7 +32,7 @@ export default async function MoreStories(params: {
               <div className="mb-4 text-lg">
                 <DateComponent dateString={post.date} />
               </div>
-              {author && <Avatar name={author.name} picture={author.picture} />}
+              {author && <PersonView name={author.name} picture={author.picture} />}
             </article>
           );
         })}

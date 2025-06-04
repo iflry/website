@@ -1,34 +1,26 @@
-import { Image } from "next-sanity/image";
-
 import type { Person } from "@/sanity.types";
 import { urlForImage } from "@/sanity/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface Props {
   name: string;
   picture: Exclude<Person["picture"], undefined> | null;
 }
 
-export default function Avatar({ name, picture }: Props) {
+export default function PersonView({ name, picture }: Props) {
   return (
     <div className="flex items-center text-xl">
-      {picture?.asset?._ref ? (
+      {picture?.asset?._ref && (
         <div className="mr-4 h-12 w-12">
-          <Image
-            alt={name}
-            className="h-full rounded-full object-cover"
-            height={48}
-            width={48}
-            src={
-              urlForImage(picture)
+          <Avatar>
+            <AvatarImage src={urlForImage(picture)
                 ?.height(96)
                 .width(96)
                 .fit("crop")
-                .url() as string
-            }
-          />
+                .url() as string} />
+            <AvatarFallback>{name.charAt(0)}</AvatarFallback>
+          </Avatar>
         </div>
-      ) : (
-        <div className="mr-1">By </div>
       )}
       <div className="text-pretty text-xl font-bold">{name}</div>
     </div>
