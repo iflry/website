@@ -57,7 +57,7 @@ export async function generateMetadata(
 
 export default async function PostPage({ params }: Props) {
   const { slug, locale } = await params;
-  const t = await getTranslations()
+  const t = await getTranslations({ locale })
   const post = await sanityFetch({ query: postQuery, params: { slug, language: locale } })
 
   if (!post?._id) {
