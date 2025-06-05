@@ -33,13 +33,13 @@ function resolveNavigationHref(item: NavigationItemData, language: string): stri
       if (item.page?.type === "people") return `/${locale}/people`;
       return `/${locale}/pages/${item.page?.slug?.current}`
     case "events":
-      return "/events";
+      return `/${language}/events`;
     case "posts":
-      return "/posts";
+      return `/${language}/posts`;
     case "custom":
-      return item.customUrl || "/";
+      return item.customUrl || `/${language}`;
     default:
-      return "/";
+      return `/${language}`;
   }
 }
 
@@ -51,7 +51,7 @@ function renderNavigationItem(item: NavigationItemData, index: number, language:
           {item.title}
         </NavigationMenuTrigger>
         <NavigationMenuContent>
-          <div className="space-y-1 w-[200px]">
+          <div className="space-y-1 w-[160px]">
             {item.children.map((child: NavigationItemData, childIndex: number) => 
               renderNavigationChild(child, childIndex, language)
             )}
