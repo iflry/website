@@ -15,6 +15,7 @@ interface NavigationItemData {
   title?: string | null;
   linkType?: "page" | "events" | "posts" | "custom" | "submenu" | null;
   page?: {
+    language?: string | null;
     slug?: { current?: string | null } | null;
     type?: "other" | "programmes" | "members" | "partners" | "people" | null;
   } | null;
@@ -22,14 +23,15 @@ interface NavigationItemData {
   children?: NavigationItemData[] | null;
 }
 
-function resolveNavigationHref(item: NavigationItemData): string {  
+function resolveNavigationHref(item: NavigationItemData, language: string): string {  
   switch (item.linkType) {
     case "page":
-      if (item.page?.type === "members") return `/members`;
-      if (item.page?.type === "partners") return `/partners`;
-      if (item.page?.type === "programmes") return `/programmes`;
-      if (item.page?.type === "people") return `/people`;
-      return `/pages/${item.page?.slug?.current}`
+      const locale = item.page?.language || language;
+      if (item.page?.type === "members") return `/${locale}/members`;
+      if (item.page?.type === "partners") return `/${locale}/partners`;
+      if (item.page?.type === "programmes") return `/${locale}/programmes`;
+      if (item.page?.type === "people") return `/${locale}/people`;
+      return `/${locale}/pages/${item.page?.slug?.current}`
     case "events":
       return "/events";
     case "posts":
@@ -41,17 +43,17 @@ function resolveNavigationHref(item: NavigationItemData): string {
   }
 }
 
-function renderNavigationItem(item: NavigationItemData, index: number) {
+function renderNavigationItem(item: NavigationItemData, index: number, language: string) {
   if (item.linkType === "submenu" && item.children?.length) {
     return (
       <NavigationMenuItem key={index}>
         <NavigationMenuTrigger>
           {item.title}
         </NavigationMenuTrigger>
-        <NavigationMenuContent className="w-[200px] p-2">
-          <div className="space-y-1">
+        <NavigationMenuContent>
+          <div className="space-y-1 w-[200px]">
             {item.children.map((child: NavigationItemData, childIndex: number) => 
-              renderNavigationChild(child, childIndex)
+              renderNavigationChild(child, childIndex, language)
             )}
           </div>
         </NavigationMenuContent>
@@ -62,7 +64,7 @@ function renderNavigationItem(item: NavigationItemData, index: number) {
   return (
     <NavigationMenuItem key={index}>
       <NavigationMenuLink 
-        href={resolveNavigationHref(item)} 
+        href={resolveNavigationHref(item, language)} 
         className={navigationMenuTriggerStyle()}
       >
         {item.title}
@@ -71,7 +73,7 @@ function renderNavigationItem(item: NavigationItemData, index: number) {
   );
 }
 
-function renderNavigationChild(item: NavigationItemData, index: number) {
+function renderNavigationChild(item: NavigationItemData, index: number, language: string) {
   if (item.linkType === "submenu" && item.children?.length) {
     return (
       <div key={index} className="space-y-1">
@@ -80,7 +82,7 @@ function renderNavigationChild(item: NavigationItemData, index: number) {
         </div>
         <div className="pl-3 space-y-1">
           {item.children.map((child: NavigationItemData, childIndex: number) => 
-            renderNavigationChild(child, childIndex)
+            renderNavigationChild(child, childIndex, language)
           )}
         </div>
       </div>
@@ -90,7 +92,7 @@ function renderNavigationChild(item: NavigationItemData, index: number) {
   return (
     <NavigationMenuLink 
       key={index}
-      href={resolveNavigationHref(item)}
+      href={resolveNavigationHref(item, language)}
       className="block px-3 py-2 text-sm hover:bg-gray-100 rounded-md"
     >
       {item.title}
@@ -109,7 +111,7 @@ export default async function Navigation(params: { language: string }) {
     <NavigationMenu>
       <NavigationMenuList>
         {navigation.map((item: NavigationItemData, index: number) => 
-          renderNavigationItem(item, index)
+          renderNavigationItem(item, index, params.language)
         )}
       </NavigationMenuList>
     </NavigationMenu>

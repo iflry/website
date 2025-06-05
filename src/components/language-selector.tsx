@@ -7,7 +7,6 @@ import {
   DropdownMenu, 
   DropdownMenuCheckboxItem, 
   DropdownMenuContent, 
-  DropdownMenuItem, 
   DropdownMenuTrigger 
 } from '@/src/components/ui/dropdown-menu';
 import { Button } from '@/src/components/ui/button';

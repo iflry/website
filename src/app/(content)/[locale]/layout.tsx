@@ -19,7 +19,7 @@ import { routing } from "@/src/i18n/routing";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import Link from "next/link";
+import {Link} from '@/src/i18n/navigation';
 import Navigation from "./navigation";
 
 export async function generateMetadata({ params }: { params: Promise<{locale: string}> }): Promise<Metadata> {
@@ -87,7 +87,7 @@ export default async function RootLayout({
               {isDraftMode && <AlertBanner />}
               <div className="container mx-auto px-5 py-12">
                 <div className="flex items-center justify-between">
-                  <Link href="/" className="text-6xl font-bold">
+                  <Link locale={locale} href="/" className="text-6xl font-bold">
                     {t("title")}
                   </Link>
                   <Navigation language={locale} />
