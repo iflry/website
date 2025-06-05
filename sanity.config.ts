@@ -2,20 +2,19 @@
 
 import React from 'react';
 import { visionTool } from "@sanity/vision";
-import { PluginOptions, defineConfig, defineField } from "sanity";
+import { PluginOptions, defineConfig } from "sanity";
 import {
   presentationTool,
   defineDocuments,
   defineLocations,
-  type DocumentLocation,
 } from "sanity/presentation";
 import { StructureResolver, structureTool } from "sanity/structure";
 
 import { apiVersion, dataset, projectId, studioUrl } from "@/sanity/lib/api";
-import { singletonPlugin } from "@/sanity/plugins/settings";
+import { singletonPlugin } from "@/sanity/plugins/singleton";
 import person from "@/sanity/schemas/documents/person";
 import post from "@/sanity/schemas/documents/post";
-import settings from "@/sanity/schemas/singletons/settings";
+import configuration from "@/sanity/schemas/singletons/configuration";
 import { resolveHref } from "@/sanity/lib/utils";
 import {documentInternationalization} from '@sanity/document-internationalization'
 import {internationalizedArray} from 'sanity-plugin-internationalized-array';
@@ -25,6 +24,7 @@ import programme from './sanity/schemas/documents/programme';
 import role from './sanity/schemas/documents/role';
 import member from './sanity/schemas/documents/member';
 import page from './sanity/schemas/documents/page';
+import navigationItem from './sanity/schemas/objects/navigationItem';
 import { EarthGlobeIcon } from '@sanity/icons';
 
 
@@ -34,9 +34,10 @@ const LANGUAGES = [
   {id: 'es', title: 'Spanish', icon: "🇪🇸"},
 ] 
 
-const SINGLETON_SCHEMA_TYPES = [settings]
+const SINGLETON_SCHEMA_TYPES = [configuration]
 const LOCALIZED_SCHEMA_TYPES = [post, event, page]
 const DEFAULT_SCHEMA_TYPES = [person, partner, member, programme, role]
+const OBJECT_SCHEMA_TYPES = [navigationItem]
 
 const structure: StructureResolver = (S) => {
   const singletonItems = SINGLETON_SCHEMA_TYPES
@@ -45,10 +46,22 @@ const structure: StructureResolver = (S) => {
         .title(typeDef.title!)
         .icon(typeDef.icon)
         .child(
-          S.editor()
-            .id(typeDef.name)
-            .schemaType(typeDef.name)
-            .documentId(typeDef.name)
+          S.list()
+            .title(typeDef.title!)
+            .items([
+              ...LANGUAGES.map(language => 
+                S.listItem()
+                  .title(language.title)
+                  .icon(() => React.createElement('span', null, language.icon))
+                  .child(
+                    S.editor()
+                      .id(`${typeDef.name}-${language.id}`)
+                      .schemaType(typeDef.name)
+                      .documentId(`${typeDef.name}-${language.id}`)
+                      .title(`${typeDef.title} (${language.title})`)
+                  )
+              ),
+            ])
         )
     })
 
@@ -109,12 +122,13 @@ export default defineConfig({
       ...SINGLETON_SCHEMA_TYPES,
       ...LOCALIZED_SCHEMA_TYPES,
       ...DEFAULT_SCHEMA_TYPES,
+      ...OBJECT_SCHEMA_TYPES,
     ],
   },
   plugins: [
     documentInternationalization({
       supportedLanguages: LANGUAGES,
-      schemaTypes: LOCALIZED_SCHEMA_TYPES.map(schemaType => schemaType.name),
+      schemaTypes: LOCALIZED_SCHEMA_TYPES.map(schemaType => schemaType.name)
     }),
     internationalizedArray({
       languages: LANGUAGES,
@@ -269,7 +283,7 @@ export default defineConfig({
     }),
     structureTool({ structure }),
     // Configures the global "new document" button, and document actions, to suit the Settings document singleton
-    singletonPlugin([settings.name]),
+    singletonPlugin(SINGLETON_SCHEMA_TYPES.map(schemaType => schemaType.name)),
     // Vision lets you query your content with GROQ in the studio
     // https://www.sanity.io/docs/the-vision-plugin
     process.env.NODE_ENV === "development" &&

@@ -1,5 +1,6 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/src/components/ui/avatar";
 import { getTranslations } from "next-intl/server";
-import { Image } from "next-sanity/image";
+import Link from "next/link";
 
 
 export type RoleType = "bureau-member" | "regional-representative" | "office" | "honorary-member" | "ombudsperson" | "advisory-council" | "individual-member";
@@ -48,11 +49,16 @@ export default async function RoleView({ picture, name, title, email, type, bure
   
 
   return (
-    <div>
-      {picture && <Image src={picture} alt={name || ""} width={100} height={100} />}
-        <p>{name}</p>
+    <div className="flex flex-row items-center gap-4">
+      <Avatar className="w-24 h-24">
+        <AvatarImage className="object-cover" src={picture || ""} alt={name || ""} />
+        <AvatarFallback>{name?.charAt(0)}</AvatarFallback>
+      </Avatar>
+      <div className="flex flex-col">
+        <p className="text-lg font-bold">{name}</p>
         <p className="text-gray-500">{getRole()}</p>
-        <p >{email}</p>
+        <Link href={`mailto:${email}`}>{email}</Link>
+      </div>
     </div>
   );
 }

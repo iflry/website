@@ -5,13 +5,11 @@ import type { Metadata } from "next";
 import {
   VisualEditing,
   toPlainText,
-  type PortableTextBlock,
 } from "next-sanity";
 import { Inter } from "next/font/google";
 import { draftMode } from "next/headers";
 
 import AlertBanner from "./alert-banner";
-import PortableText from "@/src/components/portable-text";
 import LanguageSelector from "@/src/components/language-selector";
 
 import { sanityFetch } from "@/sanity/lib/fetch";
@@ -22,20 +20,14 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
-import { 
-  NavigationMenu, 
-  NavigationMenuContent, 
-  NavigationMenuItem, 
-  NavigationMenuLink, 
-  NavigationMenuList, 
-  NavigationMenuTrigger, 
-  navigationMenuTriggerStyle 
-} from "@/src/components/ui/navigation-menu";
+import Navigation from "./navigation";
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{locale: string}> }): Promise<Metadata> {
+  const { locale } = await params;
   const t = await getTranslations()
   const settings = await sanityFetch({
     query: settingsQuery,
+    params: { language: locale },
     // Metadata should never contain stega
     stega: false,
   });
@@ -78,8 +70,6 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: Promise<{locale: string}>
 }) {
-  const data = await sanityFetch({ query: settingsQuery });
-  const footer = data?.footer || [];
   const { isEnabled: isDraftMode } = await draftMode();
   const { locale } = await params;
   const t = await getTranslations()
@@ -100,48 +90,13 @@ export default async function RootLayout({
                   <Link href="/" className="text-6xl font-bold">
                     {t("title")}
                   </Link>
-
-                  <NavigationMenu>
-                    <NavigationMenuList>
-                      <NavigationMenuItem>
-                        <NavigationMenuTrigger>
-                          About Us
-                        </NavigationMenuTrigger>
-                        <NavigationMenuContent className="w-[150px]">
-                          <NavigationMenuLink href="/people">Our People</NavigationMenuLink>
-                          <NavigationMenuLink href="/members">Our Members</NavigationMenuLink>
-                          <NavigationMenuLink href="/partners">Our Partners</NavigationMenuLink>
-                        </NavigationMenuContent>
-                      </NavigationMenuItem>
-                      <NavigationMenuItem>
-                        <NavigationMenuLink href="/events" className={navigationMenuTriggerStyle()}>
-                          Events
-                        </NavigationMenuLink>
-                      </NavigationMenuItem>
-                      <NavigationMenuItem>
-                        <NavigationMenuLink href="/programmes" className={navigationMenuTriggerStyle()}>
-                          Programmes
-                        </NavigationMenuLink>
-                      </NavigationMenuItem>
-                      <NavigationMenuItem>
-                        <NavigationMenuLink href="/posts" className={navigationMenuTriggerStyle()}>
-                          Posts
-                        </NavigationMenuLink>
-                      </NavigationMenuItem>
-                    </NavigationMenuList>
-                  </NavigationMenu>
+                  <Navigation language={locale} />
                 </div>
               </div>
             </header>
             <main>{children}</main>
             <footer className="bg-accent-1 border-accent-2 border-t">
               <div className="container mx-auto px-5">
-                {footer.length > 0 && (
-                  <PortableText
-                    className="prose-sm text-pretty bottom-0 w-full max-w-none bg-white py-12 text-center md:py-20"
-                    value={footer as PortableTextBlock[]}
-                  />
-                )}
                 <LanguageSelector locale={locale} />
               </div>
             </footer>

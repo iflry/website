@@ -68,6 +68,22 @@ export type Geopoint = {
   alt?: number;
 };
 
+export type NavigationItem = {
+  _type: "navigationItem";
+  title?: string;
+  linkType?: "page" | "events" | "posts" | "custom" | "submenu";
+  page?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "page";
+  };
+  customUrl?: string;
+  children?: Array<{
+    _key: string;
+  } & NavigationItem>;
+};
+
 export type Role = {
   _id: string;
   _type: "role";
@@ -119,13 +135,13 @@ export type Partner = {
   };
 };
 
-export type Settings = {
+export type Configuration = {
   _id: string;
-  _type: "settings";
+  _type: "configuration";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
+  language?: string;
   description?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -144,24 +160,9 @@ export type Settings = {
     _type: "block";
     _key: string;
   }>;
-  footer?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
+  navigation?: Array<{
     _key: string;
-  }>;
+  } & NavigationItem>;
   ogImage?: {
     asset?: {
       _ref: string;
@@ -471,18 +472,18 @@ export type InternationalizedArrayReference = Array<{
   _key: string;
 } & InternationalizedArrayReferenceValue>;
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Role | Partner | Settings | InternationalizedArrayStringValue | InternationalizedArrayString | TranslationMetadata | InternationalizedArrayReferenceValue | Page | Event | Programme | Post | Person | Member | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug | InternationalizedArrayReference;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | NavigationItem | Role | Partner | Configuration | InternationalizedArrayStringValue | InternationalizedArrayString | TranslationMetadata | InternationalizedArrayReferenceValue | Page | Event | Programme | Post | Person | Member | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug | InternationalizedArrayReference;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: settingsQuery
-// Query: *[_type == "settings"][0]
+// Query: *[_type == "configuration" && language == $language][0] {    ...,    navigation[] {      title,      linkType,      page-> {        slug,        type      },      customUrl,      children[] {        title,        linkType,        page-> {          slug,          type        },        customUrl,        children[] {          title,          linkType,          page-> {            slug,            type          },          customUrl,          children[] {            title,            linkType,            page-> {              slug,              type            },            customUrl          }        }      }    }  }
 export type SettingsQueryResult = {
   _id: string;
-  _type: "settings";
+  _type: "configuration";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
+  language?: string;
   description?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -501,24 +502,42 @@ export type SettingsQueryResult = {
     _type: "block";
     _key: string;
   }>;
-  footer?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
+  navigation: Array<{
+    title: string | null;
+    linkType: "custom" | "events" | "page" | "posts" | "submenu" | null;
+    page: {
+      slug: Slug | null;
+      type: "members" | "other" | "partners" | "programmes" | null;
+    } | null;
+    customUrl: string | null;
+    children: Array<{
+      title: string | null;
+      linkType: "custom" | "events" | "page" | "posts" | "submenu" | null;
+      page: {
+        slug: Slug | null;
+        type: "members" | "other" | "partners" | "programmes" | null;
+      } | null;
+      customUrl: string | null;
+      children: Array<{
+        title: string | null;
+        linkType: "custom" | "events" | "page" | "posts" | "submenu" | null;
+        page: {
+          slug: Slug | null;
+          type: "members" | "other" | "partners" | "programmes" | null;
+        } | null;
+        customUrl: string | null;
+        children: Array<{
+          title: string | null;
+          linkType: "custom" | "events" | "page" | "posts" | "submenu" | null;
+          page: {
+            slug: Slug | null;
+            type: "members" | "other" | "partners" | "programmes" | null;
+          } | null;
+          customUrl: string | null;
+        }> | null;
+      }> | null;
+    }> | null;
+  }> | null;
   ogImage?: {
     asset?: {
       _ref: string;
@@ -793,7 +812,7 @@ export type PostSlugsResult = Array<{
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"settings\"][0]": SettingsQueryResult;
+    "\n  *[_type == \"configuration\" && language == $language][0] {\n    ...,\n    navigation[] {\n      title,\n      linkType,\n      page-> {\n        slug,\n        type\n      },\n      customUrl,\n      children[] {\n        title,\n        linkType,\n        page-> {\n          slug,\n          type\n        },\n        customUrl,\n        children[] {\n          title,\n          linkType,\n          page-> {\n            slug,\n            type\n          },\n          customUrl,\n          children[] {\n            title,\n            linkType,\n            page-> {\n              slug,\n              type\n            },\n            customUrl\n          }\n        }\n      }\n    }\n  }\n": SettingsQueryResult;
     "\n  *[_type == \"post\" && defined(slug.current) && language == $language] | order(date desc, _updatedAt desc) [0...$quantity] {\n    content,\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  image,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n  }\n": FeaturedPostsQueryResult;
     "\n  *[_type == \"post\" && _id != $skip && defined(slug.current) && language == $language] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  image,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n  }\n": MoreStoriesQueryResult;
     "\n  *[_type == \"post\" && slug.current == $slug && language == $language] [0] {\n    content,\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  image,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n  }\n": PostQueryResult;

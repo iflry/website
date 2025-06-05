@@ -3,17 +3,16 @@ import { defineArrayMember, defineField, defineType } from "sanity";
 
 
 export default defineType({
-  name: "settings",
-  title: "Settings",
+  name: "configuration",
+  title: "Configuration",
   type: "document",
   icon: CogIcon,
   fields: [
     defineField({
-      name: "title",
-      description: "This field is the title of your blog.",
-      title: "Title",
-      type: "string",
-      validation: (rule) => rule.required(),
+      name: 'language',
+      type: 'string',
+      //readOnly: true,
+      //hidden: true
     }),
     defineField({
       name: "description",
@@ -48,32 +47,10 @@ export default defineType({
       ],
     }),
     defineField({
-      name: "footer",
-      description:
-        "This is a block of text that will be displayed at the bottom of the page.",
-      title: "Footer Info",
+      name: "navigation",
+      title: "Main Navigation",
       type: "array",
-      of: [
-        defineArrayMember({
-          type: "block",
-          marks: {
-            annotations: [
-              {
-                name: "link",
-                type: "object",
-                title: "Link",
-                fields: [
-                  {
-                    name: "href",
-                    type: "url",
-                    title: "Url",
-                  },
-                ],
-              },
-            ],
-          },
-        }),
-      ],
+      of: [{ type: "navigationItem" }],
     }),
     defineField({
       name: "ogImage",
@@ -104,7 +81,7 @@ export default defineType({
   preview: {
     prepare() {
       return {
-        title: "Settings",
+        title: "Configuration",
       };
     },
   },
