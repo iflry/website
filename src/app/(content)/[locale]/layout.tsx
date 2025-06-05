@@ -115,6 +115,11 @@ export default async function RootLayout({
                           Programmes
                         </NavigationMenuLink>
                       </NavigationMenuItem>
+                      <NavigationMenuItem>
+                        <NavigationMenuLink href="/posts" className={navigationMenuTriggerStyle()}>
+                          Posts
+                        </NavigationMenuLink>
+                      </NavigationMenuItem>
                     </NavigationMenuList>
                   </NavigationMenu>
                 </div>

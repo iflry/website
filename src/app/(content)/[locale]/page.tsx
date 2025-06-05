@@ -6,10 +6,10 @@ import MoreStories from "./more-stories";
 import Onboarding from "./onboarding";
 import DateComponent from "@/src/components/date";
 
-import type { HeroQueryResult } from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { heroQuery } from "@/sanity/lib/queries";
+import { featuredPostsQuery } from "@/sanity/lib/queries";
 import PersonView from "./person-view";
+import { Post } from "@/sanity.types";
 
 function HeroPost({
   title,
@@ -17,10 +17,15 @@ function HeroPost({
   image,
   date,
   author,
-}: Pick<
-  Exclude<HeroQueryResult, null>,
-  "title" | "image" | "date" | "author" | "slug"
->) {
+}: {
+  title: string;
+  slug: string | null;
+  image: any;
+  date: string;
+  author: { name: string; picture: any } | null;
+}) {
+  if (!slug) return null;
+
   return (
     <article>
       <Link className="group mb-8 block md:mb-16" href={`/posts/${slug}`}>
@@ -34,7 +39,7 @@ function HeroPost({
             </Link>
           </h3>
           <div className="mb-4 text-lg md:mb-0">
-            <DateComponent dateString={date} />
+            <DateComponent dateString={date || ''} />
           </div>
         </div>
         <div>
@@ -47,11 +52,12 @@ function HeroPost({
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const heroPost = await sanityFetch({ query: heroQuery, params: { language: locale } })
+  const posts = await sanityFetch({ query: featuredPostsQuery, params: { language: locale, quantity: 1 } })
+  const heroPost = posts.length > 0 ? posts[0] : null
 
   return (
     <div className="container mx-auto px-5">
-      {heroPost ? (
+      {heroPost && heroPost.slug && heroPost.title ? (
         <HeroPost
           title={heroPost.title}
           slug={heroPost.slug}

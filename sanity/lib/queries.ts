@@ -12,8 +12,8 @@ const postFields = /* groq */ `
   "author": author->{"name": coalesce(name, "Anonymous"), picture},
 `;
 
-export const heroQuery = defineQuery(`
-  *[_type == "post" && defined(slug.current) && language == $language] | order(date desc, _updatedAt desc) [0] {
+export const featuredPostsQuery = defineQuery(`
+  *[_type == "post" && defined(slug.current) && language == $language] | order(date desc, _updatedAt desc) [0...$quantity] {
     content,
     ${postFields}
   }
@@ -67,6 +67,14 @@ export const programmesQuery = defineQuery(`
       "name": coalesce(name, "Untitled"),
       "picture": picture.asset->url
     }
+  }
+`)
+
+export const membersQuery = defineQuery(`
+  *[_type == "member"] {
+    _id,
+    "title": coalesce(title, "Untitled"),
+    "logo": logo.asset->url
   }
 `)
 

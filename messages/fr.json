@@ -9,5 +9,9 @@
         "intern": "Stagiaire",
         "project-manager": "Gestionnaire de Projets",
         "ombudsperson": "Ombudsman"
+    },
+    "page-not-found": {
+        "title": "Page non trouvée",
+        "description": "La page que vous cherchez n'existe pas."
     }
 }

@@ -1,7 +1,16 @@
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { peopleQuery } from "@/sanity/lib/queries";
 import RoleView, { RoleType, BureauRole, OfficeRole } from "./role-view";
-import { getTranslations } from "next-intl/server";
+
+const typeOrder: Record<RoleType, { order: number, title: string }> = {
+  "bureau-member": { order: 1, title: "Bureau" },
+  "regional-representative": { order: 2, title: "Regional Representatives" },
+  "office": { order: 3, title: "Office" },
+  "honorary-member": { order: 4, title: "Honorary Members" },
+  "ombudsperson": { order: 5, title: "Ombudsperson" },
+  "advisory-council": { order: 6, title: "Advisory Council" },
+  "individual-member": { order: 7, title: "Individual Members" }
+};
 
 const bureauRoleOrder: Record<BureauRole, number> = {
   "president": 1,
@@ -17,7 +26,6 @@ const officeRoleOrder: Record<OfficeRole, number> = {
 };
 
 export default async function PeoplePage() {
-  const t = await getTranslations()
   const currentDate = new Date().toISOString()
   const people = await sanityFetch({ query: peopleQuery, params: { date: currentDate } })
   const peopleByType: Record<string, any[]> = {};
@@ -29,16 +37,6 @@ export default async function PeoplePage() {
       peopleByType[person.type].push(person);
     }
   });
-
-  const typeOrder: Record<RoleType, { order: number, title: string }> = {
-    "bureau-member": { order: 1, title: t("bureau") },
-    "regional-representative": { order: 2, title: t("regional-representatives") },
-    "office": { order: 3, title: t("office") },
-    "honorary-member": { order: 4, title: t("honorary-members") },
-    "ombudsperson": { order: 5, title: t("ombudsperson") },
-    "advisory-council": { order: 6, title: t("advisory-council") },
-    "individual-member": { order: 7, title: t("individual-members") }
-  };
   
   const orderedSections = Object.entries(peopleByType)
     .map(([type, peopleList]) => {

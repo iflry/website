@@ -9,5 +9,9 @@
         "intern": "Interno",
         "project-manager": "Gerente de Proyectos",
         "ombudsperson": "Ombudsman"
+    },
+    "page-not-found": {
+        "title": "Página no encontrada",
+        "description": "La página que estás buscando no existe."
     }
 }

@@ -534,9 +534,9 @@ export type SettingsQueryResult = {
     _type: "image";
   };
 } | null;
-// Variable: heroQuery
-// Query: *[_type == "post" && defined(slug.current) && language == $language] | order(date desc, _updatedAt desc) [0] {    content,      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  image,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  }
-export type HeroQueryResult = {
+// Variable: featuredPostsQuery
+// Query: *[_type == "post" && defined(slug.current) && language == $language] | order(date desc, _updatedAt desc) [0...$quantity] {    content,      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  image,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  }
+export type FeaturedPostsQueryResult = Array<{
   content: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -588,7 +588,7 @@ export type HeroQueryResult = {
       _type: "image";
     } | null;
   } | null;
-} | null;
+}>;
 // Variable: moreStoriesQuery
 // Query: *[_type == "post" && _id != $skip && defined(slug.current) && language == $language] | order(date desc, _updatedAt desc) [0...$limit] {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  image,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  }
 export type MoreStoriesQueryResult = Array<{
@@ -749,6 +749,13 @@ export type ProgrammesQueryResult = Array<{
     picture: string | null;
   }> | null;
 }>;
+// Variable: membersQuery
+// Query: *[_type == "member"] {    _id,    "title": coalesce(title, "Untitled"),    "logo": logo.asset->url  }
+export type MembersQueryResult = Array<{
+  _id: string;
+  title: "Untitled";
+  logo: string | null;
+}>;
 // Variable: peopleQuery
 // Query: *[_type == "role" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {      _id,  type,  email,  title,  bureauRole,  officeRole,  organization,  "name": person->name,  "picture": person->picture.asset->url  }
 export type PeopleQueryResult = Array<{
@@ -787,13 +794,14 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"settings\"][0]": SettingsQueryResult;
-    "\n  *[_type == \"post\" && defined(slug.current) && language == $language] | order(date desc, _updatedAt desc) [0] {\n    content,\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  image,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n  }\n": HeroQueryResult;
+    "\n  *[_type == \"post\" && defined(slug.current) && language == $language] | order(date desc, _updatedAt desc) [0...$quantity] {\n    content,\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  image,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n  }\n": FeaturedPostsQueryResult;
     "\n  *[_type == \"post\" && _id != $skip && defined(slug.current) && language == $language] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  image,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n  }\n": MoreStoriesQueryResult;
     "\n  *[_type == \"post\" && slug.current == $slug && language == $language] [0] {\n    content,\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  image,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n  }\n": PostQueryResult;
     "\n  *[_type == \"page\" && slug.current == $slug && language == $language] [0] {\n    _id,\n    content,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n  }\n": PageQueryResult;
     "\n  *[_type == \"page\" && type == $type && language == $language] [0] {\n    _id,\n    content,\n    \"title\": coalesce(title, \"Untitled\"),\n  }\n": PageTypeQueryResult;
     "\n  *[_type == \"partner\"] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"logo\": logo.asset->url\n  }\n": PartnersQueryResult;
     "\n  *[_type == \"programme\"] {\n    _id,\n    email,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"managers\": managers[]->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url\n    }\n  }\n": ProgrammesQueryResult;
+    "\n  *[_type == \"member\"] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"logo\": logo.asset->url\n  }\n": MembersQueryResult;
     "\n  *[_type == \"role\" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {\n    \n  _id,\n  type,\n  email,\n  title,\n  bureauRole,\n  officeRole,\n  organization,\n  \"name\": person->name,\n  \"picture\": person->picture.asset->url\n\n  }\n": PeopleQueryResult;
     "*[_type == \"page\" && defined(slug.current)]{\"slug\": slug.current}": PageSlugsResult;
     "*[_type == \"post\" && defined(slug.current)]{\"slug\": slug.current}": PostSlugsResult;
