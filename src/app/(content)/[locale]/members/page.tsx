@@ -29,8 +29,8 @@ export default async function MembersPage({ params }: { params: Promise<{ locale
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {members?.map((member) => (
           <div key={member._id}>
-            {member.logo && <Image src={member.logo} alt={member.title} width={100} height={100} />}
-            {member.title}
+            {member.logo && <Image src={member.logo} alt={member.name} width={100} height={100} />}
+            {member.name}
           </div>
         ))}
       </div>
