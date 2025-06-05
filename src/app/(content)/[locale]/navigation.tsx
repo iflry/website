@@ -16,7 +16,7 @@ interface NavigationItemData {
   linkType?: "page" | "events" | "posts" | "custom" | "submenu" | null;
   page?: {
     slug?: { current?: string | null } | null;
-    type?: "other" | "programmes" | "members" | "partners" | null;
+    type?: "other" | "programmes" | "members" | "partners" | "people" | null;
   } | null;
   customUrl?: string | null;
   children?: NavigationItemData[] | null;
@@ -28,6 +28,7 @@ function resolveNavigationHref(item: NavigationItemData): string {
       if (item.page?.type === "members") return `/members`;
       if (item.page?.type === "partners") return `/partners`;
       if (item.page?.type === "programmes") return `/programmes`;
+      if (item.page?.type === "people") return `/people`;
       return `/pages/${item.page?.slug?.current}`
     case "events":
       return "/events";

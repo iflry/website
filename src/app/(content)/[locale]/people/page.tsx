@@ -1,6 +1,9 @@
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { peopleQuery } from "@/sanity/lib/queries";
+import { pageTypeQuery, peopleQuery } from "@/sanity/lib/queries";
 import RoleView, { RoleType, BureauRole, OfficeRole } from "./role-view";
+import PortableText from "@/src/components/portable-text";
+import { PortableTextBlock } from "next-sanity";
+
 
 const typeOrder: Record<RoleType, { order: number, title: string }> = {
   "bureau-member": { order: 1, title: "Bureau" },
@@ -25,9 +28,14 @@ const officeRoleOrder: Record<OfficeRole, number> = {
   "intern": 3
 };
 
-export default async function PeoplePage() {
+export default async function PeoplePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   const currentDate = new Date().toISOString()
-  const people = await sanityFetch({ query: peopleQuery, params: { date: currentDate } })
+  const [page, people] = await Promise.all([
+    sanityFetch({ query: pageTypeQuery, params: { type: "people", language: locale } }),
+    sanityFetch({ query: peopleQuery, params: { date: currentDate, language: locale } })
+  ])
+  
   const peopleByType: Record<string, any[]> = {};
   people.forEach(person => {
     if (person.type) {
@@ -64,7 +72,18 @@ export default async function PeoplePage() {
     .sort((a, b) => a.order - b.order);
 
   return (
-    <div className="container mx-auto px-5">      
+    <div className="container mx-auto px-5">
+      <div>
+        <h1 className="text-balance mb-12 text-6xl font-bold leading-tight tracking-tighter md:text-7xl md:leading-none lg:text-8xl">
+          {page?.title}
+        </h1>
+        {page?.content?.length && (
+          <PortableText
+            className="mx-auto max-w-2xl"
+            value={page.content as PortableTextBlock[]}
+          />
+        )}
+      </div>
       {orderedSections.map(section => (
         <div key={section.type} className="mb-16">
           <h3 className="mb-8 text-3xl font-bold">{section.title}</h3>

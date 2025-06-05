@@ -29,6 +29,7 @@ export default defineType({
           { title: "Membership Organizations", value: "members" },
           { title: "Partners", value: "partners" },
           { title: "Programmes", value: "programmes" },
+          { title: "People", value: "people" },
           { title: "Other", value: "other" },
         ]
       },
