@@ -73,7 +73,7 @@ export const programmesQuery = defineQuery(`
 export const membersQuery = defineQuery(`
   *[_type == "member"] {
     _id,
-    "title": coalesce(title, "Untitled"),
+    "name": coalesce(name, "Untitled"),
     "logo": logo.asset->url
   }
 `)

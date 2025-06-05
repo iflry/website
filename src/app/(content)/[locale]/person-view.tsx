@@ -1,6 +1,6 @@
 import type { Person } from "@/sanity.types";
 import { urlForImage } from "@/sanity/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/src/components/ui/avatar";
 
 interface Props {
   name: string;

@@ -1,4 +1,4 @@
-import { buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/src/components/ui/button';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 

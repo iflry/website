@@ -26,13 +26,16 @@ export default async function PartnersPage({ params }: { params: Promise<{ local
           />
         )}
       </div>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {partners?.map((partner) => (
-          <div key={partner._id}>
-            {partner.logo && <Image src={partner.logo} alt={partner.title} width={100} height={100} />}
-            {partner.title}
+      <div className="py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="-mx-6 grid grid-cols-2 gap-0.5 overflow-hidden sm:mx-0 sm:rounded-2xl md:grid-cols-3">
+            {partners?.map((partner) => (
+              <div className="bg-gray-400/5 p-8 sm:p-10" key={partner._id}>
+                <Image className="max-h-12 w-full object-contain" src={partner.logo || ""} alt={partner.title} width={150} height={150} />
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );

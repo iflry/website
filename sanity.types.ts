@@ -750,10 +750,10 @@ export type ProgrammesQueryResult = Array<{
   }> | null;
 }>;
 // Variable: membersQuery
-// Query: *[_type == "member"] {    _id,    "title": coalesce(title, "Untitled"),    "logo": logo.asset->url  }
+// Query: *[_type == "member"] {    _id,    "name": coalesce(name, "Untitled"),    "logo": logo.asset->url  }
 export type MembersQueryResult = Array<{
   _id: string;
-  title: "Untitled";
+  name: string | "Untitled";
   logo: string | null;
 }>;
 // Variable: peopleQuery
@@ -801,7 +801,7 @@ declare module "@sanity/client" {
     "\n  *[_type == \"page\" && type == $type && language == $language] [0] {\n    _id,\n    content,\n    \"title\": coalesce(title, \"Untitled\"),\n  }\n": PageTypeQueryResult;
     "\n  *[_type == \"partner\"] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"logo\": logo.asset->url\n  }\n": PartnersQueryResult;
     "\n  *[_type == \"programme\"] {\n    _id,\n    email,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"managers\": managers[]->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url\n    }\n  }\n": ProgrammesQueryResult;
-    "\n  *[_type == \"member\"] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"logo\": logo.asset->url\n  }\n": MembersQueryResult;
+    "\n  *[_type == \"member\"] {\n    _id,\n    \"name\": coalesce(name, \"Untitled\"),\n    \"logo\": logo.asset->url\n  }\n": MembersQueryResult;
     "\n  *[_type == \"role\" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {\n    \n  _id,\n  type,\n  email,\n  title,\n  bureauRole,\n  officeRole,\n  organization,\n  \"name\": person->name,\n  \"picture\": person->picture.asset->url\n\n  }\n": PeopleQueryResult;
     "*[_type == \"page\" && defined(slug.current)]{\"slug\": slug.current}": PageSlugsResult;
     "*[_type == \"post\" && defined(slug.current)]{\"slug\": slug.current}": PostSlugsResult;
