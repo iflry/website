@@ -16,7 +16,7 @@ export default async function PartnersPage({ params }: { params: Promise<{ local
   return (
     <div className="container mx-auto px-5">
       <div>
-        <h1 className="text-balance mb-12 text-6xl font-bold leading-tight tracking-tighter md:text-7xl md:leading-none lg:text-8xl">
+      <h1 className="mb-12 text-6xl font-bold md:text-7xl lg:text-8xl">
           {page?.title}
         </h1>
         {page?.content?.length && (

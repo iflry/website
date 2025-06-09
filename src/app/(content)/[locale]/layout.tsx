@@ -6,7 +6,7 @@ import {
   VisualEditing,
   toPlainText,
 } from "next-sanity";
-import { Inter } from "next/font/google";
+import { Fira_Sans } from "next/font/google";
 import { draftMode } from "next/headers";
 
 import AlertBanner from "./alert-banner";
@@ -21,6 +21,7 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import {Link} from '@/src/i18n/navigation';
 import Navigation from "./navigation";
+import Image from "next/image";
 
 export async function generateMetadata({ params }: { params: Promise<{locale: string}> }): Promise<Metadata> {
   const { locale } = await params;
@@ -57,10 +58,10 @@ export async function generateMetadata({ params }: { params: Promise<{locale: st
   };
 }
 
-const inter = Inter({
-  variable: "--font-inter",
+const firaSans = Fira_Sans({
+  variable: "--font-fira-sans",
   subsets: ["latin"],
-  display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
 export default async function RootLayout({
@@ -79,16 +80,16 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang={locale} className={`${inter.variable} bg-white text-black`} suppressHydrationWarning>
+    <html lang={locale} className={`${firaSans.variable} bg-white text-black`} suppressHydrationWarning>
       <body>
         <NextIntlClientProvider>
           <section className="min-h-screen">
             <header>
               {isDraftMode && <AlertBanner />}
-              <div className="container mx-auto px-5 py-12">
+              <div className="container mx-auto px-5 py-6">
                 <div className="flex items-center justify-between">
                   <Link locale={locale} href="/" className="text-6xl font-bold">
-                    {t("title")}
+                    <Image src="/logo.png" alt={t("title")} width={50} height={50} />
                   </Link>
                   <Navigation language={locale} />
                 </div>

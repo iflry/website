@@ -70,7 +70,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
       )}
       {heroPost?._id && (
         <aside>
-          <h2 className="mb-8 text-6xl font-bold leading-tight tracking-tighter md:text-7xl">
+          <h2 className="mb-8 text-6xl font-bold md:text-7xl">
             More Stories
           </h2>
           <Suspense>

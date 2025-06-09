@@ -228,7 +228,7 @@ export type Page = {
   _rev: string;
   title?: string;
   language?: string;
-  type?: "members" | "partners" | "programmes" | "other";
+  type?: "members" | "partners" | "programmes" | "people" | "other";
   slug?: Slug;
   content?: Array<{
     children?: Array<{
@@ -507,7 +507,7 @@ export type SettingsQueryResult = {
     linkType: "custom" | "events" | "page" | "posts" | "submenu" | null;
     page: {
       slug: Slug | null;
-      type: "members" | "other" | "partners" | "programmes" | null;
+      type: "members" | "other" | "partners" | "people" | "programmes" | null;
     } | null;
     customUrl: string | null;
     children: Array<{
@@ -515,7 +515,7 @@ export type SettingsQueryResult = {
       linkType: "custom" | "events" | "page" | "posts" | "submenu" | null;
       page: {
         slug: Slug | null;
-        type: "members" | "other" | "partners" | "programmes" | null;
+        type: "members" | "other" | "partners" | "people" | "programmes" | null;
       } | null;
       customUrl: string | null;
       children: Array<{
@@ -523,7 +523,7 @@ export type SettingsQueryResult = {
         linkType: "custom" | "events" | "page" | "posts" | "submenu" | null;
         page: {
           slug: Slug | null;
-          type: "members" | "other" | "partners" | "programmes" | null;
+          type: "members" | "other" | "partners" | "people" | "programmes" | null;
         } | null;
         customUrl: string | null;
         children: Array<{
@@ -531,7 +531,7 @@ export type SettingsQueryResult = {
           linkType: "custom" | "events" | "page" | "posts" | "submenu" | null;
           page: {
             slug: Slug | null;
-            type: "members" | "other" | "partners" | "programmes" | null;
+            type: "members" | "other" | "partners" | "people" | "programmes" | null;
           } | null;
           customUrl: string | null;
         }> | null;
