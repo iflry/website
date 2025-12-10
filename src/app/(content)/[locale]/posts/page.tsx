@@ -1,6 +1,6 @@
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { featuredPostsQuery } from "@/sanity/lib/queries";
-import PersonView from "../person-view";
+import ContactView from "../contact-view";
 import DateComponent from "@/src/components/date";
 import Link from "next/link";
 import { urlForImage } from "@/sanity/lib/utils";
@@ -36,7 +36,7 @@ export default async function PostsPage({ params }: { params: Promise<{ locale: 
                                 {post.content}
                             </div> */}
                             {post.author && (
-                                <PersonView name={post.author.name} picture={post.author.picture} />
+                                <ContactView name={post.author.name} picture={post.author.picture} />
                             )}
                         </div>
                     </div>

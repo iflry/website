@@ -3,6 +3,8 @@ import { defineField, defineType } from "sanity";
 import partnerType from './partner';
 import programmeType from './programme';
 import memberType from './member';
+import contactType from './contact';
+import trainerType from './trainer';
 
 export default defineType({
   name: "event",
@@ -15,6 +17,24 @@ export default defineType({
       title: "Title",
       type: "string",
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "contactPerson",
+      title: "Contact Person",
+      type: "object",
+      fields: [
+        defineField({
+          name: "contact",
+          title: "Contact",
+          type: "reference",
+          to: [{ type: contactType.name }],
+        }),
+        defineField({
+          name: "email",
+          title: "Email",
+          type: "email",
+        }),
+      ],
     }),
     defineField({
         name: "type",
@@ -81,6 +101,22 @@ export default defineType({
         title: "Partners",
         type: "array",
         of: [{type: "reference", to: [{type: partnerType.name}]}],
+    }),
+    defineField({
+      name: "image",
+      title: "Image",
+      type: "image",
+    }),
+    defineField({
+      name: 'description',
+      title: 'Description',
+      type: 'internationalizedArrayString',
+    }),
+    defineField({
+      name: "trainers",
+      title: "Trainers",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: trainerType.name }] }],
     }),
   ],
   preview: {
