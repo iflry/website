@@ -8,7 +8,7 @@ import DateComponent from "@/src/components/date";
 
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { featuredPostsQuery } from "@/sanity/lib/queries";
-import PersonView from "./person-view";
+import ContactView from "./contact-view";
 import { Post } from "@/sanity.types";
 
 function HeroPost({
@@ -43,7 +43,7 @@ function HeroPost({
           </div>
         </div>
         <div>
-          {author && <PersonView name={author.name} picture={author.picture} />}
+          {author && <ContactView name={author.name} picture={author.picture} />}
         </div>
       </div>
     </article>

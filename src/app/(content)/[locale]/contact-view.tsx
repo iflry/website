@@ -1,13 +1,13 @@
-import type { Person } from "@/sanity.types";
+import type { Contact } from "@/sanity.types";
 import { urlForImage } from "@/sanity/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/src/components/ui/avatar";
 
 interface Props {
   name: string;
-  picture: Exclude<Person["picture"], undefined> | null;
+  picture: Exclude<Contact["picture"], undefined> | null;
 }
 
-export default function PersonView({ name, picture }: Props) {
+export default function ContactView({ name, picture }: Props) {
   return (
     <div className="flex items-center text-xl">
       {picture?.asset?._ref && (
@@ -26,3 +26,4 @@ export default function PersonView({ name, picture }: Props) {
     </div>
   );
 }
+

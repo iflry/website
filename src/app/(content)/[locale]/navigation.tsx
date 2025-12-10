@@ -13,7 +13,7 @@ import { settingsQuery } from "@/sanity/lib/queries";
 
 interface NavigationItemData {
   title?: string | null;
-  linkType?: "page" | "events" | "posts" | "custom" | "submenu" | null;
+  linkType?: "page" | "events" | "posts" | "trainers" | "vacancies" | "custom" | "submenu" | null;
   page?: {
     language?: string | null;
     slug?: { current?: string | null } | null;
@@ -36,6 +36,10 @@ function resolveNavigationHref(item: NavigationItemData, language: string): stri
       return `/${language}/events`;
     case "posts":
       return `/${language}/posts`;
+    case "trainers":
+      return `/${language}/trainers`;
+    case "vacancies":
+      return `/${language}/vacancies`;
     case "custom":
       return item.customUrl || `/${language}`;
     default:

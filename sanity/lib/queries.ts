@@ -93,7 +93,8 @@ export const partnersQuery = defineQuery(`
   *[_type == "partner"] {
     _id,
     "title": coalesce(title, "Untitled"),
-    "logo": logo.asset->url
+    "logo": logo.asset->url,
+    description
   }
 `)
 
@@ -102,6 +103,7 @@ export const programmesQuery = defineQuery(`
     _id,
     email,
     "title": coalesce(title, "Untitled"),
+    description,
     "managers": managers[]->{
       _id,
       "name": coalesce(name, "Untitled"),
@@ -126,12 +128,72 @@ const roleFields = /* groq */ `
   bureauRole,
   officeRole,
   organization,
-  "name": person->name,
-  "picture": person->picture.asset->url
+  "name": contact->name,
+  "picture": contact->picture.asset->url
 `;
 
 export const peopleQuery = defineQuery(`
   *[_type == "role" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {
     ${roleFields}
+  }
+`)
+
+export const eventsQuery = defineQuery(`
+  *[_type == "event" && language == $language] | order(start desc) {
+    _id,
+    "title": coalesce(title, "Untitled"),
+    "slug": slug.current,
+    type,
+    location,
+    start,
+    end,
+    "image": image.asset->url,
+    description,
+    "contactPerson": {
+      "contact": contactPerson.contact->{
+        _id,
+        "name": coalesce(name, "Untitled"),
+        "picture": picture.asset->url
+      },
+      "email": contactPerson.email
+    },
+    "trainers": trainers[]->{
+      _id,
+      email,
+      expertises,
+      languages,
+      "contact": contact->{
+        _id,
+        "name": coalesce(name, "Untitled"),
+        "picture": picture.asset->url,
+        biography
+      }
+    }
+  }
+`)
+
+export const vacanciesQuery = defineQuery(`
+  *[_type == "vacancy" && language == $language] | order(deadline asc) {
+    _id,
+    "title": coalesce(title, "Untitled"),
+    description,
+    location,
+    applicationUrl,
+    deadline
+  }
+`)
+
+export const trainersQuery = defineQuery(`
+  *[_type == "trainer"] {
+    _id,
+    email,
+    expertises,
+    languages,
+    "contact": contact->{
+      _id,
+      "name": coalesce(name, "Untitled"),
+      "picture": picture.asset->url,
+      biography
+    }
   }
 `)
