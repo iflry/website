@@ -71,7 +71,7 @@ export type Geopoint = {
 export type NavigationItem = {
   _type: "navigationItem";
   title?: string;
-  linkType?: "page" | "events" | "posts" | "custom" | "submenu";
+  linkType?: "page" | "events" | "posts" | "trainers" | "vacancies" | "custom" | "submenu";
   page?: {
     _ref: string;
     _type: "reference";
@@ -90,28 +90,15 @@ export type Trainer = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  trainers?: Array<{
+  contact?: {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    _key: string;
     [internalGroqTypeReferenceTo]?: "contact";
-  }>;
-};
-
-export type Vacancy = {
-  _id: string;
-  _type: "vacancy";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  description?: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue>;
-  location?: string;
-  applicationUrl?: string;
-  deadline?: string;
+  };
+  email?: string;
+  expertises?: Array<string>;
+  languages?: Array<"en" | "fr" | "es" | "de" | "nl" | "it" | "pt" | "ru" | "ar" | "zh" | "ja">;
 };
 
 export type Role = {
@@ -250,7 +237,26 @@ export type InternationalizedArrayReferenceValue = {
     _type: "reference";
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "page";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "vacancy";
   };
+};
+
+export type Vacancy = {
+  _id: string;
+  _type: "vacancy";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  language?: string;
+  title?: string;
+  description?: InternationalizedArrayString;
+  location?: string;
+  applicationUrl?: string;
+  deadline?: string;
 };
 
 export type Page = {
@@ -291,6 +297,15 @@ export type Event = {
   _updatedAt: string;
   _rev: string;
   title?: string;
+  contactPerson?: {
+    contact?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "contact";
+    };
+    email?: string;
+  };
   type?: "ga" | "seminar" | "workshop";
   slug?: Slug;
   location?: string;
@@ -330,15 +345,13 @@ export type Event = {
     _type: "image";
   };
   description?: InternationalizedArrayString;
-  contactPerson?: {
-    contact?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "contact";
-    };
-    email?: string;
-  };
+  trainers?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "trainer";
+  }>;
 };
 
 export type Programme = {
@@ -528,7 +541,7 @@ export type InternationalizedArrayReference = Array<{
   _key: string;
 } & InternationalizedArrayReferenceValue>;
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | NavigationItem | Trainer | Vacancy | Role | Partner | Configuration | InternationalizedArrayStringValue | InternationalizedArrayString | TranslationMetadata | InternationalizedArrayReferenceValue | Page | Event | Programme | Post | Contact | Member | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug | InternationalizedArrayReference;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | NavigationItem | Trainer | Role | Partner | Configuration | InternationalizedArrayStringValue | InternationalizedArrayString | TranslationMetadata | InternationalizedArrayReferenceValue | Vacancy | Page | Event | Programme | Post | Contact | Member | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug | InternationalizedArrayReference;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: settingsQuery
@@ -560,7 +573,7 @@ export type SettingsQueryResult = {
   }>;
   navigation: Array<{
     title: string | null;
-    linkType: "custom" | "events" | "page" | "posts" | "submenu" | null;
+    linkType: "custom" | "events" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
     page: {
       slug: Slug | null;
       type: "members" | "other" | "partners" | "people" | "programmes" | null;
@@ -568,7 +581,7 @@ export type SettingsQueryResult = {
     customUrl: string | null;
     children: Array<{
       title: string | null;
-      linkType: "custom" | "events" | "page" | "posts" | "submenu" | null;
+      linkType: "custom" | "events" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
       page: {
         slug: Slug | null;
         type: "members" | "other" | "partners" | "people" | "programmes" | null;
@@ -576,7 +589,7 @@ export type SettingsQueryResult = {
       customUrl: string | null;
       children: Array<{
         title: string | null;
-        linkType: "custom" | "events" | "page" | "posts" | "submenu" | null;
+        linkType: "custom" | "events" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
         page: {
           slug: Slug | null;
           type: "members" | "other" | "partners" | "people" | "programmes" | null;
@@ -584,7 +597,7 @@ export type SettingsQueryResult = {
         customUrl: string | null;
         children: Array<{
           title: string | null;
-          linkType: "custom" | "events" | "page" | "posts" | "submenu" | null;
+          linkType: "custom" | "events" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
           page: {
             slug: Slug | null;
             type: "members" | "other" | "partners" | "people" | "programmes" | null;
@@ -854,7 +867,7 @@ export type PeopleQueryResult = Array<{
   picture: string | null;
 }>;
 // Variable: eventsQuery
-// Query: *[_type == "event" && language == $language] | order(start desc) {    _id,    "title": coalesce(title, "Untitled"),    "slug": slug.current,    type,    location,    start,    end,    "image": image.asset->url,    description,    "contactPerson": {      "contact": contactPerson.contact->{        _id,        "name": coalesce(name, "Untitled"),        "picture": picture.asset->url      },      "email": contactPerson.email    }  }
+// Query: *[_type == "event" && language == $language] | order(start desc) {    _id,    "title": coalesce(title, "Untitled"),    "slug": slug.current,    type,    location,    start,    end,    "image": image.asset->url,    description,    "contactPerson": {      "contact": contactPerson.contact->{        _id,        "name": coalesce(name, "Untitled"),        "picture": picture.asset->url      },      "email": contactPerson.email    },    "trainers": trainers[]->{      _id,      email,      expertises,      languages,      "contact": contact->{        _id,        "name": coalesce(name, "Untitled"),        "picture": picture.asset->url,        biography      }    }  }
 export type EventsQueryResult = Array<{
   _id: string;
   title: string | "Untitled";
@@ -873,29 +886,43 @@ export type EventsQueryResult = Array<{
     } | null;
     email: string | null;
   };
+  trainers: Array<{
+    _id: string;
+    email: string | null;
+    expertises: Array<string> | null;
+    languages: Array<"ar" | "de" | "en" | "es" | "fr" | "it" | "ja" | "nl" | "pt" | "ru" | "zh"> | null;
+    contact: {
+      _id: string;
+      name: string | "Untitled";
+      picture: string | null;
+      biography: InternationalizedArrayString | null;
+    } | null;
+  }> | null;
 }>;
 // Variable: vacanciesQuery
-// Query: *[_type == "vacancy"] | order(deadline asc) {    _id,    "title": coalesce(title, "Untitled"),    description,    location,    applicationUrl,    deadline  }
+// Query: *[_type == "vacancy" && language == $language] | order(deadline asc) {    _id,    "title": coalesce(title, "Untitled"),    description,    location,    applicationUrl,    deadline  }
 export type VacanciesQueryResult = Array<{
   _id: string;
   title: string | "Untitled";
-  description: Array<{
-    _key: string;
-  } & InternationalizedArrayStringValue> | null;
+  description: InternationalizedArrayString | null;
   location: string | null;
   applicationUrl: string | null;
   deadline: string | null;
 }>;
 // Variable: trainersQuery
-// Query: *[_type == "trainer"][0] {    "trainers": trainers[]->{      _id,      "name": coalesce(name, "Untitled"),      "picture": picture.asset->url,      biography    }  }
-export type TrainersQueryResult = {
-  trainers: Array<{
+// Query: *[_type == "trainer"] {    _id,    email,    expertises,    languages,    "contact": contact->{      _id,      "name": coalesce(name, "Untitled"),      "picture": picture.asset->url,      biography    }  }
+export type TrainersQueryResult = Array<{
+  _id: string;
+  email: string | null;
+  expertises: Array<string> | null;
+  languages: Array<"ar" | "de" | "en" | "es" | "fr" | "it" | "ja" | "nl" | "pt" | "ru" | "zh"> | null;
+  contact: {
     _id: string;
     name: string | "Untitled";
     picture: string | null;
     biography: InternationalizedArrayString | null;
-  }> | null;
-} | null;
+  } | null;
+}>;
 
 // Source: ./src/app/(content)/[locale]/pages/[slug]/page.tsx
 // Variable: pageSlugs
@@ -925,9 +952,9 @@ declare module "@sanity/client" {
     "\n  *[_type == \"programme\"] {\n    _id,\n    email,\n    \"title\": coalesce(title, \"Untitled\"),\n    description,\n    \"managers\": managers[]->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url\n    }\n  }\n": ProgrammesQueryResult;
     "\n  *[_type == \"member\"] {\n    _id,\n    \"name\": coalesce(name, \"Untitled\"),\n    \"logo\": logo.asset->url\n  }\n": MembersQueryResult;
     "\n  *[_type == \"role\" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {\n    \n  _id,\n  type,\n  email,\n  title,\n  bureauRole,\n  officeRole,\n  organization,\n  \"name\": contact->name,\n  \"picture\": contact->picture.asset->url\n\n  }\n": PeopleQueryResult;
-    "\n  *[_type == \"event\" && language == $language] | order(start desc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    type,\n    location,\n    start,\n    end,\n    \"image\": image.asset->url,\n    description,\n    \"contactPerson\": {\n      \"contact\": contactPerson.contact->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url\n      },\n      \"email\": contactPerson.email\n    }\n  }\n": EventsQueryResult;
-    "\n  *[_type == \"vacancy\"] | order(deadline asc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    description,\n    location,\n    applicationUrl,\n    deadline\n  }\n": VacanciesQueryResult;
-    "\n  *[_type == \"trainer\"][0] {\n    \"trainers\": trainers[]->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url,\n      biography\n    }\n  }\n": TrainersQueryResult;
+    "\n  *[_type == \"event\" && language == $language] | order(start desc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    type,\n    location,\n    start,\n    end,\n    \"image\": image.asset->url,\n    description,\n    \"contactPerson\": {\n      \"contact\": contactPerson.contact->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url\n      },\n      \"email\": contactPerson.email\n    },\n    \"trainers\": trainers[]->{\n      _id,\n      email,\n      expertises,\n      languages,\n      \"contact\": contact->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url,\n        biography\n      }\n    }\n  }\n": EventsQueryResult;
+    "\n  *[_type == \"vacancy\" && language == $language] | order(deadline asc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    description,\n    location,\n    applicationUrl,\n    deadline\n  }\n": VacanciesQueryResult;
+    "\n  *[_type == \"trainer\"] {\n    _id,\n    email,\n    expertises,\n    languages,\n    \"contact\": contact->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url,\n      biography\n    }\n  }\n": TrainersQueryResult;
     "*[_type == \"page\" && defined(slug.current)]{\"slug\": slug.current}": PageSlugsResult;
     "*[_type == \"post\" && defined(slug.current)]{\"slug\": slug.current}": PostSlugsResult;
   }
