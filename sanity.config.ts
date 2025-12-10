@@ -12,7 +12,7 @@ import { StructureResolver, structureTool } from "sanity/structure";
 
 import { apiVersion, dataset, projectId, studioUrl } from "@/sanity/lib/api";
 import { singletonPlugin } from "@/sanity/plugins/singleton";
-import contact from "@/sanity/schemas/documents/contact";
+import person from "@/sanity/schemas/documents/person";
 import vacancy from "@/sanity/schemas/documents/vacancy";
 import trainer from "@/sanity/schemas/documents/trainer";
 import post from "@/sanity/schemas/documents/post";
@@ -38,7 +38,7 @@ const LANGUAGES = [
 
 const SINGLETON_SCHEMA_TYPES = [configuration]
 const LOCALIZED_SCHEMA_TYPES = [post, event, page, vacancy]
-const DEFAULT_SCHEMA_TYPES = [contact, partner, member, programme, role, trainer]
+const DEFAULT_SCHEMA_TYPES = [person, partner, member, programme, role, trainer]
 const OBJECT_SCHEMA_TYPES = [navigationItem]
 
 const structure: StructureResolver = (S) => {

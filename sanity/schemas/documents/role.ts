@@ -1,6 +1,6 @@
 import { SchemaIcon } from "@sanity/icons";
 import { defineField, defineType } from "sanity";
-import contactType from './contact';
+import personType from './person';
 import memberType from "./member";
 
 const roleType = [
@@ -72,11 +72,11 @@ export default defineType({
         hidden: ({document}) => document?.type !== 'regional-representative'
     }),
     defineField({
-        name: 'contact',
-        title: 'Contact',
+        name: 'person',
+        title: 'Person',
         type: 'reference',
         to: [
-            {type: contactType.name}
+            {type: personType.name}
         ],
         validation: (rule) => rule.required()
     }),
@@ -107,8 +107,8 @@ export default defineType({
   ],
   preview: {
     select: {
-        name: 'contact.name',
-        picture: 'contact.picture',
+        name: 'person.name',
+        picture: 'person.picture',
         type: 'type',
         bureauRole: 'bureauRole',
         officeRole: 'officeRole',

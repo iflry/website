@@ -479,7 +479,7 @@
           "type": "string"
         }
       },
-      "contact": {
+      "person": {
         "type": "objectAttribute",
         "value": {
           "type": "object",
@@ -505,7 +505,7 @@
               "optional": true
             }
           },
-          "dereferencesTo": "contact"
+          "dereferencesTo": "person"
         },
         "optional": true
       },
@@ -732,7 +732,7 @@
         },
         "optional": true
       },
-      "contact": {
+      "person": {
         "type": "objectAttribute",
         "value": {
           "type": "object",
@@ -758,7 +758,7 @@
               "optional": true
             }
           },
-          "dereferencesTo": "contact"
+          "dereferencesTo": "person"
         },
         "optional": true
       },
@@ -1884,7 +1884,7 @@
         "value": {
           "type": "object",
           "attributes": {
-            "contact": {
+            "person": {
               "type": "objectAttribute",
               "value": {
                 "type": "object",
@@ -1910,7 +1910,7 @@
                     "optional": true
                   }
                 },
-                "dereferencesTo": "contact"
+                "dereferencesTo": "person"
               },
               "optional": true
             },
@@ -2293,7 +2293,7 @@
                 "optional": true
               }
             },
-            "dereferencesTo": "contact",
+            "dereferencesTo": "person",
             "rest": {
               "type": "object",
               "attributes": {
@@ -2692,14 +2692,14 @@
               "optional": true
             }
           },
-          "dereferencesTo": "contact"
+          "dereferencesTo": "person"
         },
         "optional": true
       }
     }
   },
   {
-    "name": "contact",
+    "name": "person",
     "type": "document",
     "attributes": {
       "_id": {
@@ -2712,7 +2712,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "contact"
+          "value": "person"
         }
       },
       "_createdAt": {

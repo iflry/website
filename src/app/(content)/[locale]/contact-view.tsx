@@ -1,10 +1,10 @@
-import type { Contact } from "@/sanity.types";
+import type { Person } from "@/sanity.types";
 import { urlForImage } from "@/sanity/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/src/components/ui/avatar";
 
 interface Props {
   name: string;
-  picture: Exclude<Contact["picture"], undefined> | null;
+  picture: Exclude<Person["picture"], undefined> | null;
 }
 
 export default function ContactView({ name, picture }: Props) {

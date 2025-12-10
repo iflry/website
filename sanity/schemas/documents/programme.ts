@@ -1,6 +1,6 @@
 import {ThLargeIcon} from '@sanity/icons'
 import { defineField, defineType } from "sanity";
-import contactType from './contact';
+import personType from './person';
 export default defineType({
   name: "programme",
   title: "Programme",
@@ -17,7 +17,7 @@ export default defineType({
         name: "managers",
         title: "Managers",
         type: "array",
-        of: [{ type: "reference", to: [{ type: contactType.name }] }],
+        of: [{ type: "reference", to: [{ type: personType.name }] }],
         validation: (rule) => rule.required(),
     }),
     defineField({

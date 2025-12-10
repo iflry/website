@@ -1,6 +1,6 @@
 import {PresentationIcon} from '@sanity/icons'
 import { defineField, defineType } from "sanity";
-import contactType from './contact';
+import personType from './person';
 
 export default defineType({
   name: "trainer",
@@ -9,10 +9,10 @@ export default defineType({
   type: "document",
   fields: [
     defineField({
-      name: "contact",
-      title: "Contact",
+      name: "person",
+      title: "Person",
       type: "reference",
-      to: [{ type: contactType.name }],
+      to: [{ type: personType.name }],
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -53,8 +53,8 @@ export default defineType({
   ],
   preview: {
     select: {
-      name: "contact.name",
-      picture: "contact.picture",
+      name: "person.name",
+      picture: "person.picture",
     },
     prepare({ name, picture }) {
       return {

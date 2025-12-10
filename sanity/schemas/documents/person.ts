@@ -3,8 +3,8 @@ import { defineField, defineType } from "sanity";
 import memberType from "./member";
 
 export default defineType({
-  name: "contact",
-  title: "Contact",
+  name: "person",
+  title: "Person",
   icon: UserIcon,
   type: "document",
   fields: [
@@ -42,4 +42,3 @@ export default defineType({
     },
   },
 });
-

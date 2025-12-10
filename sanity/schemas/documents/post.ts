@@ -1,7 +1,7 @@
 import { BlockContentIcon } from "@sanity/icons";
 import { defineField, defineType } from "sanity";
 
-import contactType from "./contact";
+import personType from "./person";
 import { isUniqueOtherThanLanguage } from "@/sanity/lib/utils";
 
 
@@ -78,7 +78,7 @@ export default defineType({
       name: "author",
       title: "Author",
       type: "reference",
-      to: [{ type: contactType.name }],
+      to: [{ type: personType.name }],
     }),
   ],
   preview: {

@@ -128,8 +128,8 @@ const roleFields = /* groq */ `
   bureauRole,
   officeRole,
   organization,
-  "name": contact->name,
-  "picture": contact->picture.asset->url
+  "name": person->name,
+  "picture": person->picture.asset->url
 `;
 
 export const peopleQuery = defineQuery(`
@@ -150,7 +150,7 @@ export const eventsQuery = defineQuery(`
     "image": image.asset->url,
     description,
     "contactPerson": {
-      "contact": contactPerson.contact->{
+      "person": contactPerson.person->{
         _id,
         "name": coalesce(name, "Untitled"),
         "picture": picture.asset->url
@@ -162,7 +162,7 @@ export const eventsQuery = defineQuery(`
       email,
       expertises,
       languages,
-      "contact": contact->{
+      "person": person->{
         _id,
         "name": coalesce(name, "Untitled"),
         "picture": picture.asset->url,
@@ -189,7 +189,7 @@ export const trainersQuery = defineQuery(`
     email,
     expertises,
     languages,
-    "contact": contact->{
+    "person": person->{
       _id,
       "name": coalesce(name, "Untitled"),
       picture,

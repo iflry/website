@@ -3,7 +3,7 @@ import { defineField, defineType } from "sanity";
 import partnerType from './partner';
 import programmeType from './programme';
 import memberType from './member';
-import contactType from './contact';
+import personType from './person';
 import trainerType from './trainer';
 
 export default defineType({
@@ -24,10 +24,10 @@ export default defineType({
       type: "object",
       fields: [
         defineField({
-          name: "contact",
-          title: "Contact",
+          name: "person",
+          title: "Person",
           type: "reference",
-          to: [{ type: contactType.name }],
+          to: [{ type: personType.name }],
         }),
         defineField({
           name: "email",

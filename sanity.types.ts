@@ -90,11 +90,11 @@ export type Trainer = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  contact?: {
+  person?: {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "contact";
+    [internalGroqTypeReferenceTo]?: "person";
   };
   email?: string;
   expertises?: Array<string>;
@@ -116,11 +116,11 @@ export type Role = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "member";
   };
-  contact?: {
+  person?: {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "contact";
+    [internalGroqTypeReferenceTo]?: "person";
   };
   title?: string;
   email?: string;
@@ -298,11 +298,11 @@ export type Event = {
   _rev: string;
   title?: string;
   contactPerson?: {
-    contact?: {
+    person?: {
       _ref: string;
       _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "contact";
+      [internalGroqTypeReferenceTo]?: "person";
     };
     email?: string;
   };
@@ -366,7 +366,7 @@ export type Programme = {
     _type: "reference";
     _weak?: boolean;
     _key: string;
-    [internalGroqTypeReferenceTo]?: "contact";
+    [internalGroqTypeReferenceTo]?: "person";
   }>;
   email?: string;
   description?: InternationalizedArrayString;
@@ -418,13 +418,13 @@ export type Post = {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "contact";
+    [internalGroqTypeReferenceTo]?: "person";
   };
 };
 
-export type Contact = {
+export type Person = {
   _id: string;
-  _type: "contact";
+  _type: "person";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -541,7 +541,7 @@ export type InternationalizedArrayReference = Array<{
   _key: string;
 } & InternationalizedArrayReferenceValue>;
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | NavigationItem | Trainer | Role | Partner | Configuration | InternationalizedArrayStringValue | InternationalizedArrayString | TranslationMetadata | InternationalizedArrayReferenceValue | Vacancy | Page | Event | Programme | Post | Contact | Member | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug | InternationalizedArrayReference;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | NavigationItem | Trainer | Role | Partner | Configuration | InternationalizedArrayStringValue | InternationalizedArrayString | TranslationMetadata | InternationalizedArrayReferenceValue | Vacancy | Page | Event | Programme | Post | Person | Member | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug | InternationalizedArrayReference;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: settingsQuery
@@ -849,7 +849,7 @@ export type MembersQueryResult = Array<{
   logo: string | null;
 }>;
 // Variable: peopleQuery
-// Query: *[_type == "role" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {      _id,  type,  email,  title,  bureauRole,  officeRole,  organization,  "name": contact->name,  "picture": contact->picture.asset->url  }
+// Query: *[_type == "role" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {      _id,  type,  email,  title,  bureauRole,  officeRole,  organization,  "name": person->name,  "picture": person->picture.asset->url  }
 export type PeopleQueryResult = Array<{
   _id: string;
   type: "advisory-council" | "bureau-member" | "honorary-member" | "individual-member" | "office" | "ombudsperson" | "regional-representative" | null;
@@ -867,7 +867,7 @@ export type PeopleQueryResult = Array<{
   picture: string | null;
 }>;
 // Variable: eventsQuery
-// Query: *[_type == "event" && language == $language] | order(start desc) {    _id,    "title": coalesce(title, "Untitled"),    "slug": slug.current,    type,    location,    start,    end,    "image": image.asset->url,    description,    "contactPerson": {      "contact": contactPerson.contact->{        _id,        "name": coalesce(name, "Untitled"),        "picture": picture.asset->url      },      "email": contactPerson.email    },    "trainers": trainers[]->{      _id,      email,      expertises,      languages,      "contact": contact->{        _id,        "name": coalesce(name, "Untitled"),        "picture": picture.asset->url,        biography      }    }  }
+// Query: *[_type == "event" && language == $language] | order(start desc) {    _id,    "title": coalesce(title, "Untitled"),    "slug": slug.current,    type,    location,    start,    end,    "image": image.asset->url,    description,    "contactPerson": {      "person": contactPerson.person->{        _id,        "name": coalesce(name, "Untitled"),        "picture": picture.asset->url      },      "email": contactPerson.email    },    "trainers": trainers[]->{      _id,      email,      expertises,      languages,      "person": person->{        _id,        "name": coalesce(name, "Untitled"),        "picture": picture.asset->url,        biography      }    }  }
 export type EventsQueryResult = Array<{
   _id: string;
   title: string | "Untitled";
@@ -879,7 +879,7 @@ export type EventsQueryResult = Array<{
   image: string | null;
   description: InternationalizedArrayString | null;
   contactPerson: {
-    contact: {
+    person: {
       _id: string;
       name: string | "Untitled";
       picture: string | null;
@@ -891,7 +891,7 @@ export type EventsQueryResult = Array<{
     email: string | null;
     expertises: Array<string> | null;
     languages: Array<"ar" | "de" | "en" | "es" | "fr" | "it" | "ja" | "nl" | "pt" | "ru" | "zh"> | null;
-    contact: {
+    person: {
       _id: string;
       name: string | "Untitled";
       picture: string | null;
@@ -910,13 +910,13 @@ export type VacanciesQueryResult = Array<{
   deadline: string | null;
 }>;
 // Variable: trainersQuery
-// Query: *[_type == "trainer"] {    _id,    email,    expertises,    languages,    "contact": contact->{      _id,      "name": coalesce(name, "Untitled"),      picture,      biography    }  }
+// Query: *[_type == "trainer"] {    _id,    email,    expertises,    languages,    "person": person->{      _id,      "name": coalesce(name, "Untitled"),      picture,      biography    }  }
 export type TrainersQueryResult = Array<{
   _id: string;
   email: string | null;
   expertises: Array<string> | null;
   languages: Array<"ar" | "de" | "en" | "es" | "fr" | "it" | "ja" | "nl" | "pt" | "ru" | "zh"> | null;
-  contact: {
+  person: {
     _id: string;
     name: string | "Untitled";
     picture: {
@@ -962,10 +962,10 @@ declare module "@sanity/client" {
     "\n  *[_type == \"partner\"] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"logo\": logo.asset->url,\n    description\n  }\n": PartnersQueryResult;
     "\n  *[_type == \"programme\"] {\n    _id,\n    email,\n    \"title\": coalesce(title, \"Untitled\"),\n    description,\n    \"managers\": managers[]->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url\n    }\n  }\n": ProgrammesQueryResult;
     "\n  *[_type == \"member\"] {\n    _id,\n    \"name\": coalesce(name, \"Untitled\"),\n    \"logo\": logo.asset->url\n  }\n": MembersQueryResult;
-    "\n  *[_type == \"role\" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {\n    \n  _id,\n  type,\n  email,\n  title,\n  bureauRole,\n  officeRole,\n  organization,\n  \"name\": contact->name,\n  \"picture\": contact->picture.asset->url\n\n  }\n": PeopleQueryResult;
-    "\n  *[_type == \"event\" && language == $language] | order(start desc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    type,\n    location,\n    start,\n    end,\n    \"image\": image.asset->url,\n    description,\n    \"contactPerson\": {\n      \"contact\": contactPerson.contact->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url\n      },\n      \"email\": contactPerson.email\n    },\n    \"trainers\": trainers[]->{\n      _id,\n      email,\n      expertises,\n      languages,\n      \"contact\": contact->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url,\n        biography\n      }\n    }\n  }\n": EventsQueryResult;
+    "\n  *[_type == \"role\" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {\n    \n  _id,\n  type,\n  email,\n  title,\n  bureauRole,\n  officeRole,\n  organization,\n  \"name\": person->name,\n  \"picture\": person->picture.asset->url\n\n  }\n": PeopleQueryResult;
+    "\n  *[_type == \"event\" && language == $language] | order(start desc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    type,\n    location,\n    start,\n    end,\n    \"image\": image.asset->url,\n    description,\n    \"contactPerson\": {\n      \"person\": contactPerson.person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url\n      },\n      \"email\": contactPerson.email\n    },\n    \"trainers\": trainers[]->{\n      _id,\n      email,\n      expertises,\n      languages,\n      \"person\": person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url,\n        biography\n      }\n    }\n  }\n": EventsQueryResult;
     "\n  *[_type == \"vacancy\" && language == $language] | order(deadline asc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    description,\n    location,\n    applicationUrl,\n    deadline\n  }\n": VacanciesQueryResult;
-    "\n  *[_type == \"trainer\"] {\n    _id,\n    email,\n    expertises,\n    languages,\n    \"contact\": contact->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      picture,\n      biography\n    }\n  }\n": TrainersQueryResult;
+    "\n  *[_type == \"trainer\"] {\n    _id,\n    email,\n    expertises,\n    languages,\n    \"person\": person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      picture,\n      biography\n    }\n  }\n": TrainersQueryResult;
     "*[_type == \"page\" && defined(slug.current)]{\"slug\": slug.current}": PageSlugsResult;
     "*[_type == \"post\" && defined(slug.current)]{\"slug\": slug.current}": PostSlugsResult;
   }
