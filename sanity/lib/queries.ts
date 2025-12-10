@@ -112,14 +112,6 @@ export const programmesQuery = defineQuery(`
   }
 `)
 
-export const membersQuery = defineQuery(`
-  *[_type == "member"] {
-    _id,
-    "name": coalesce(name, "Untitled"),
-    "logo": logo.asset->url
-  }
-`)
-
 const roleFields = /* groq */ `
   _id,
   type,
@@ -195,5 +187,19 @@ export const trainersQuery = defineQuery(`
       picture,
       biography
     }
+  }
+`)
+
+export const membersQuery = defineQuery(`
+  *[_type == "member"] {
+    _id,
+    memberId,
+    name,
+    "logo": logo.asset->url,
+    website,
+    wiki,
+    fb,
+    twitter,
+    ig
   }
 `)

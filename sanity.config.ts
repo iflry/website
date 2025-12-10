@@ -24,8 +24,8 @@ import partner from '@/sanity/schemas/documents/partner';
 import event from '@/sanity/schemas/documents/event';
 import programme from './sanity/schemas/documents/programme';
 import role from './sanity/schemas/documents/role';
-import member from './sanity/schemas/documents/member';
 import page from './sanity/schemas/documents/page';
+import member from './sanity/schemas/documents/member';
 import navigationItem from './sanity/schemas/objects/navigationItem';
 import { EarthGlobeIcon } from '@sanity/icons';
 
@@ -38,7 +38,7 @@ const LANGUAGES = [
 
 const SINGLETON_SCHEMA_TYPES = [configuration]
 const LOCALIZED_SCHEMA_TYPES = [post, event, page, vacancy]
-const DEFAULT_SCHEMA_TYPES = [person, partner, member, programme, role, trainer]
+const DEFAULT_SCHEMA_TYPES = [person, partner, programme, member, role, trainer]
 const OBJECT_SCHEMA_TYPES = [navigationItem]
 
 const structure: StructureResolver = (S) => {
@@ -246,17 +246,6 @@ export default defineConfig({
               ],
             }),
           }),
-          partner: defineLocations({
-            select: {},
-            resolve: (doc) => ({
-              locations: [
-                {
-                  title: "Partners",
-                  href: "/partners"
-                },
-              ],
-            }),
-          }),
           member: defineLocations({
             select: {},
             resolve: (doc) => ({
@@ -264,6 +253,39 @@ export default defineConfig({
                 {
                   title: "Members",
                   href: "/members"
+                },
+              ],
+            }),
+          }),
+          trainer: defineLocations({
+            select: {},
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: "Trainers",
+                  href: "/trainers"
+                },
+              ],
+            }),
+          }),
+          vacancy: defineLocations({
+            select: {},
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: "Vacancies",
+                  href: "/vacancies"
+                },
+              ],
+            }),
+          }),
+          partner: defineLocations({
+            select: {},
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: "Partners",
+                  href: "/partners"
                 },
               ],
             }),

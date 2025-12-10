@@ -1,6 +1,6 @@
 import { UserIcon } from "@sanity/icons";
 import { defineField, defineType } from "sanity";
-import memberType from "./member";
+import membershipData from "@/src/data/membership.json";
 
 export default defineType({
   name: "person",
@@ -28,10 +28,12 @@ export default defineType({
     defineField({
       name: "organization",
       title: "Organization",
-      type: "reference",
-      to: [{ type: memberType.name }],
+      type: "string",
       options: {
-        filter: 'type != "regional-member"'
+        list: membershipData.map((member) => ({
+          title: member.name,
+          value: member.id,
+        })),
       },
     }),
   ],

@@ -1,7 +1,7 @@
 import { SchemaIcon } from "@sanity/icons";
 import { defineField, defineType } from "sanity";
 import personType from './person';
-import memberType from "./member";
+import regionalData from "@/src/data/regional.json";
 
 const roleType = [
     { title: "Bureau Member", value: "bureau-member"},
@@ -62,12 +62,12 @@ export default defineType({
     defineField({
         name: 'organization',
         title: 'Organization',
-        type: 'reference',
-        to: [
-            { type: memberType.name }
-        ],
+        type: 'string',
         options: {
-            filter: 'type == "regional-member"'
+            list: regionalData.map((member) => ({
+                title: member.name,
+                value: member.id,
+            })),
         },
         hidden: ({document}) => document?.type !== 'regional-representative'
     }),

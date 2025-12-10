@@ -2,9 +2,11 @@ import {CalendarIcon} from '@sanity/icons'
 import { defineField, defineType } from "sanity";
 import partnerType from './partner';
 import programmeType from './programme';
-import memberType from './member';
+import { getAllMembers } from "@/src/lib/members";
 import personType from './person';
 import trainerType from './trainer';
+import membershipData from "@/src/data/membership.json";
+import regionalData from "@/src/data/regional.json";
 
 export default defineType({
   name: "event",
@@ -94,7 +96,15 @@ export default defineType({
         name: "members",
         title: "Members",
         type: "array",
-        of: [{type: "reference", to: [{type: memberType.name}]}],
+        of: [{
+            type: "string",
+            options: {
+                list: [...membershipData, ...regionalData].map((member) => ({
+                  title: member.name,
+                  value: member.id,
+                })),
+            },
+        }],
     }),
     defineField({
         name: "partners",

@@ -705,30 +705,25 @@
       "organization": {
         "type": "objectAttribute",
         "value": {
-          "type": "object",
-          "attributes": {
-            "_ref": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "string"
-              }
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "LYMEC"
             },
-            "_type": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "string",
-                "value": "reference"
-              }
+            {
+              "type": "string",
+              "value": "CALD"
             },
-            "_weak": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "boolean"
-              },
-              "optional": true
+            {
+              "type": "string",
+              "value": "ALYF"
+            },
+            {
+              "type": "string",
+              "value": "JULAC"
             }
-          },
-          "dereferencesTo": "member"
+          ]
         },
         "optional": true
       },
@@ -784,6 +779,552 @@
         "optional": true
       },
       "end": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      }
+    }
+  },
+  {
+    "name": "member",
+    "type": "document",
+    "attributes": {
+      "_id": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_type": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string",
+          "value": "member"
+        }
+      },
+      "_createdAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_updatedAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_rev": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "memberId": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "ARG-GJFL"
+            },
+            {
+              "type": "string",
+              "value": "LVA-PARJ"
+            },
+            {
+              "type": "string",
+              "value": "AND-JLA"
+            },
+            {
+              "type": "string",
+              "value": "MKD-LDM"
+            },
+            {
+              "type": "string",
+              "value": "BIH-YFNS"
+            },
+            {
+              "type": "string",
+              "value": "BGR-YMRF"
+            },
+            {
+              "type": "string",
+              "value": "PRY-JLRA"
+            },
+            {
+              "type": "string",
+              "value": "BOL-NMJ"
+            },
+            {
+              "type": "string",
+              "value": "BFA-FL"
+            },
+            {
+              "type": "string",
+              "value": "SYR-AYLS"
+            },
+            {
+              "type": "string",
+              "value": "TUR-3HM"
+            },
+            {
+              "type": "string",
+              "value": "FRA-JR"
+            },
+            {
+              "type": "string",
+              "value": "CHE-JS"
+            },
+            {
+              "type": "string",
+              "value": "GIN-OJLG"
+            },
+            {
+              "type": "string",
+              "value": "POL-NY"
+            },
+            {
+              "type": "string",
+              "value": "SVK-YP"
+            },
+            {
+              "type": "string",
+              "value": "GIN-CNJR"
+            },
+            {
+              "type": "string",
+              "value": "SEN-PCR"
+            },
+            {
+              "type": "string",
+              "value": "SEN-JLS"
+            },
+            {
+              "type": "string",
+              "value": "COD-JEPR"
+            },
+            {
+              "type": "string",
+              "value": "SDN-FYSO"
+            },
+            {
+              "type": "string",
+              "value": "SEN-CEEP"
+            },
+            {
+              "type": "string",
+              "value": "ARM-ANC"
+            },
+            {
+              "type": "string",
+              "value": "UKR-EYU"
+            },
+            {
+              "type": "string",
+              "value": "EST-NE2"
+            },
+            {
+              "type": "string",
+              "value": "MAR-AJA"
+            },
+            {
+              "type": "string",
+              "value": "SEN-JLD"
+            },
+            {
+              "type": "string",
+              "value": "KEN-ODM"
+            },
+            {
+              "type": "string",
+              "value": "GRC-NEON"
+            },
+            {
+              "type": "string",
+              "value": "BLR-CF"
+            },
+            {
+              "type": "string",
+              "value": "MRT-FCA"
+            },
+            {
+              "type": "string",
+              "value": "COG-CLE"
+            },
+            {
+              "type": "string",
+              "value": "USA-YDA"
+            },
+            {
+              "type": "string",
+              "value": "EGY-EL"
+            },
+            {
+              "type": "string",
+              "value": "SEN-RM"
+            },
+            {
+              "type": "string",
+              "value": "BFA-RNJL"
+            },
+            {
+              "type": "string",
+              "value": "TZA-ACTW"
+            },
+            {
+              "type": "string",
+              "value": "GHA-PYM"
+            },
+            {
+              "type": "string",
+              "value": "BEL-JVLD"
+            },
+            {
+              "type": "string",
+              "value": "MAR-HRK"
+            },
+            {
+              "type": "string",
+              "value": "GEO-IIL"
+            },
+            {
+              "type": "string",
+              "value": "SEN-FJR"
+            },
+            {
+              "type": "string",
+              "value": "CIV-JALIDE"
+            },
+            {
+              "type": "string",
+              "value": "MAR-CDC"
+            },
+            {
+              "type": "string",
+              "value": "LBN-FY"
+            },
+            {
+              "type": "string",
+              "value": "CIV-JELIC"
+            },
+            {
+              "type": "string",
+              "value": "BLR-YB"
+            },
+            {
+              "type": "string",
+              "value": "SEN-MFA"
+            },
+            {
+              "type": "string",
+              "value": "TZA-PYI"
+            },
+            {
+              "type": "string",
+              "value": "CIV-OJLCI"
+            },
+            {
+              "type": "string",
+              "value": "LTU-LLJ"
+            },
+            {
+              "type": "string",
+              "value": "ISR-YYA"
+            },
+            {
+              "type": "string",
+              "value": "BAS-EGI"
+            },
+            {
+              "type": "string",
+              "value": "GHA-YLG"
+            },
+            {
+              "type": "string",
+              "value": "DEU-LHG"
+            },
+            {
+              "type": "string",
+              "value": "GBR-YL"
+            },
+            {
+              "type": "string",
+              "value": "IRQ-VIO"
+            },
+            {
+              "type": "string",
+              "value": "NIC-AVZ"
+            },
+            {
+              "type": "string",
+              "value": "IRQ-SASA"
+            },
+            {
+              "type": "string",
+              "value": "AZE-PH"
+            },
+            {
+              "type": "string",
+              "value": "AUT-JUNOS"
+            },
+            {
+              "type": "string",
+              "value": "CAT-JNC"
+            },
+            {
+              "type": "string",
+              "value": "EGY-EYC"
+            },
+            {
+              "type": "string",
+              "value": "SEN-COJER"
+            },
+            {
+              "type": "string",
+              "value": "ROU-USRT"
+            },
+            {
+              "type": "string",
+              "value": "GEO-FK"
+            },
+            {
+              "type": "string",
+              "value": "BEL-FEL"
+            },
+            {
+              "type": "string",
+              "value": "NLD-JD"
+            },
+            {
+              "type": "string",
+              "value": "CHL-JE"
+            },
+            {
+              "type": "string",
+              "value": "DNK-VU"
+            },
+            {
+              "type": "string",
+              "value": "NOR-NUV"
+            },
+            {
+              "type": "string",
+              "value": "NLD-JOVD"
+            },
+            {
+              "type": "string",
+              "value": "FIN-SU"
+            },
+            {
+              "type": "string",
+              "value": "DNK-LAU"
+            },
+            {
+              "type": "string",
+              "value": "SWE-CUF"
+            },
+            {
+              "type": "string",
+              "value": "FIN-FCY"
+            },
+            {
+              "type": "string",
+              "value": "JOR-S42"
+            },
+            {
+              "type": "string",
+              "value": "HUN-MT"
+            },
+            {
+              "type": "string",
+              "value": "RUS-YDMV"
+            },
+            {
+              "type": "string",
+              "value": "NPL-YI"
+            },
+            {
+              "type": "string",
+              "value": "NOR-NLS"
+            },
+            {
+              "type": "string",
+              "value": "UKR-LDLU"
+            },
+            {
+              "type": "string",
+              "value": "JOR-FTF"
+            },
+            {
+              "type": "string",
+              "value": "DNK-RU"
+            },
+            {
+              "type": "string",
+              "value": "SWE-LUF"
+            },
+            {
+              "type": "string",
+              "value": "DEU-JULIS"
+            },
+            {
+              "type": "string",
+              "value": "CIV-RHDP"
+            },
+            {
+              "type": "string",
+              "value": "CAN-YLC"
+            },
+            {
+              "type": "string",
+              "value": "HRV-IDY"
+            },
+            {
+              "type": "string",
+              "value": "HRV-MHNS"
+            },
+            {
+              "type": "string",
+              "value": "GIB-GLY"
+            },
+            {
+              "type": "string",
+              "value": "MNE-YLM"
+            },
+            {
+              "type": "string",
+              "value": "PER-IPL"
+            },
+            {
+              "type": "string",
+              "value": "ZAF-DAY"
+            },
+            {
+              "type": "string",
+              "value": "VEN-VJ"
+            },
+            {
+              "type": "string",
+              "value": "LYMEC"
+            },
+            {
+              "type": "string",
+              "value": "CALD"
+            },
+            {
+              "type": "string",
+              "value": "ALYF"
+            },
+            {
+              "type": "string",
+              "value": "JULAC"
+            }
+          ]
+        },
+        "optional": true
+      },
+      "logo": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "object",
+          "attributes": {
+            "asset": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "object",
+                "attributes": {
+                  "_ref": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "string"
+                    }
+                  },
+                  "_type": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "string",
+                      "value": "reference"
+                    }
+                  },
+                  "_weak": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "boolean"
+                    },
+                    "optional": true
+                  }
+                },
+                "dereferencesTo": "sanity.imageAsset"
+              },
+              "optional": true
+            },
+            "media": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "unknown"
+              },
+              "optional": true
+            },
+            "hotspot": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "sanity.imageHotspot"
+              },
+              "optional": true
+            },
+            "crop": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "sanity.imageCrop"
+              },
+              "optional": true
+            },
+            "_type": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string",
+                "value": "image"
+              }
+            }
+          }
+        },
+        "optional": true
+      },
+      "website": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "wiki": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "fb": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "twitter": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "ig": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
@@ -2017,41 +2558,405 @@
         "value": {
           "type": "array",
           "of": {
-            "type": "object",
-            "attributes": {
-              "_ref": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "string"
-                }
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "ARG-GJFL"
               },
-              "_type": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "string",
-                  "value": "reference"
-                }
+              {
+                "type": "string",
+                "value": "LVA-PARJ"
               },
-              "_weak": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "boolean"
-                },
-                "optional": true
+              {
+                "type": "string",
+                "value": "AND-JLA"
+              },
+              {
+                "type": "string",
+                "value": "MKD-LDM"
+              },
+              {
+                "type": "string",
+                "value": "BIH-YFNS"
+              },
+              {
+                "type": "string",
+                "value": "BGR-YMRF"
+              },
+              {
+                "type": "string",
+                "value": "PRY-JLRA"
+              },
+              {
+                "type": "string",
+                "value": "BOL-NMJ"
+              },
+              {
+                "type": "string",
+                "value": "BFA-FL"
+              },
+              {
+                "type": "string",
+                "value": "SYR-AYLS"
+              },
+              {
+                "type": "string",
+                "value": "TUR-3HM"
+              },
+              {
+                "type": "string",
+                "value": "FRA-JR"
+              },
+              {
+                "type": "string",
+                "value": "CHE-JS"
+              },
+              {
+                "type": "string",
+                "value": "GIN-OJLG"
+              },
+              {
+                "type": "string",
+                "value": "POL-NY"
+              },
+              {
+                "type": "string",
+                "value": "SVK-YP"
+              },
+              {
+                "type": "string",
+                "value": "GIN-CNJR"
+              },
+              {
+                "type": "string",
+                "value": "SEN-PCR"
+              },
+              {
+                "type": "string",
+                "value": "SEN-JLS"
+              },
+              {
+                "type": "string",
+                "value": "COD-JEPR"
+              },
+              {
+                "type": "string",
+                "value": "SDN-FYSO"
+              },
+              {
+                "type": "string",
+                "value": "SEN-CEEP"
+              },
+              {
+                "type": "string",
+                "value": "ARM-ANC"
+              },
+              {
+                "type": "string",
+                "value": "UKR-EYU"
+              },
+              {
+                "type": "string",
+                "value": "EST-NE2"
+              },
+              {
+                "type": "string",
+                "value": "MAR-AJA"
+              },
+              {
+                "type": "string",
+                "value": "SEN-JLD"
+              },
+              {
+                "type": "string",
+                "value": "KEN-ODM"
+              },
+              {
+                "type": "string",
+                "value": "GRC-NEON"
+              },
+              {
+                "type": "string",
+                "value": "BLR-CF"
+              },
+              {
+                "type": "string",
+                "value": "MRT-FCA"
+              },
+              {
+                "type": "string",
+                "value": "COG-CLE"
+              },
+              {
+                "type": "string",
+                "value": "USA-YDA"
+              },
+              {
+                "type": "string",
+                "value": "EGY-EL"
+              },
+              {
+                "type": "string",
+                "value": "SEN-RM"
+              },
+              {
+                "type": "string",
+                "value": "BFA-RNJL"
+              },
+              {
+                "type": "string",
+                "value": "TZA-ACTW"
+              },
+              {
+                "type": "string",
+                "value": "GHA-PYM"
+              },
+              {
+                "type": "string",
+                "value": "BEL-JVLD"
+              },
+              {
+                "type": "string",
+                "value": "MAR-HRK"
+              },
+              {
+                "type": "string",
+                "value": "GEO-IIL"
+              },
+              {
+                "type": "string",
+                "value": "SEN-FJR"
+              },
+              {
+                "type": "string",
+                "value": "CIV-JALIDE"
+              },
+              {
+                "type": "string",
+                "value": "MAR-CDC"
+              },
+              {
+                "type": "string",
+                "value": "LBN-FY"
+              },
+              {
+                "type": "string",
+                "value": "CIV-JELIC"
+              },
+              {
+                "type": "string",
+                "value": "BLR-YB"
+              },
+              {
+                "type": "string",
+                "value": "SEN-MFA"
+              },
+              {
+                "type": "string",
+                "value": "TZA-PYI"
+              },
+              {
+                "type": "string",
+                "value": "CIV-OJLCI"
+              },
+              {
+                "type": "string",
+                "value": "LTU-LLJ"
+              },
+              {
+                "type": "string",
+                "value": "ISR-YYA"
+              },
+              {
+                "type": "string",
+                "value": "BAS-EGI"
+              },
+              {
+                "type": "string",
+                "value": "GHA-YLG"
+              },
+              {
+                "type": "string",
+                "value": "DEU-LHG"
+              },
+              {
+                "type": "string",
+                "value": "GBR-YL"
+              },
+              {
+                "type": "string",
+                "value": "IRQ-VIO"
+              },
+              {
+                "type": "string",
+                "value": "NIC-AVZ"
+              },
+              {
+                "type": "string",
+                "value": "IRQ-SASA"
+              },
+              {
+                "type": "string",
+                "value": "AZE-PH"
+              },
+              {
+                "type": "string",
+                "value": "AUT-JUNOS"
+              },
+              {
+                "type": "string",
+                "value": "CAT-JNC"
+              },
+              {
+                "type": "string",
+                "value": "EGY-EYC"
+              },
+              {
+                "type": "string",
+                "value": "SEN-COJER"
+              },
+              {
+                "type": "string",
+                "value": "ROU-USRT"
+              },
+              {
+                "type": "string",
+                "value": "GEO-FK"
+              },
+              {
+                "type": "string",
+                "value": "BEL-FEL"
+              },
+              {
+                "type": "string",
+                "value": "NLD-JD"
+              },
+              {
+                "type": "string",
+                "value": "CHL-JE"
+              },
+              {
+                "type": "string",
+                "value": "DNK-VU"
+              },
+              {
+                "type": "string",
+                "value": "NOR-NUV"
+              },
+              {
+                "type": "string",
+                "value": "NLD-JOVD"
+              },
+              {
+                "type": "string",
+                "value": "FIN-SU"
+              },
+              {
+                "type": "string",
+                "value": "DNK-LAU"
+              },
+              {
+                "type": "string",
+                "value": "SWE-CUF"
+              },
+              {
+                "type": "string",
+                "value": "FIN-FCY"
+              },
+              {
+                "type": "string",
+                "value": "JOR-S42"
+              },
+              {
+                "type": "string",
+                "value": "HUN-MT"
+              },
+              {
+                "type": "string",
+                "value": "RUS-YDMV"
+              },
+              {
+                "type": "string",
+                "value": "NPL-YI"
+              },
+              {
+                "type": "string",
+                "value": "NOR-NLS"
+              },
+              {
+                "type": "string",
+                "value": "UKR-LDLU"
+              },
+              {
+                "type": "string",
+                "value": "JOR-FTF"
+              },
+              {
+                "type": "string",
+                "value": "DNK-RU"
+              },
+              {
+                "type": "string",
+                "value": "SWE-LUF"
+              },
+              {
+                "type": "string",
+                "value": "DEU-JULIS"
+              },
+              {
+                "type": "string",
+                "value": "CIV-RHDP"
+              },
+              {
+                "type": "string",
+                "value": "CAN-YLC"
+              },
+              {
+                "type": "string",
+                "value": "HRV-IDY"
+              },
+              {
+                "type": "string",
+                "value": "HRV-MHNS"
+              },
+              {
+                "type": "string",
+                "value": "GIB-GLY"
+              },
+              {
+                "type": "string",
+                "value": "MNE-YLM"
+              },
+              {
+                "type": "string",
+                "value": "PER-IPL"
+              },
+              {
+                "type": "string",
+                "value": "ZAF-DAY"
+              },
+              {
+                "type": "string",
+                "value": "VEN-VJ"
+              },
+              {
+                "type": "string",
+                "value": "LYMEC"
+              },
+              {
+                "type": "string",
+                "value": "CALD"
+              },
+              {
+                "type": "string",
+                "value": "ALYF"
+              },
+              {
+                "type": "string",
+                "value": "JULAC"
               }
-            },
-            "dereferencesTo": "member",
-            "rest": {
-              "type": "object",
-              "attributes": {
-                "_key": {
-                  "type": "objectAttribute",
-                  "value": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
+            ]
           }
         },
         "optional": true
@@ -2820,182 +3725,389 @@
       "organization": {
         "type": "objectAttribute",
         "value": {
-          "type": "object",
-          "attributes": {
-            "_ref": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "string"
-              }
-            },
-            "_type": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "string",
-                "value": "reference"
-              }
-            },
-            "_weak": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "boolean"
-              },
-              "optional": true
-            }
-          },
-          "dereferencesTo": "member"
-        },
-        "optional": true
-      }
-    }
-  },
-  {
-    "name": "member",
-    "type": "document",
-    "attributes": {
-      "_id": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        }
-      },
-      "_type": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string",
-          "value": "member"
-        }
-      },
-      "_createdAt": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        }
-      },
-      "_updatedAt": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        }
-      },
-      "_rev": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        }
-      },
-      "name": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
-      "type": {
-        "type": "objectAttribute",
-        "value": {
           "type": "union",
           "of": [
             {
               "type": "string",
-              "value": "full-member"
+              "value": "ARG-GJFL"
             },
             {
               "type": "string",
-              "value": "associate-member"
+              "value": "LVA-PARJ"
             },
             {
               "type": "string",
-              "value": "observer-member"
+              "value": "AND-JLA"
             },
             {
               "type": "string",
-              "value": "regional-member"
+              "value": "MKD-LDM"
+            },
+            {
+              "type": "string",
+              "value": "BIH-YFNS"
+            },
+            {
+              "type": "string",
+              "value": "BGR-YMRF"
+            },
+            {
+              "type": "string",
+              "value": "PRY-JLRA"
+            },
+            {
+              "type": "string",
+              "value": "BOL-NMJ"
+            },
+            {
+              "type": "string",
+              "value": "BFA-FL"
+            },
+            {
+              "type": "string",
+              "value": "SYR-AYLS"
+            },
+            {
+              "type": "string",
+              "value": "TUR-3HM"
+            },
+            {
+              "type": "string",
+              "value": "FRA-JR"
+            },
+            {
+              "type": "string",
+              "value": "CHE-JS"
+            },
+            {
+              "type": "string",
+              "value": "GIN-OJLG"
+            },
+            {
+              "type": "string",
+              "value": "POL-NY"
+            },
+            {
+              "type": "string",
+              "value": "SVK-YP"
+            },
+            {
+              "type": "string",
+              "value": "GIN-CNJR"
+            },
+            {
+              "type": "string",
+              "value": "SEN-PCR"
+            },
+            {
+              "type": "string",
+              "value": "SEN-JLS"
+            },
+            {
+              "type": "string",
+              "value": "COD-JEPR"
+            },
+            {
+              "type": "string",
+              "value": "SDN-FYSO"
+            },
+            {
+              "type": "string",
+              "value": "SEN-CEEP"
+            },
+            {
+              "type": "string",
+              "value": "ARM-ANC"
+            },
+            {
+              "type": "string",
+              "value": "UKR-EYU"
+            },
+            {
+              "type": "string",
+              "value": "EST-NE2"
+            },
+            {
+              "type": "string",
+              "value": "MAR-AJA"
+            },
+            {
+              "type": "string",
+              "value": "SEN-JLD"
+            },
+            {
+              "type": "string",
+              "value": "KEN-ODM"
+            },
+            {
+              "type": "string",
+              "value": "GRC-NEON"
+            },
+            {
+              "type": "string",
+              "value": "BLR-CF"
+            },
+            {
+              "type": "string",
+              "value": "MRT-FCA"
+            },
+            {
+              "type": "string",
+              "value": "COG-CLE"
+            },
+            {
+              "type": "string",
+              "value": "USA-YDA"
+            },
+            {
+              "type": "string",
+              "value": "EGY-EL"
+            },
+            {
+              "type": "string",
+              "value": "SEN-RM"
+            },
+            {
+              "type": "string",
+              "value": "BFA-RNJL"
+            },
+            {
+              "type": "string",
+              "value": "TZA-ACTW"
+            },
+            {
+              "type": "string",
+              "value": "GHA-PYM"
+            },
+            {
+              "type": "string",
+              "value": "BEL-JVLD"
+            },
+            {
+              "type": "string",
+              "value": "MAR-HRK"
+            },
+            {
+              "type": "string",
+              "value": "GEO-IIL"
+            },
+            {
+              "type": "string",
+              "value": "SEN-FJR"
+            },
+            {
+              "type": "string",
+              "value": "CIV-JALIDE"
+            },
+            {
+              "type": "string",
+              "value": "MAR-CDC"
+            },
+            {
+              "type": "string",
+              "value": "LBN-FY"
+            },
+            {
+              "type": "string",
+              "value": "CIV-JELIC"
+            },
+            {
+              "type": "string",
+              "value": "BLR-YB"
+            },
+            {
+              "type": "string",
+              "value": "SEN-MFA"
+            },
+            {
+              "type": "string",
+              "value": "TZA-PYI"
+            },
+            {
+              "type": "string",
+              "value": "CIV-OJLCI"
+            },
+            {
+              "type": "string",
+              "value": "LTU-LLJ"
+            },
+            {
+              "type": "string",
+              "value": "ISR-YYA"
+            },
+            {
+              "type": "string",
+              "value": "BAS-EGI"
+            },
+            {
+              "type": "string",
+              "value": "GHA-YLG"
+            },
+            {
+              "type": "string",
+              "value": "DEU-LHG"
+            },
+            {
+              "type": "string",
+              "value": "GBR-YL"
+            },
+            {
+              "type": "string",
+              "value": "IRQ-VIO"
+            },
+            {
+              "type": "string",
+              "value": "NIC-AVZ"
+            },
+            {
+              "type": "string",
+              "value": "IRQ-SASA"
+            },
+            {
+              "type": "string",
+              "value": "AZE-PH"
+            },
+            {
+              "type": "string",
+              "value": "AUT-JUNOS"
+            },
+            {
+              "type": "string",
+              "value": "CAT-JNC"
+            },
+            {
+              "type": "string",
+              "value": "EGY-EYC"
+            },
+            {
+              "type": "string",
+              "value": "SEN-COJER"
+            },
+            {
+              "type": "string",
+              "value": "ROU-USRT"
+            },
+            {
+              "type": "string",
+              "value": "GEO-FK"
+            },
+            {
+              "type": "string",
+              "value": "BEL-FEL"
+            },
+            {
+              "type": "string",
+              "value": "NLD-JD"
+            },
+            {
+              "type": "string",
+              "value": "CHL-JE"
+            },
+            {
+              "type": "string",
+              "value": "DNK-VU"
+            },
+            {
+              "type": "string",
+              "value": "NOR-NUV"
+            },
+            {
+              "type": "string",
+              "value": "NLD-JOVD"
+            },
+            {
+              "type": "string",
+              "value": "FIN-SU"
+            },
+            {
+              "type": "string",
+              "value": "DNK-LAU"
+            },
+            {
+              "type": "string",
+              "value": "SWE-CUF"
+            },
+            {
+              "type": "string",
+              "value": "FIN-FCY"
+            },
+            {
+              "type": "string",
+              "value": "JOR-S42"
+            },
+            {
+              "type": "string",
+              "value": "HUN-MT"
+            },
+            {
+              "type": "string",
+              "value": "RUS-YDMV"
+            },
+            {
+              "type": "string",
+              "value": "NPL-YI"
+            },
+            {
+              "type": "string",
+              "value": "NOR-NLS"
+            },
+            {
+              "type": "string",
+              "value": "UKR-LDLU"
+            },
+            {
+              "type": "string",
+              "value": "JOR-FTF"
+            },
+            {
+              "type": "string",
+              "value": "DNK-RU"
+            },
+            {
+              "type": "string",
+              "value": "SWE-LUF"
+            },
+            {
+              "type": "string",
+              "value": "DEU-JULIS"
+            },
+            {
+              "type": "string",
+              "value": "CIV-RHDP"
+            },
+            {
+              "type": "string",
+              "value": "CAN-YLC"
+            },
+            {
+              "type": "string",
+              "value": "HRV-IDY"
+            },
+            {
+              "type": "string",
+              "value": "HRV-MHNS"
+            },
+            {
+              "type": "string",
+              "value": "GIB-GLY"
+            },
+            {
+              "type": "string",
+              "value": "MNE-YLM"
+            },
+            {
+              "type": "string",
+              "value": "PER-IPL"
+            },
+            {
+              "type": "string",
+              "value": "ZAF-DAY"
+            },
+            {
+              "type": "string",
+              "value": "VEN-VJ"
             }
           ]
-        },
-        "optional": true
-      },
-      "location": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
-      "website": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
-      "logo": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "object",
-          "attributes": {
-            "asset": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "object",
-                "attributes": {
-                  "_ref": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  },
-                  "_type": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string",
-                      "value": "reference"
-                    }
-                  },
-                  "_weak": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "boolean"
-                    },
-                    "optional": true
-                  }
-                },
-                "dereferencesTo": "sanity.imageAsset"
-              },
-              "optional": true
-            },
-            "media": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "unknown"
-              },
-              "optional": true
-            },
-            "hotspot": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "sanity.imageHotspot"
-              },
-              "optional": true
-            },
-            "crop": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "sanity.imageCrop"
-              },
-              "optional": true
-            },
-            "_type": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "string",
-                "value": "image"
-              }
-            }
-          }
         },
         "optional": true
       }

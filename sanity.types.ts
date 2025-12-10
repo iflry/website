@@ -110,12 +110,7 @@ export type Role = {
   type?: "bureau-member" | "ombudsperson" | "advisory-council" | "regional-representative" | "office" | "individual-member" | "honorary-member";
   bureauRole?: "president" | "secretary-general" | "treasurer" | "vice-president";
   officeRole?: "executive-director" | "intern" | "project-manager";
-  organization?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "member";
-  };
+  organization?: "LYMEC" | "CALD" | "ALYF" | "JULAC";
   person?: {
     _ref: string;
     _type: "reference";
@@ -126,6 +121,32 @@ export type Role = {
   email?: string;
   start?: string;
   end?: string;
+};
+
+export type Member = {
+  _id: string;
+  _type: "member";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  memberId?: "ARG-GJFL" | "LVA-PARJ" | "AND-JLA" | "MKD-LDM" | "BIH-YFNS" | "BGR-YMRF" | "PRY-JLRA" | "BOL-NMJ" | "BFA-FL" | "SYR-AYLS" | "TUR-3HM" | "FRA-JR" | "CHE-JS" | "GIN-OJLG" | "POL-NY" | "SVK-YP" | "GIN-CNJR" | "SEN-PCR" | "SEN-JLS" | "COD-JEPR" | "SDN-FYSO" | "SEN-CEEP" | "ARM-ANC" | "UKR-EYU" | "EST-NE2" | "MAR-AJA" | "SEN-JLD" | "KEN-ODM" | "GRC-NEON" | "BLR-CF" | "MRT-FCA" | "COG-CLE" | "USA-YDA" | "EGY-EL" | "SEN-RM" | "BFA-RNJL" | "TZA-ACTW" | "GHA-PYM" | "BEL-JVLD" | "MAR-HRK" | "GEO-IIL" | "SEN-FJR" | "CIV-JALIDE" | "MAR-CDC" | "LBN-FY" | "CIV-JELIC" | "BLR-YB" | "SEN-MFA" | "TZA-PYI" | "CIV-OJLCI" | "LTU-LLJ" | "ISR-YYA" | "BAS-EGI" | "GHA-YLG" | "DEU-LHG" | "GBR-YL" | "IRQ-VIO" | "NIC-AVZ" | "IRQ-SASA" | "AZE-PH" | "AUT-JUNOS" | "CAT-JNC" | "EGY-EYC" | "SEN-COJER" | "ROU-USRT" | "GEO-FK" | "BEL-FEL" | "NLD-JD" | "CHL-JE" | "DNK-VU" | "NOR-NUV" | "NLD-JOVD" | "FIN-SU" | "DNK-LAU" | "SWE-CUF" | "FIN-FCY" | "JOR-S42" | "HUN-MT" | "RUS-YDMV" | "NPL-YI" | "NOR-NLS" | "UKR-LDLU" | "JOR-FTF" | "DNK-RU" | "SWE-LUF" | "DEU-JULIS" | "CIV-RHDP" | "CAN-YLC" | "HRV-IDY" | "HRV-MHNS" | "GIB-GLY" | "MNE-YLM" | "PER-IPL" | "ZAF-DAY" | "VEN-VJ" | "LYMEC" | "CALD" | "ALYF" | "JULAC";
+  logo?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  website?: string;
+  wiki?: string;
+  fb?: string;
+  twitter?: string;
+  ig?: string;
 };
 
 export type Partner = {
@@ -318,13 +339,7 @@ export type Event = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "programme";
   };
-  members?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "member";
-  }>;
+  members?: Array<"ARG-GJFL" | "LVA-PARJ" | "AND-JLA" | "MKD-LDM" | "BIH-YFNS" | "BGR-YMRF" | "PRY-JLRA" | "BOL-NMJ" | "BFA-FL" | "SYR-AYLS" | "TUR-3HM" | "FRA-JR" | "CHE-JS" | "GIN-OJLG" | "POL-NY" | "SVK-YP" | "GIN-CNJR" | "SEN-PCR" | "SEN-JLS" | "COD-JEPR" | "SDN-FYSO" | "SEN-CEEP" | "ARM-ANC" | "UKR-EYU" | "EST-NE2" | "MAR-AJA" | "SEN-JLD" | "KEN-ODM" | "GRC-NEON" | "BLR-CF" | "MRT-FCA" | "COG-CLE" | "USA-YDA" | "EGY-EL" | "SEN-RM" | "BFA-RNJL" | "TZA-ACTW" | "GHA-PYM" | "BEL-JVLD" | "MAR-HRK" | "GEO-IIL" | "SEN-FJR" | "CIV-JALIDE" | "MAR-CDC" | "LBN-FY" | "CIV-JELIC" | "BLR-YB" | "SEN-MFA" | "TZA-PYI" | "CIV-OJLCI" | "LTU-LLJ" | "ISR-YYA" | "BAS-EGI" | "GHA-YLG" | "DEU-LHG" | "GBR-YL" | "IRQ-VIO" | "NIC-AVZ" | "IRQ-SASA" | "AZE-PH" | "AUT-JUNOS" | "CAT-JNC" | "EGY-EYC" | "SEN-COJER" | "ROU-USRT" | "GEO-FK" | "BEL-FEL" | "NLD-JD" | "CHL-JE" | "DNK-VU" | "NOR-NUV" | "NLD-JOVD" | "FIN-SU" | "DNK-LAU" | "SWE-CUF" | "FIN-FCY" | "JOR-S42" | "HUN-MT" | "RUS-YDMV" | "NPL-YI" | "NOR-NLS" | "UKR-LDLU" | "JOR-FTF" | "DNK-RU" | "SWE-LUF" | "DEU-JULIS" | "CIV-RHDP" | "CAN-YLC" | "HRV-IDY" | "HRV-MHNS" | "GIB-GLY" | "MNE-YLM" | "PER-IPL" | "ZAF-DAY" | "VEN-VJ" | "LYMEC" | "CALD" | "ALYF" | "JULAC">;
   partners?: Array<{
     _ref: string;
     _type: "reference";
@@ -442,36 +457,7 @@ export type Person = {
     crop?: SanityImageCrop;
     _type: "image";
   };
-  organization?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "member";
-  };
-};
-
-export type Member = {
-  _id: string;
-  _type: "member";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  type?: "full-member" | "associate-member" | "observer-member" | "regional-member";
-  location?: string;
-  website?: string;
-  logo?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
+  organization?: "ARG-GJFL" | "LVA-PARJ" | "AND-JLA" | "MKD-LDM" | "BIH-YFNS" | "BGR-YMRF" | "PRY-JLRA" | "BOL-NMJ" | "BFA-FL" | "SYR-AYLS" | "TUR-3HM" | "FRA-JR" | "CHE-JS" | "GIN-OJLG" | "POL-NY" | "SVK-YP" | "GIN-CNJR" | "SEN-PCR" | "SEN-JLS" | "COD-JEPR" | "SDN-FYSO" | "SEN-CEEP" | "ARM-ANC" | "UKR-EYU" | "EST-NE2" | "MAR-AJA" | "SEN-JLD" | "KEN-ODM" | "GRC-NEON" | "BLR-CF" | "MRT-FCA" | "COG-CLE" | "USA-YDA" | "EGY-EL" | "SEN-RM" | "BFA-RNJL" | "TZA-ACTW" | "GHA-PYM" | "BEL-JVLD" | "MAR-HRK" | "GEO-IIL" | "SEN-FJR" | "CIV-JALIDE" | "MAR-CDC" | "LBN-FY" | "CIV-JELIC" | "BLR-YB" | "SEN-MFA" | "TZA-PYI" | "CIV-OJLCI" | "LTU-LLJ" | "ISR-YYA" | "BAS-EGI" | "GHA-YLG" | "DEU-LHG" | "GBR-YL" | "IRQ-VIO" | "NIC-AVZ" | "IRQ-SASA" | "AZE-PH" | "AUT-JUNOS" | "CAT-JNC" | "EGY-EYC" | "SEN-COJER" | "ROU-USRT" | "GEO-FK" | "BEL-FEL" | "NLD-JD" | "CHL-JE" | "DNK-VU" | "NOR-NUV" | "NLD-JOVD" | "FIN-SU" | "DNK-LAU" | "SWE-CUF" | "FIN-FCY" | "JOR-S42" | "HUN-MT" | "RUS-YDMV" | "NPL-YI" | "NOR-NLS" | "UKR-LDLU" | "JOR-FTF" | "DNK-RU" | "SWE-LUF" | "DEU-JULIS" | "CIV-RHDP" | "CAN-YLC" | "HRV-IDY" | "HRV-MHNS" | "GIB-GLY" | "MNE-YLM" | "PER-IPL" | "ZAF-DAY" | "VEN-VJ";
 };
 
 export type SanityImageCrop = {
@@ -541,7 +527,7 @@ export type InternationalizedArrayReference = Array<{
   _key: string;
 } & InternationalizedArrayReferenceValue>;
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | NavigationItem | Trainer | Role | Partner | Configuration | InternationalizedArrayStringValue | InternationalizedArrayString | TranslationMetadata | InternationalizedArrayReferenceValue | Vacancy | Page | Event | Programme | Post | Person | Member | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug | InternationalizedArrayReference;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | NavigationItem | Trainer | Role | Member | Partner | Configuration | InternationalizedArrayStringValue | InternationalizedArrayString | TranslationMetadata | InternationalizedArrayReferenceValue | Vacancy | Page | Event | Programme | Post | Person | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug | InternationalizedArrayReference;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: settingsQuery
@@ -841,13 +827,6 @@ export type ProgrammesQueryResult = Array<{
     picture: string | null;
   }> | null;
 }>;
-// Variable: membersQuery
-// Query: *[_type == "member"] {    _id,    "name": coalesce(name, "Untitled"),    "logo": logo.asset->url  }
-export type MembersQueryResult = Array<{
-  _id: string;
-  name: string | "Untitled";
-  logo: string | null;
-}>;
 // Variable: peopleQuery
 // Query: *[_type == "role" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {      _id,  type,  email,  title,  bureauRole,  officeRole,  organization,  "name": person->name,  "picture": person->picture.asset->url  }
 export type PeopleQueryResult = Array<{
@@ -857,12 +836,7 @@ export type PeopleQueryResult = Array<{
   title: string | null;
   bureauRole: "president" | "secretary-general" | "treasurer" | "vice-president" | null;
   officeRole: "executive-director" | "intern" | "project-manager" | null;
-  organization: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "member";
-  } | null;
+  organization: "ALYF" | "CALD" | "JULAC" | "LYMEC" | null;
   name: string | null;
   picture: string | null;
 }>;
@@ -934,6 +908,19 @@ export type TrainersQueryResult = Array<{
     biography: InternationalizedArrayString | null;
   } | null;
 }>;
+// Variable: membersQuery
+// Query: *[_type == "member"] {    _id,    memberId,    name,    "logo": logo.asset->url,    website,    wiki,    fb,    twitter,    ig  }
+export type MembersQueryResult = Array<{
+  _id: string;
+  memberId: "ALYF" | "AND-JLA" | "ARG-GJFL" | "ARM-ANC" | "AUT-JUNOS" | "AZE-PH" | "BAS-EGI" | "BEL-FEL" | "BEL-JVLD" | "BFA-FL" | "BFA-RNJL" | "BGR-YMRF" | "BIH-YFNS" | "BLR-CF" | "BLR-YB" | "BOL-NMJ" | "CALD" | "CAN-YLC" | "CAT-JNC" | "CHE-JS" | "CHL-JE" | "CIV-JALIDE" | "CIV-JELIC" | "CIV-OJLCI" | "CIV-RHDP" | "COD-JEPR" | "COG-CLE" | "DEU-JULIS" | "DEU-LHG" | "DNK-LAU" | "DNK-RU" | "DNK-VU" | "EGY-EL" | "EGY-EYC" | "EST-NE2" | "FIN-FCY" | "FIN-SU" | "FRA-JR" | "GBR-YL" | "GEO-FK" | "GEO-IIL" | "GHA-PYM" | "GHA-YLG" | "GIB-GLY" | "GIN-CNJR" | "GIN-OJLG" | "GRC-NEON" | "HRV-IDY" | "HRV-MHNS" | "HUN-MT" | "IRQ-SASA" | "IRQ-VIO" | "ISR-YYA" | "JOR-FTF" | "JOR-S42" | "JULAC" | "KEN-ODM" | "LBN-FY" | "LTU-LLJ" | "LVA-PARJ" | "LYMEC" | "MAR-AJA" | "MAR-CDC" | "MAR-HRK" | "MKD-LDM" | "MNE-YLM" | "MRT-FCA" | "NIC-AVZ" | "NLD-JD" | "NLD-JOVD" | "NOR-NLS" | "NOR-NUV" | "NPL-YI" | "PER-IPL" | "POL-NY" | "PRY-JLRA" | "ROU-USRT" | "RUS-YDMV" | "SDN-FYSO" | "SEN-CEEP" | "SEN-COJER" | "SEN-FJR" | "SEN-JLD" | "SEN-JLS" | "SEN-MFA" | "SEN-PCR" | "SEN-RM" | "SVK-YP" | "SWE-CUF" | "SWE-LUF" | "SYR-AYLS" | "TUR-3HM" | "TZA-ACTW" | "TZA-PYI" | "UKR-EYU" | "UKR-LDLU" | "USA-YDA" | "VEN-VJ" | "ZAF-DAY" | null;
+  name: null;
+  logo: string | null;
+  website: string | null;
+  wiki: string | null;
+  fb: string | null;
+  twitter: string | null;
+  ig: string | null;
+}>;
 
 // Source: ./src/app/(content)/[locale]/pages/[slug]/page.tsx
 // Variable: pageSlugs
@@ -961,11 +948,11 @@ declare module "@sanity/client" {
     "\n  *[_type == \"page\" && type == $type && language == $language] [0] {\n    _id,\n    content,\n    \"title\": coalesce(title, \"Untitled\"),\n  }\n": PageTypeQueryResult;
     "\n  *[_type == \"partner\"] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"logo\": logo.asset->url,\n    description\n  }\n": PartnersQueryResult;
     "\n  *[_type == \"programme\"] {\n    _id,\n    email,\n    \"title\": coalesce(title, \"Untitled\"),\n    description,\n    \"managers\": managers[]->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url\n    }\n  }\n": ProgrammesQueryResult;
-    "\n  *[_type == \"member\"] {\n    _id,\n    \"name\": coalesce(name, \"Untitled\"),\n    \"logo\": logo.asset->url\n  }\n": MembersQueryResult;
     "\n  *[_type == \"role\" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {\n    \n  _id,\n  type,\n  email,\n  title,\n  bureauRole,\n  officeRole,\n  organization,\n  \"name\": person->name,\n  \"picture\": person->picture.asset->url\n\n  }\n": PeopleQueryResult;
     "\n  *[_type == \"event\" && language == $language] | order(start desc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    type,\n    location,\n    start,\n    end,\n    \"image\": image.asset->url,\n    description,\n    \"contactPerson\": {\n      \"person\": contactPerson.person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url\n      },\n      \"email\": contactPerson.email\n    },\n    \"trainers\": trainers[]->{\n      _id,\n      email,\n      expertises,\n      languages,\n      \"person\": person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url,\n        biography\n      }\n    }\n  }\n": EventsQueryResult;
     "\n  *[_type == \"vacancy\" && language == $language] | order(deadline asc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    description,\n    location,\n    applicationUrl,\n    deadline\n  }\n": VacanciesQueryResult;
     "\n  *[_type == \"trainer\"] {\n    _id,\n    email,\n    expertises,\n    languages,\n    \"person\": person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      picture,\n      biography\n    }\n  }\n": TrainersQueryResult;
+    "\n  *[_type == \"member\"] {\n    _id,\n    memberId,\n    name,\n    \"logo\": logo.asset->url,\n    website,\n    wiki,\n    fb,\n    twitter,\n    ig\n  }\n": MembersQueryResult;
     "*[_type == \"page\" && defined(slug.current)]{\"slug\": slug.current}": PageSlugsResult;
     "*[_type == \"post\" && defined(slug.current)]{\"slug\": slug.current}": PostSlugsResult;
   }

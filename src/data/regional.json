@@ -1,0 +1,50 @@
+[
+    {
+      "id": "LYMEC",
+      "name": "LYMEC",
+      "full_name": "European Liberal Youth",
+      "area": "150",
+      "website": "https://www.lymec.eu/",
+      "fb": "lymec",
+      "twitter": "lymec",
+      "ig": "lymec",
+      "image_url": "/regional/lymec.png",
+      "wiki": "regional:lymec"
+    },
+    {
+        "id": "CALD",
+        "name": "CALD Youth",
+        "full_name": "Council of Asian Liberal Democrats Youth",
+        "area": "142",
+        "website": "http://cald.org/cald-youth/about/",
+        "fb": "",
+        "twitter": "",
+        "ig": "",
+        "image_url": "/regional/cald-youth.png",
+        "wiki": "regional:cald"
+    },
+    {
+        "id": "ALYF",
+        "name": "ALYF",
+        "full_name": "Africa Liberal Youth for Freedom",
+        "area": "019",
+        "website": "",
+        "fb": "alyfafrica",
+        "twitter": "",
+        "ig": "alyfafrica",
+        "image_url": "/regional/alyf.png",
+        "wiki": "regional:alyf"
+    },
+    {
+        "id": "JULAC",
+        "name": "JULAC",
+        "full_name": "Juventud Liberal de América Latina y el Caribe",
+        "area": "419",
+        "website": "",
+        "fb": "",
+        "twitter": "",
+        "ig": "julac.lac",
+        "image_url": "/regional/julac.png",
+        "wiki": "regional:julac"
+    }
+]
