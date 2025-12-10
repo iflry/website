@@ -192,7 +192,7 @@ export const trainersQuery = defineQuery(`
     "contact": contact->{
       _id,
       "name": coalesce(name, "Untitled"),
-      "picture": picture.asset->url,
+      picture,
       biography
     }
   }
