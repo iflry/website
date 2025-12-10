@@ -41,7 +41,9 @@ export default async function TrainersPage({ params }: { params: Promise<{ local
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {trainers?.map((trainer: any) => (
           <div key={trainer._id}>
-            <ContactView name={trainer.contact.name} picture={trainer.contact.picture} />
+            {trainer.contact && (
+              <ContactView name={trainer.contact.name} picture={trainer.contact.picture} />
+            )}
             {trainer.email && <div>{trainer.email}</div>}
             {trainer.expertises && trainer.expertises.length > 0 && (
               <div className="mt-2 flex flex-wrap gap-2">
