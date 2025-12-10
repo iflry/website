@@ -4,7 +4,7 @@ import { type PortableTextBlock } from "next-sanity";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
-import PersonView from "../../person-view";
+import ContactView from "../../contact-view";
 import CoverImage from "../../cover-image";
 import DateComponent from "@/src/components/date";
 import MoreStories from "../../more-stories";
@@ -76,7 +76,7 @@ export default async function PostPage({ params }: Props) {
         </h1>
         <div className="hidden md:mb-12 md:block">
           {post.author && (
-            <PersonView name={post.author.name} picture={post.author.picture} />
+            <ContactView name={post.author.name} picture={post.author.picture} />
           )}
         </div>
         <div className="mb-8 sm:mx-0 md:mb-16">
@@ -85,7 +85,7 @@ export default async function PostPage({ params }: Props) {
         <div className="mx-auto max-w-2xl">
           <div className="mb-6 block md:hidden">
             {post.author && (
-              <PersonView name={post.author.name} picture={post.author.picture} />
+              <ContactView name={post.author.name} picture={post.author.picture} />
             )}
           </div>
           <div className="mb-6 text-lg">

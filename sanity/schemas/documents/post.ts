@@ -1,7 +1,7 @@
 import { BlockContentIcon } from "@sanity/icons";
 import { defineField, defineType } from "sanity";
 
-import personType from "./person";
+import contactType from "./contact";
 import { isUniqueOtherThanLanguage } from "@/sanity/lib/utils";
 
 
@@ -78,19 +78,19 @@ export default defineType({
       name: "author",
       title: "Author",
       type: "reference",
-      to: [{ type: personType.name }],
+      to: [{ type: contactType.name }],
     }),
   ],
   preview: {
     select: {
       title: "title",
-      person: "person.name",
+      author: "author.name",
       date: "date",
       media: "image",
     },
-    prepare({ title, media, person, date }) {
+    prepare({ title, media, author, date }) {
       const subtitles = [
-        person && `by ${person}`,
+        author && `by ${author}`,
         date && `on ${new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`,
       ].filter(Boolean);
 

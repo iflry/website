@@ -20,6 +20,8 @@ export default defineType({
           { title: "Page", value: "page" },
           { title: "Events", value: "events" },
           { title: "Posts", value: "posts" },
+          { title: "Trainers", value: "trainers" },
+          { title: "Vacancies", value: "vacancies" },
           { title: "Custom URL", value: "custom" },
           { title: "Submenu", value: "submenu" },
         ],
@@ -66,6 +68,12 @@ export default defineType({
           break;
         case "posts":
           subtitle = "Posts";
+          break;
+        case "trainers":
+          subtitle = "Trainers";
+          break;
+        case "vacancies":
+          subtitle = "Vacancies";
           break;
         case "custom":
           subtitle = customUrl || "Custom URL";
