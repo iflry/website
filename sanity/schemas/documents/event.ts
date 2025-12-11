@@ -2,7 +2,6 @@ import {CalendarIcon} from '@sanity/icons'
 import { defineField, defineType } from "sanity";
 import partnerType from './partner';
 import programmeType from './programme';
-import { getAllMembers } from "@/src/lib/members";
 import personType from './person';
 import trainerType from './trainer';
 import membershipData from "@/src/data/membership.json";
@@ -120,7 +119,8 @@ export default defineType({
     defineField({
       name: 'description',
       title: 'Description',
-      type: 'internationalizedArrayString',
+      type: 'array',
+      of: [{ type: 'block' }],
     }),
     defineField({
       name: "trainers",
