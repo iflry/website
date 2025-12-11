@@ -17,7 +17,7 @@ interface NavigationItemData {
   page?: {
     language?: string | null;
     slug?: { current?: string | null } | null;
-    type?: "other" | "programmes" | "members" | "partners" | "people" | null;
+    type?: "other" | "programmes" | "members" | "partners" | "people" | "trainers" | "vacancies" | null;
   } | null;
   customUrl?: string | null;
   children?: NavigationItemData[] | null;
