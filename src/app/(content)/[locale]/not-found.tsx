@@ -1,9 +1,8 @@
 import { buttonVariants } from '@/src/components/ui/button';
 import { getTranslations } from 'next-intl/server';
-import {Link} from '@/src/i18n/navigation';
+import Link from 'next/link';
 
 export default async function NotFound({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params
   const t = await getTranslations('page-not-found');
 
   return (
@@ -21,7 +20,6 @@ export default async function NotFound({ params }: { params: Promise<{ locale: s
         
         <div className="space-y-4">
           <Link
-            locale={locale}
             href="/"
             className={buttonVariants({ variant: "outline" })}
           >

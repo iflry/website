@@ -12,6 +12,7 @@ export type Member = {
   id: string;
   name: string;
   type: MemberType;
+  country?: string;
   website?: string;
   fb?: string;
   twitter?: string;
@@ -61,6 +62,7 @@ function normalizeMembershipData(overrides: Map<string, Partial<Member>>) {
     return {
       id: member.id,
       name: override.name || member.name,
+      country: member.country,
       type: member.type as MemberType,
       website: override.website || member.website,
       fb: override.fb !== undefined ? override.fb : member.fb,
