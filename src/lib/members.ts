@@ -84,7 +84,7 @@ function normalizeRegionalData(overrides: Map<string, Partial<Member>>) {
       twitter: override.twitter !== undefined ? override.twitter : member.twitter,
       ig: override.ig !== undefined ? override.ig : member.ig,
       wiki: override.wiki || member.wiki,
-      image_url: override.image_url || member.image_url,
+      image_url: override.image_url,
     };
   });
 }
