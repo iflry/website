@@ -5,6 +5,8 @@ import CoverImage from "./cover-image";
 import MoreStories from "./more-stories";
 import Onboarding from "./onboarding";
 import DateComponent from "@/src/components/date";
+import WorldMap from "./world-map";
+import membershipData from "./membership.json";
 
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { featuredPostsQuery } from "@/sanity/lib/queries";
@@ -57,6 +59,10 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
 
   return (
     <div className="container mx-auto px-5">
+      <section className="mb-16">
+        <WorldMap membershipData={membershipData} />
+      </section>
+
       {heroPost && heroPost.slug && heroPost.title ? (
         <HeroPost
           title={heroPost.title}
