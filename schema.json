@@ -2176,6 +2176,14 @@
             },
             {
               "type": "string",
+              "value": "trainers"
+            },
+            {
+              "type": "string",
+              "value": "vacancies"
+            },
+            {
+              "type": "string",
               "value": "other"
             }
           ]

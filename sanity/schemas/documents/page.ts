@@ -30,6 +30,8 @@ export default defineType({
           { title: "Partners", value: "partners" },
           { title: "Programmes", value: "programmes" },
           { title: "People", value: "people" },
+          { title: "Trainers", value: "trainers" },
+          { title: "Vacancies", value: "vacancies" },
           { title: "Other", value: "other" },
         ]
       },

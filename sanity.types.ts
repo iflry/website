@@ -288,7 +288,7 @@ export type Page = {
   _rev: string;
   title?: string;
   language?: string;
-  type?: "members" | "partners" | "programmes" | "people" | "other";
+  type?: "members" | "partners" | "programmes" | "people" | "trainers" | "vacancies" | "other";
   slug?: Slug;
   content?: Array<{
     children?: Array<{
@@ -562,7 +562,7 @@ export type SettingsQueryResult = {
     linkType: "custom" | "events" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
     page: {
       slug: Slug | null;
-      type: "members" | "other" | "partners" | "people" | "programmes" | null;
+      type: "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
     } | null;
     customUrl: string | null;
     children: Array<{
@@ -570,7 +570,7 @@ export type SettingsQueryResult = {
       linkType: "custom" | "events" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
       page: {
         slug: Slug | null;
-        type: "members" | "other" | "partners" | "people" | "programmes" | null;
+        type: "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
       } | null;
       customUrl: string | null;
       children: Array<{
@@ -578,7 +578,7 @@ export type SettingsQueryResult = {
         linkType: "custom" | "events" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
         page: {
           slug: Slug | null;
-          type: "members" | "other" | "partners" | "people" | "programmes" | null;
+          type: "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
         } | null;
         customUrl: string | null;
         children: Array<{
@@ -586,7 +586,7 @@ export type SettingsQueryResult = {
           linkType: "custom" | "events" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
           page: {
             slug: Slug | null;
-            type: "members" | "other" | "partners" | "people" | "programmes" | null;
+            type: "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
           } | null;
           customUrl: string | null;
         }> | null;

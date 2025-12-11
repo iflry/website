@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, MouseEvent } from "react";
-// @ts-ignore - react-simple-maps doesn't have type definitions
 import {
   ComposableMap,
   Geographies,
