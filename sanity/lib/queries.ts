@@ -60,13 +60,13 @@ export const featuredPostsQuery = defineQuery(`
 `);
 
 export const postsQuery = defineQuery(`
-  *[_type == "post" && defined(slug.current) && language == $language && (!defined($type) || type == $type)] | order(date desc, _updatedAt desc) [$offset...$limit] {
+  *[_type == "post" && defined(slug.current) && language == $language && ($type == "" || type == $type)] | order(date desc, _updatedAt desc) [$offset...$limit] {
     ${postFields}
   }
 `);
 
 export const postsCountQuery = defineQuery(`
-  count(*[_type == "post" && defined(slug.current) && language == $language && (!defined($type) || type == $type)])
+  count(*[_type == "post" && defined(slug.current) && language == $language && ($type == "" || type == $type)])
 `);
 
 export const moreStoriesQuery = defineQuery(`

@@ -68,14 +68,14 @@ export default async function PostsPage({
   const { type = "all", page = "1" } = await searchParams;
   const currentPage = Math.max(1, parseInt(page, 10));
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  const postType = type === "all" ? undefined : type;
+  const postType = type === "all" ? "" : type;
 
   const [posts, totalCount] = await Promise.all([
     sanityFetch({
       query: postsQuery,
       params: {
         language: locale,
-        type: postType,
+        type: postType || "",
         offset,
         limit: offset + ITEMS_PER_PAGE,
       },
@@ -84,7 +84,7 @@ export default async function PostsPage({
       query: postsCountQuery,
       params: {
         language: locale,
-        type: postType,
+        type: postType || "",
       },
     }),
   ]);

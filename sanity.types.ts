@@ -1068,6 +1068,81 @@ export type PastEventsQueryResult = Array<{
 // Variable: pastEventsCountQuery
 // Query: count(*[_type == "event" && language == $language && dateTime(start) < dateTime($currentDate)])
 export type PastEventsCountQueryResult = number;
+// Variable: eventQuery
+// Query: *[_type == "event" && slug.current == $slug && language == $language] [0] {    _id,    "title": coalesce(title, "Untitled"),    "slug": slug.current,    type,    location,    start,    end,    image,    description,    "contactPerson": {      "person": contactPerson.person->{        _id,        "name": coalesce(name, "Untitled"),        "picture": picture.asset->url      },      "email": contactPerson.email    },    "programme": programme->{      _id,      "title": coalesce(title, "Untitled"),      email    },    "partners": partners[]->{      _id,      "title": coalesce(title, "Untitled"),      "logo": logo.asset->url,      description    },    "members": members,    "trainers": trainers[]->{      _id,      email,      expertises,      languages,      "person": person->{        _id,        "name": coalesce(name, "Untitled"),        "picture": picture.asset->url,        biography      }    }  }
+export type EventQueryResult = {
+  _id: string;
+  title: string | "Untitled";
+  slug: string | null;
+  type: "ga" | "seminar" | "workshop" | null;
+  location: string | null;
+  start: string | null;
+  end: string | null;
+  image: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  description: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  contactPerson: {
+    person: {
+      _id: string;
+      name: string | "Untitled";
+      picture: string | null;
+    } | null;
+    email: string | null;
+  };
+  programme: {
+    _id: string;
+    title: string | "Untitled";
+    email: string | null;
+  } | null;
+  partners: Array<{
+    _id: string;
+    title: string | "Untitled";
+    logo: string | null;
+    description: Array<{
+      _key: string;
+    } & InternationalizedArrayStringValue> | null;
+  }> | null;
+  members: Array<"ALYF" | "AND-JLA" | "ARG-GJFL" | "ARM-ANC" | "AUT-JUNOS" | "AZE-PH" | "BAS-EGI" | "BEL-FEL" | "BEL-JVLD" | "BFA-FL" | "BFA-RNJL" | "BGR-YMRF" | "BIH-YFNS" | "BLR-CF" | "BLR-YB" | "BOL-NMJ" | "CALD" | "CAN-YLC" | "CAT-JNC" | "CHE-JS" | "CHL-JE" | "CIV-JALIDE" | "CIV-JELIC" | "CIV-OJLCI" | "CIV-RHDP" | "COD-JEPR" | "COG-CLE" | "DEU-JULIS" | "DEU-LHG" | "DNK-LAU" | "DNK-RU" | "DNK-VU" | "EGY-EL" | "EGY-EYC" | "EST-NE2" | "FIN-FCY" | "FIN-SU" | "FRA-JR" | "GBR-YL" | "GEO-FK" | "GEO-IIL" | "GHA-PYM" | "GHA-YLG" | "GIB-GLY" | "GIN-CNJR" | "GIN-OJLG" | "GRC-NEON" | "HRV-IDY" | "HRV-MHNS" | "HUN-MT" | "IRQ-SASA" | "IRQ-VIO" | "ISR-YYA" | "JOR-FTF" | "JOR-S42" | "JULAC" | "KEN-ODM" | "LBN-FY" | "LTU-LLJ" | "LVA-PARJ" | "LYMEC" | "MAR-AJA" | "MAR-CDC" | "MAR-HRK" | "MKD-LDM" | "MNE-YLM" | "MRT-FCA" | "NIC-AVZ" | "NLD-JD" | "NLD-JOVD" | "NOR-NLS" | "NOR-NUV" | "NPL-YI" | "PER-IPL" | "POL-NY" | "PRY-JLRA" | "ROU-USRT" | "RUS-YDMV" | "SDN-FYSO" | "SEN-CEEP" | "SEN-COJER" | "SEN-FJR" | "SEN-JLD" | "SEN-JLS" | "SEN-MFA" | "SEN-PCR" | "SEN-RM" | "SVK-YP" | "SWE-CUF" | "SWE-LUF" | "SYR-AYLS" | "TUR-3HM" | "TZA-ACTW" | "TZA-PYI" | "UKR-EYU" | "UKR-LDLU" | "USA-YDA" | "VEN-VJ" | "ZAF-DAY"> | null;
+  trainers: Array<{
+    _id: string;
+    email: string | null;
+    expertises: Array<string> | null;
+    languages: Array<"ar" | "de" | "en" | "es" | "fr" | "it" | "ja" | "nl" | "pt" | "ru" | "zh"> | null;
+    person: {
+      _id: string;
+      name: string | "Untitled";
+      picture: string | null;
+      biography: InternationalizedArrayString | null;
+    } | null;
+  }> | null;
+} | null;
 // Variable: vacanciesQuery
 // Query: *[_type == "vacancy" && language == $language] | order(deadline asc) {    _id,    "title": coalesce(title, "Untitled"),    description,    location,    applicationUrl,    deadline  }
 export type VacanciesQueryResult = Array<{
@@ -1117,6 +1192,14 @@ export type MembersQueryResult = Array<{
   ig: string | null;
 }>;
 
+// Source: ./src/app/(content)/[locale]/events/[slug]/page.tsx
+// Variable: eventSlugs
+// Query: *[_type == "event" && defined(slug.current)]{"slug": slug.current, language}
+export type EventSlugsResult = Array<{
+  slug: string | null;
+  language: string | null;
+}>;
+
 // Source: ./src/app/(content)/[locale]/pages/[slug]/page.tsx
 // Variable: pageSlugs
 // Query: *[_type == "page" && defined(slug.current)]{"slug": slug.current}
@@ -1152,9 +1235,11 @@ declare module "@sanity/client" {
     "\n  count(*[_type == \"event\" && language == $language && dateTime(start) >= dateTime($currentDate)])\n": UpcomingEventsCountQueryResult;
     "\n  *[_type == \"event\" && language == $language && dateTime(start) < dateTime($currentDate)] | order(start desc) [$offset...$limit] {\n    \n  _id,\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  type,\n  location,\n  start,\n  end,\n  \"image\": image.asset->url,\n  description,\n  \"contactPerson\": {\n    \"person\": contactPerson.person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url\n    },\n    \"email\": contactPerson.email\n  },\n  \"trainers\": trainers[]->{\n    _id,\n    email,\n    expertises,\n    languages,\n    \"person\": person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url,\n      biography\n    }\n  }\n\n  }\n": PastEventsQueryResult;
     "\n  count(*[_type == \"event\" && language == $language && dateTime(start) < dateTime($currentDate)])\n": PastEventsCountQueryResult;
+    "\n  *[_type == \"event\" && slug.current == $slug && language == $language] [0] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    type,\n    location,\n    start,\n    end,\n    image,\n    description,\n    \"contactPerson\": {\n      \"person\": contactPerson.person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url\n      },\n      \"email\": contactPerson.email\n    },\n    \"programme\": programme->{\n      _id,\n      \"title\": coalesce(title, \"Untitled\"),\n      email\n    },\n    \"partners\": partners[]->{\n      _id,\n      \"title\": coalesce(title, \"Untitled\"),\n      \"logo\": logo.asset->url,\n      description\n    },\n    \"members\": members,\n    \"trainers\": trainers[]->{\n      _id,\n      email,\n      expertises,\n      languages,\n      \"person\": person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url,\n        biography\n      }\n    }\n  }\n": EventQueryResult;
     "\n  *[_type == \"vacancy\" && language == $language] | order(deadline asc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    description,\n    location,\n    applicationUrl,\n    deadline\n  }\n": VacanciesQueryResult;
     "\n  *[_type == \"trainer\"] {\n    _id,\n    email,\n    expertises,\n    languages,\n    \"person\": person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      picture,\n      biography\n    }\n  }\n": TrainersQueryResult;
     "\n  *[_type == \"member\"] {\n    _id,\n    memberId,\n    name,\n    \"logo\": logo.asset->url,\n    website,\n    wiki,\n    fb,\n    twitter,\n    ig\n  }\n": MembersQueryResult;
+    "*[_type == \"event\" && defined(slug.current)]{\"slug\": slug.current, language}": EventSlugsResult;
     "*[_type == \"page\" && defined(slug.current)]{\"slug\": slug.current}": PageSlugsResult;
     "*[_type == \"post\" && defined(slug.current)]{\"slug\": slug.current}": PostSlugsResult;
   }

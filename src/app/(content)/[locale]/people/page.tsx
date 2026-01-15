@@ -3,6 +3,7 @@ import { pageTypeQuery, peopleQuery } from "@/sanity/lib/queries";
 import RoleView, { RoleType, BureauRole, OfficeRole } from "./role-view";
 import PortableText from "@/src/components/portable-text";
 import { PortableTextBlock } from "next-sanity";
+import Link from "next/link";
 
 
 const typeOrder: Record<RoleType, { order: number, title: string }> = {
@@ -74,9 +75,17 @@ export default async function PeoplePage({ params }: { params: Promise<{ locale:
   return (
     <div className="container mx-auto px-5">
       <div>
-        <h1 className="text-balance mb-12 text-6xl font-bold leading-tight tracking-tighter md:text-7xl md:leading-none lg:text-8xl">
-          {page?.title}
-        </h1>
+        <div className="mb-4 flex items-center justify-between">
+          <h1 className="text-balance text-6xl font-bold leading-tight tracking-tighter md:text-7xl md:leading-none lg:text-8xl">
+            {page?.title}
+          </h1>
+          <Link
+            href={`/${locale}/people/archive`}
+            className="text-blue-600 hover:underline"
+          >
+            View History →
+          </Link>
+        </div>
         {page?.content?.length && (
           <PortableText
             className="mx-auto max-w-2xl"
