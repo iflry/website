@@ -13,61 +13,6 @@
  */
 
 // Source: schema.json
-export type SanityImagePaletteSwatch = {
-  _type: "sanity.imagePaletteSwatch";
-  background?: string;
-  foreground?: string;
-  population?: number;
-  title?: string;
-};
-
-export type SanityImagePalette = {
-  _type: "sanity.imagePalette";
-  darkMuted?: SanityImagePaletteSwatch;
-  lightVibrant?: SanityImagePaletteSwatch;
-  darkVibrant?: SanityImagePaletteSwatch;
-  vibrant?: SanityImagePaletteSwatch;
-  dominant?: SanityImagePaletteSwatch;
-  lightMuted?: SanityImagePaletteSwatch;
-  muted?: SanityImagePaletteSwatch;
-};
-
-export type SanityImageDimensions = {
-  _type: "sanity.imageDimensions";
-  height?: number;
-  width?: number;
-  aspectRatio?: number;
-};
-
-export type SanityFileAsset = {
-  _id: string;
-  _type: "sanity.fileAsset";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  originalFilename?: string;
-  label?: string;
-  title?: string;
-  description?: string;
-  altText?: string;
-  sha1hash?: string;
-  extension?: string;
-  mimeType?: string;
-  size?: number;
-  assetId?: string;
-  uploadId?: string;
-  path?: string;
-  url?: string;
-  source?: SanityAssetSourceData;
-};
-
-export type Geopoint = {
-  _type: "geopoint";
-  lat?: number;
-  lng?: number;
-  alt?: number;
-};
-
 export type NavigationItem = {
   _type: "navigationItem";
   title?: string;
@@ -477,12 +422,34 @@ export type Person = {
   organization?: "ARG-GJFL" | "LVA-PARJ" | "AND-JLA" | "MKD-LDM" | "BIH-YFNS" | "BGR-YMRF" | "PRY-JLRA" | "BOL-NMJ" | "BFA-FL" | "SYR-AYLS" | "TUR-3HM" | "FRA-JR" | "CHE-JS" | "GIN-OJLG" | "POL-NY" | "SVK-YP" | "GIN-CNJR" | "SEN-PCR" | "SEN-JLS" | "COD-JEPR" | "SDN-FYSO" | "SEN-CEEP" | "ARM-ANC" | "UKR-EYU" | "EST-NE2" | "MAR-AJA" | "SEN-JLD" | "KEN-ODM" | "GRC-NEON" | "BLR-CF" | "MRT-FCA" | "COG-CLE" | "USA-YDA" | "EGY-EL" | "SEN-RM" | "BFA-RNJL" | "TZA-ACTW" | "GHA-PYM" | "BEL-JVLD" | "MAR-HRK" | "GEO-IIL" | "SEN-FJR" | "CIV-JALIDE" | "MAR-CDC" | "LBN-FY" | "CIV-JELIC" | "BLR-YB" | "SEN-MFA" | "TZA-PYI" | "CIV-OJLCI" | "LTU-LLJ" | "ISR-YYA" | "BAS-EGI" | "GHA-YLG" | "DEU-LHG" | "GBR-YL" | "IRQ-VIO" | "NIC-AVZ" | "IRQ-SASA" | "AZE-PH" | "AUT-JUNOS" | "CAT-JNC" | "EGY-EYC" | "SEN-COJER" | "ROU-USRT" | "GEO-FK" | "BEL-FEL" | "NLD-JD" | "CHL-JE" | "DNK-VU" | "NOR-NUV" | "NLD-JOVD" | "FIN-SU" | "DNK-LAU" | "SWE-CUF" | "FIN-FCY" | "JOR-S42" | "HUN-MT" | "RUS-YDMV" | "NPL-YI" | "NOR-NLS" | "UKR-LDLU" | "JOR-FTF" | "DNK-RU" | "SWE-LUF" | "DEU-JULIS" | "CIV-RHDP" | "CAN-YLC" | "HRV-IDY" | "HRV-MHNS" | "GIB-GLY" | "MNE-YLM" | "PER-IPL" | "ZAF-DAY" | "VEN-VJ";
 };
 
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
+export type InternationalizedArrayReference = Array<{
+  _key: string;
+} & InternationalizedArrayReferenceValue>;
+
+export type SanityImagePaletteSwatch = {
+  _type: "sanity.imagePaletteSwatch";
+  background?: string;
+  foreground?: string;
+  population?: number;
+  title?: string;
+};
+
+export type SanityImagePalette = {
+  _type: "sanity.imagePalette";
+  darkMuted?: SanityImagePaletteSwatch;
+  lightVibrant?: SanityImagePaletteSwatch;
+  darkVibrant?: SanityImagePaletteSwatch;
+  vibrant?: SanityImagePaletteSwatch;
+  dominant?: SanityImagePaletteSwatch;
+  lightMuted?: SanityImagePaletteSwatch;
+  muted?: SanityImagePaletteSwatch;
+};
+
+export type SanityImageDimensions = {
+  _type: "sanity.imageDimensions";
+  height?: number;
+  width?: number;
+  aspectRatio?: number;
 };
 
 export type SanityImageHotspot = {
@@ -491,6 +458,36 @@ export type SanityImageHotspot = {
   y?: number;
   height?: number;
   width?: number;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+};
+
+export type SanityFileAsset = {
+  _id: string;
+  _type: "sanity.fileAsset";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  originalFilename?: string;
+  label?: string;
+  title?: string;
+  description?: string;
+  altText?: string;
+  sha1hash?: string;
+  extension?: string;
+  mimeType?: string;
+  size?: number;
+  assetId?: string;
+  uploadId?: string;
+  path?: string;
+  url?: string;
+  source?: SanityAssetSourceData;
 };
 
 export type SanityImageAsset = {
@@ -516,13 +513,6 @@ export type SanityImageAsset = {
   source?: SanityAssetSourceData;
 };
 
-export type SanityAssetSourceData = {
-  _type: "sanity.assetSourceData";
-  name?: string;
-  id?: string;
-  url?: string;
-};
-
 export type SanityImageMetadata = {
   _type: "sanity.imageMetadata";
   location?: Geopoint;
@@ -534,17 +524,27 @@ export type SanityImageMetadata = {
   isOpaque?: boolean;
 };
 
+export type Geopoint = {
+  _type: "geopoint";
+  lat?: number;
+  lng?: number;
+  alt?: number;
+};
+
 export type Slug = {
   _type: "slug";
   current?: string;
   source?: string;
 };
 
-export type InternationalizedArrayReference = Array<{
-  _key: string;
-} & InternationalizedArrayReferenceValue>;
+export type SanityAssetSourceData = {
+  _type: "sanity.assetSourceData";
+  name?: string;
+  id?: string;
+  url?: string;
+};
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | NavigationItem | Trainer | Role | Member | Partner | Configuration | InternationalizedArrayStringValue | InternationalizedArrayString | TranslationMetadata | InternationalizedArrayReferenceValue | Vacancy | Page | Event | Programme | Post | Person | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug | InternationalizedArrayReference;
+export type AllSanitySchemaTypes = NavigationItem | Trainer | Role | Member | Partner | Configuration | InternationalizedArrayStringValue | InternationalizedArrayString | TranslationMetadata | InternationalizedArrayReferenceValue | Vacancy | Page | Event | Programme | Post | Person | InternationalizedArrayReference | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: settingsQuery
@@ -680,6 +680,46 @@ export type FeaturedPostsQueryResult = Array<{
     } | null;
   } | null;
 }>;
+// Variable: postsQuery
+// Query: *[_type == "post" && defined(slug.current) && language == $language && (!defined($type) || type == $type)] | order(date desc, _updatedAt desc) [$offset...$limit] {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  image,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  }
+export type PostsQueryResult = Array<{
+  _id: string;
+  status: "draft" | "published";
+  title: string | "Untitled";
+  slug: string | null;
+  image: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  } | null;
+  date: string;
+  author: {
+    name: string | "Anonymous";
+    picture: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    } | null;
+  } | null;
+}>;
+// Variable: postsCountQuery
+// Query: count(*[_type == "post" && defined(slug.current) && language == $language && (!defined($type) || type == $type)])
+export type PostsCountQueryResult = number;
 // Variable: moreStoriesQuery
 // Query: *[_type == "post" && _id != $skip && defined(slug.current) && language == $language] | order(date desc, _updatedAt desc) [0...$limit] {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  image,  "date": coalesce(date, _updatedAt),  "author": author->{"name": coalesce(name, "Anonymous"), picture},  }
 export type MoreStoriesQueryResult = Array<{
@@ -857,6 +897,21 @@ export type PeopleQueryResult = Array<{
   name: string | null;
   picture: string | null;
 }>;
+// Variable: peopleArchiveQuery
+// Query: *[_type == "role" && defined(end) && dateTime(end + 'T00:00:00Z') < dateTime($currentDate)] | order(end desc) {      _id,  type,  email,  title,  bureauRole,  officeRole,  organization,  "name": person->name,  "picture": person->picture.asset->url,    start,    end  }
+export type PeopleArchiveQueryResult = Array<{
+  _id: string;
+  type: "advisory-council" | "bureau-member" | "honorary-member" | "individual-member" | "office" | "ombudsperson" | "regional-representative" | null;
+  email: string | null;
+  title: string | null;
+  bureauRole: "president" | "secretary-general" | "treasurer" | "vice-president" | null;
+  officeRole: "executive-director" | "intern" | "project-manager" | null;
+  organization: "ALYF" | "CALD" | "JULAC" | "LYMEC" | null;
+  name: string | null;
+  picture: string | null;
+  start: string | null;
+  end: string | null;
+}>;
 // Variable: eventsQuery
 // Query: *[_type == "event" && language == $language] | order(start desc) {    _id,    "title": coalesce(title, "Untitled"),    "slug": slug.current,    type,    location,    start,    end,    "image": image.asset->url,    description,    "contactPerson": {      "person": contactPerson.person->{        _id,        "name": coalesce(name, "Untitled"),        "picture": picture.asset->url      },      "email": contactPerson.email    },    "trainers": trainers[]->{      _id,      email,      expertises,      languages,      "person": person->{        _id,        "name": coalesce(name, "Untitled"),        "picture": picture.asset->url,        biography      }    }  }
 export type EventsQueryResult = Array<{
@@ -907,6 +962,112 @@ export type EventsQueryResult = Array<{
     } | null;
   }> | null;
 }>;
+// Variable: upcomingEventsQuery
+// Query: *[_type == "event" && language == $language && dateTime(start) >= dateTime($currentDate)] | order(start asc) [$offset...$limit] {      _id,  "title": coalesce(title, "Untitled"),  "slug": slug.current,  type,  location,  start,  end,  "image": image.asset->url,  description,  "contactPerson": {    "person": contactPerson.person->{      _id,      "name": coalesce(name, "Untitled"),      "picture": picture.asset->url    },    "email": contactPerson.email  },  "trainers": trainers[]->{    _id,    email,    expertises,    languages,    "person": person->{      _id,      "name": coalesce(name, "Untitled"),      "picture": picture.asset->url,      biography    }  }  }
+export type UpcomingEventsQueryResult = Array<{
+  _id: string;
+  title: string | "Untitled";
+  slug: string | null;
+  type: "ga" | "seminar" | "workshop" | null;
+  location: string | null;
+  start: string | null;
+  end: string | null;
+  image: string | null;
+  description: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  contactPerson: {
+    person: {
+      _id: string;
+      name: string | "Untitled";
+      picture: string | null;
+    } | null;
+    email: string | null;
+  };
+  trainers: Array<{
+    _id: string;
+    email: string | null;
+    expertises: Array<string> | null;
+    languages: Array<"ar" | "de" | "en" | "es" | "fr" | "it" | "ja" | "nl" | "pt" | "ru" | "zh"> | null;
+    person: {
+      _id: string;
+      name: string | "Untitled";
+      picture: string | null;
+      biography: InternationalizedArrayString | null;
+    } | null;
+  }> | null;
+}>;
+// Variable: upcomingEventsCountQuery
+// Query: count(*[_type == "event" && language == $language && dateTime(start) >= dateTime($currentDate)])
+export type UpcomingEventsCountQueryResult = number;
+// Variable: pastEventsQuery
+// Query: *[_type == "event" && language == $language && dateTime(start) < dateTime($currentDate)] | order(start desc) [$offset...$limit] {      _id,  "title": coalesce(title, "Untitled"),  "slug": slug.current,  type,  location,  start,  end,  "image": image.asset->url,  description,  "contactPerson": {    "person": contactPerson.person->{      _id,      "name": coalesce(name, "Untitled"),      "picture": picture.asset->url    },    "email": contactPerson.email  },  "trainers": trainers[]->{    _id,    email,    expertises,    languages,    "person": person->{      _id,      "name": coalesce(name, "Untitled"),      "picture": picture.asset->url,      biography    }  }  }
+export type PastEventsQueryResult = Array<{
+  _id: string;
+  title: string | "Untitled";
+  slug: string | null;
+  type: "ga" | "seminar" | "workshop" | null;
+  location: string | null;
+  start: string | null;
+  end: string | null;
+  image: string | null;
+  description: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  contactPerson: {
+    person: {
+      _id: string;
+      name: string | "Untitled";
+      picture: string | null;
+    } | null;
+    email: string | null;
+  };
+  trainers: Array<{
+    _id: string;
+    email: string | null;
+    expertises: Array<string> | null;
+    languages: Array<"ar" | "de" | "en" | "es" | "fr" | "it" | "ja" | "nl" | "pt" | "ru" | "zh"> | null;
+    person: {
+      _id: string;
+      name: string | "Untitled";
+      picture: string | null;
+      biography: InternationalizedArrayString | null;
+    } | null;
+  }> | null;
+}>;
+// Variable: pastEventsCountQuery
+// Query: count(*[_type == "event" && language == $language && dateTime(start) < dateTime($currentDate)])
+export type PastEventsCountQueryResult = number;
 // Variable: vacanciesQuery
 // Query: *[_type == "vacancy" && language == $language] | order(deadline asc) {    _id,    "title": coalesce(title, "Untitled"),    description,    location,    applicationUrl,    deadline  }
 export type VacanciesQueryResult = Array<{
@@ -976,6 +1137,8 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "\n  *[_type == \"configuration\" && language == $language][0] {\n    ...,\n    navigation[] {\n      title,\n      linkType,\n      page-> {\n        slug,\n        type\n      },\n      customUrl,\n      children[] {\n        title,\n        linkType,\n        page-> {\n          slug,\n          type\n        },\n        customUrl,\n        children[] {\n          title,\n          linkType,\n          page-> {\n            slug,\n            type\n          },\n          customUrl,\n          children[] {\n            title,\n            linkType,\n            page-> {\n              slug,\n              type\n            },\n            customUrl\n          }\n        }\n      }\n    }\n  }\n": SettingsQueryResult;
     "\n  *[_type == \"post\" && defined(slug.current) && language == $language] | order(date desc, _updatedAt desc) [0...$quantity] {\n    content,\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  image,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n  }\n": FeaturedPostsQueryResult;
+    "\n  *[_type == \"post\" && defined(slug.current) && language == $language && (!defined($type) || type == $type)] | order(date desc, _updatedAt desc) [$offset...$limit] {\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  image,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n  }\n": PostsQueryResult;
+    "\n  count(*[_type == \"post\" && defined(slug.current) && language == $language && (!defined($type) || type == $type)])\n": PostsCountQueryResult;
     "\n  *[_type == \"post\" && _id != $skip && defined(slug.current) && language == $language] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  image,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n  }\n": MoreStoriesQueryResult;
     "\n  *[_type == \"post\" && slug.current == $slug && language == $language] [0] {\n    content,\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  image,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n  }\n": PostQueryResult;
     "\n  *[_type == \"page\" && slug.current == $slug && language == $language] [0] {\n    _id,\n    content,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n  }\n": PageQueryResult;
@@ -983,7 +1146,12 @@ declare module "@sanity/client" {
     "\n  *[_type == \"partner\"] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"logo\": logo.asset->url,\n    description\n  }\n": PartnersQueryResult;
     "\n  *[_type == \"programme\"] {\n    _id,\n    email,\n    \"title\": coalesce(title, \"Untitled\"),\n    description,\n    \"managers\": managers[]->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url\n    }\n  }\n": ProgrammesQueryResult;
     "\n  *[_type == \"role\" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {\n    \n  _id,\n  type,\n  email,\n  title,\n  bureauRole,\n  officeRole,\n  organization,\n  \"name\": person->name,\n  \"picture\": person->picture.asset->url\n\n  }\n": PeopleQueryResult;
+    "\n  *[_type == \"role\" && defined(end) && dateTime(end + 'T00:00:00Z') < dateTime($currentDate)] | order(end desc) {\n    \n  _id,\n  type,\n  email,\n  title,\n  bureauRole,\n  officeRole,\n  organization,\n  \"name\": person->name,\n  \"picture\": person->picture.asset->url\n,\n    start,\n    end\n  }\n": PeopleArchiveQueryResult;
     "\n  *[_type == \"event\" && language == $language] | order(start desc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    type,\n    location,\n    start,\n    end,\n    \"image\": image.asset->url,\n    description,\n    \"contactPerson\": {\n      \"person\": contactPerson.person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url\n      },\n      \"email\": contactPerson.email\n    },\n    \"trainers\": trainers[]->{\n      _id,\n      email,\n      expertises,\n      languages,\n      \"person\": person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url,\n        biography\n      }\n    }\n  }\n": EventsQueryResult;
+    "\n  *[_type == \"event\" && language == $language && dateTime(start) >= dateTime($currentDate)] | order(start asc) [$offset...$limit] {\n    \n  _id,\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  type,\n  location,\n  start,\n  end,\n  \"image\": image.asset->url,\n  description,\n  \"contactPerson\": {\n    \"person\": contactPerson.person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url\n    },\n    \"email\": contactPerson.email\n  },\n  \"trainers\": trainers[]->{\n    _id,\n    email,\n    expertises,\n    languages,\n    \"person\": person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url,\n      biography\n    }\n  }\n\n  }\n": UpcomingEventsQueryResult;
+    "\n  count(*[_type == \"event\" && language == $language && dateTime(start) >= dateTime($currentDate)])\n": UpcomingEventsCountQueryResult;
+    "\n  *[_type == \"event\" && language == $language && dateTime(start) < dateTime($currentDate)] | order(start desc) [$offset...$limit] {\n    \n  _id,\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  type,\n  location,\n  start,\n  end,\n  \"image\": image.asset->url,\n  description,\n  \"contactPerson\": {\n    \"person\": contactPerson.person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url\n    },\n    \"email\": contactPerson.email\n  },\n  \"trainers\": trainers[]->{\n    _id,\n    email,\n    expertises,\n    languages,\n    \"person\": person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url,\n      biography\n    }\n  }\n\n  }\n": PastEventsQueryResult;
+    "\n  count(*[_type == \"event\" && language == $language && dateTime(start) < dateTime($currentDate)])\n": PastEventsCountQueryResult;
     "\n  *[_type == \"vacancy\" && language == $language] | order(deadline asc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    description,\n    location,\n    applicationUrl,\n    deadline\n  }\n": VacanciesQueryResult;
     "\n  *[_type == \"trainer\"] {\n    _id,\n    email,\n    expertises,\n    languages,\n    \"person\": person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      picture,\n      biography\n    }\n  }\n": TrainersQueryResult;
     "\n  *[_type == \"member\"] {\n    _id,\n    memberId,\n    name,\n    \"logo\": logo.asset->url,\n    website,\n    wiki,\n    fb,\n    twitter,\n    ig\n  }\n": MembersQueryResult;

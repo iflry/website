@@ -59,6 +59,16 @@ export const featuredPostsQuery = defineQuery(`
   }
 `);
 
+export const postsQuery = defineQuery(`
+  *[_type == "post" && defined(slug.current) && language == $language && (!defined($type) || type == $type)] | order(date desc, _updatedAt desc) [$offset...$limit] {
+    ${postFields}
+  }
+`);
+
+export const postsCountQuery = defineQuery(`
+  count(*[_type == "post" && defined(slug.current) && language == $language && (!defined($type) || type == $type)])
+`);
+
 export const moreStoriesQuery = defineQuery(`
   *[_type == "post" && _id != $skip && defined(slug.current) && language == $language] | order(date desc, _updatedAt desc) [0...$limit] {
     ${postFields}
@@ -130,6 +140,14 @@ export const peopleQuery = defineQuery(`
   }
 `)
 
+export const peopleArchiveQuery = defineQuery(`
+  *[_type == "role" && defined(end) && dateTime(end + 'T00:00:00Z') < dateTime($currentDate)] | order(end desc) {
+    ${roleFields},
+    start,
+    end
+  }
+`)
+
 export const eventsQuery = defineQuery(`
   *[_type == "event" && language == $language] | order(start desc) {
     _id,
@@ -149,6 +167,104 @@ export const eventsQuery = defineQuery(`
       },
       "email": contactPerson.email
     },
+    "trainers": trainers[]->{
+      _id,
+      email,
+      expertises,
+      languages,
+      "person": person->{
+        _id,
+        "name": coalesce(name, "Untitled"),
+        "picture": picture.asset->url,
+        biography
+      }
+    }
+  }
+`)
+
+const eventFields = /* groq */ `
+  _id,
+  "title": coalesce(title, "Untitled"),
+  "slug": slug.current,
+  type,
+  location,
+  start,
+  end,
+  "image": image.asset->url,
+  description,
+  "contactPerson": {
+    "person": contactPerson.person->{
+      _id,
+      "name": coalesce(name, "Untitled"),
+      "picture": picture.asset->url
+    },
+    "email": contactPerson.email
+  },
+  "trainers": trainers[]->{
+    _id,
+    email,
+    expertises,
+    languages,
+    "person": person->{
+      _id,
+      "name": coalesce(name, "Untitled"),
+      "picture": picture.asset->url,
+      biography
+    }
+  }
+`;
+
+export const upcomingEventsQuery = defineQuery(`
+  *[_type == "event" && language == $language && dateTime(start) >= dateTime($currentDate)] | order(start asc) [$offset...$limit] {
+    ${eventFields}
+  }
+`)
+
+export const upcomingEventsCountQuery = defineQuery(`
+  count(*[_type == "event" && language == $language && dateTime(start) >= dateTime($currentDate)])
+`)
+
+export const pastEventsQuery = defineQuery(`
+  *[_type == "event" && language == $language && dateTime(start) < dateTime($currentDate)] | order(start desc) [$offset...$limit] {
+    ${eventFields}
+  }
+`)
+
+export const pastEventsCountQuery = defineQuery(`
+  count(*[_type == "event" && language == $language && dateTime(start) < dateTime($currentDate)])
+`)
+
+export const eventQuery = defineQuery(`
+  *[_type == "event" && slug.current == $slug && language == $language] [0] {
+    _id,
+    "title": coalesce(title, "Untitled"),
+    "slug": slug.current,
+    type,
+    location,
+    start,
+    end,
+    image,
+    description,
+    "contactPerson": {
+      "person": contactPerson.person->{
+        _id,
+        "name": coalesce(name, "Untitled"),
+        "picture": picture.asset->url
+      },
+      "email": contactPerson.email
+    },
+    "programme": programme->{
+      _id,
+      "title": coalesce(title, "Untitled"),
+      email
+    },
+    "partners": partners[]->{
+      _id,
+      "title": coalesce(title, "Untitled"),
+      "logo": logo.asset->url,
+      description
+    },
+    "members": members,
     "trainers": trainers[]->{
       _id,
       email,
