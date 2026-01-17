@@ -1,5 +1,6 @@
 import {EnvelopeIcon} from '@sanity/icons'
 import { defineField, defineType } from "sanity";
+import { isUniqueOtherThanLanguage } from "@/sanity/lib/utils";
 
 export default defineType({
   name: "vacancy",
@@ -17,6 +18,17 @@ export default defineType({
       name: "title",
       title: "Title",
       type: "string",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: {
+        source: "title",
+        maxLength: 96,
+        isUnique: (value, context) => isUniqueOtherThanLanguage(value, context),
+      },
       validation: (rule) => rule.required(),
     }),
     defineField({

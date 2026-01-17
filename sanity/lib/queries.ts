@@ -320,6 +320,17 @@ export const vacanciesQuery = defineQuery(`
   *[_type == "vacancy" && language == $language] | order(deadline asc) {
     _id,
     "title": coalesce(title, "Untitled"),
+    "slug": slug.current,
+    image,
+    deadline
+  }
+`)
+
+export const vacancyQuery = defineQuery(`
+  *[_type == "vacancy" && slug.current == $slug && language == $language][0] {
+    _id,
+    "title": coalesce(title, "Untitled"),
+    "slug": slug.current,
     description,
     image,
     location,
