@@ -6,22 +6,20 @@ import { PortableTextBlock } from "next-sanity";
 import ContactView from "../contact-view";
 import { urlForImage } from "@/sanity/lib/utils";
 
-function getDescriptionForLocale(
-  description: any,
-  locale: string
-): string | null {
-  if (!description || !Array.isArray(description)) return null;
-
-  // Find the description for the current locale, fallback to 'en' or first available
-  const localeDesc = description.find((item: any) => item._key === locale);
-  if (localeDesc?.value) return localeDesc.value;
-
-  const enDesc = description.find((item: any) => item._key === "en");
-  if (enDesc?.value) return enDesc.value;
-
-  const firstDesc = description.find((item: any) => item.value);
-  return firstDesc?.value || null;
-}
+type Programme = {
+  _id: string;
+  title: string;
+  email?: string;
+  page?: {
+    slug?: string;
+    description?: PortableTextBlock[];
+  };
+  managers?: Array<{
+    _id: string;
+    name: string;
+    picture?: string;
+  }>;
+};
 
 function EmptyState() {
   return (
@@ -61,7 +59,7 @@ export default async function ProgrammesPage({
       query: pageTypeQuery,
       params: { type: "programmes", language: locale },
     }),
-    sanityFetch({ query: programmesQuery }),
+    sanityFetch({ query: programmesQuery, params: { language: locale } }),
   ]);
 
   return (
@@ -80,22 +78,21 @@ export default async function ProgrammesPage({
 
       {programmes && programmes.length > 0 ? (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {programmes.map((programme) => {
-            const description = getDescriptionForLocale(
-              programme.description,
-              locale
-            );
-
+          {(programmes as Programme[]).map((programme: Programme) => {
             return (
               <div
                 key={programme._id}
                 className="flex flex-col rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
               >
-                <h2 className="mb-4 text-2xl font-semibold">{programme.title}</h2>
+                <h2 className="mb-4 text-2xl font-semibold">
+                  {programme.title}
+                </h2>
 
-                {description && (
+                {programme.page?.description && (
                   <div className="mb-4 flex-1 text-sm text-gray-700">
-                    <p>{description}</p>
+                    <PortableText
+                      value={programme.page.description as PortableTextBlock[]}
+                    />
                   </div>
                 )}
 
@@ -147,6 +144,15 @@ export default async function ProgrammesPage({
                       ))}
                     </div>
                   </div>
+                )}
+
+                {programme.page?.slug && (
+                  <Link
+                    href={`/${locale}/programmes/${programme.page.slug}`}
+                    className="mt-4 text-blue-600 hover:underline font-semibold"
+                  >
+                    See more →
+                  </Link>
                 )}
               </div>
             );

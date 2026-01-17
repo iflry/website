@@ -4,6 +4,17 @@ import { pageTypeQuery, vacanciesQuery } from "@/sanity/lib/queries";
 import { PortableTextBlock } from "next-sanity";
 import DateComponent from "@/src/components/date";
 import Link from "next/link";
+import CoverImage from "../cover-image";
+
+type Vacancy = {
+  _id: string;
+  title: string;
+  description?: PortableTextBlock[];
+  image?: any;
+  location?: string;
+  applicationUrl?: string;
+  deadline?: string;
+};
 
 function EmptyState() {
   return (
@@ -40,7 +51,7 @@ export default async function VacanciesPage({ params }: { params: Promise<{ loca
   ]);
 
   // Filter for open vacancies (deadline in future or no deadline)
-  const openVacancies = vacancies?.filter((vacancy) => {
+  const openVacancies = (vacancies as Vacancy[] | undefined)?.filter((vacancy: Vacancy) => {
     if (!vacancy.deadline) return true;
     const deadline = new Date(vacancy.deadline);
     return deadline >= new Date();
@@ -62,84 +73,83 @@ export default async function VacanciesPage({ params }: { params: Promise<{ loca
 
       {openVacancies.length > 0 ? (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          {openVacancies.map((vacancy) => (
+          {openVacancies.map((vacancy: Vacancy) => (
             <div
               key={vacancy._id}
-              className="flex flex-col rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
+              className="flex flex-col rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md overflow-hidden"
             >
-              <h2 className="mb-3 text-2xl font-semibold">{vacancy.title}</h2>
-              
-              {vacancy.location && (
-                <div className="mb-3 flex items-center text-sm text-gray-600">
-                  <svg
-                    className="mr-2 h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+              {vacancy.image && (
+                <div className="w-full">
+                  <CoverImage image={vacancy.image} />
+                </div>
+              )}
+              <div className="flex flex-col p-6">
+                <h2 className="mb-3 text-2xl font-semibold">{vacancy.title}</h2>
+                
+                {vacancy.location && (
+                  <div className="mb-3 flex items-center text-sm text-gray-600">
+                    <svg
+                      className="mr-2 h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                    </svg>
+                    {vacancy.location}
+                  </div>
+                )}
+
+                {vacancy.deadline && (
+                  <div className="mb-4 flex items-center text-sm text-gray-600">
+                    <svg
+                      className="mr-2 h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      />
+                    </svg>
+                    <span className="font-medium">Deadline: </span>
+                    <DateComponent dateString={vacancy.deadline} />
+                  </div>
+                )}
+
+                {vacancy.description && (
+                  <div className="mb-4 flex-1 text-sm text-gray-700">
+                    <PortableText
+                      value={vacancy.description as PortableTextBlock[]}
+                    />
+                  </div>
+                )}
+
+                {vacancy.applicationUrl && (
+                  <Link
+                    href={vacancy.applicationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-auto inline-block rounded-lg bg-blue-600 px-6 py-3 text-center font-semibold text-white transition-colors hover:bg-blue-700"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                  {vacancy.location}
-                </div>
-              )}
-
-              {vacancy.deadline && (
-                <div className="mb-4 flex items-center text-sm text-gray-600">
-                  <svg
-                    className="mr-2 h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
-                  </svg>
-                  <span className="font-medium">Deadline: </span>
-                  <DateComponent dateString={vacancy.deadline} />
-                </div>
-              )}
-
-              {vacancy.description && (
-                <div className="mb-4 flex-1 text-sm text-gray-700">
-                  {Array.isArray(vacancy.description) ? (
-                    vacancy.description
-                      .filter((item: any) => item.value)
-                      .map((item: any, index: number) => (
-                        <p key={index} className="mb-2">
-                          {item.value}
-                        </p>
-                      ))
-                  ) : (
-                    <p>{vacancy.description}</p>
-                  )}
-                </div>
-              )}
-
-              {vacancy.applicationUrl && (
-                <Link
-                  href={vacancy.applicationUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-auto inline-block rounded-lg bg-blue-600 px-6 py-3 text-center font-semibold text-white transition-colors hover:bg-blue-700"
-                >
-                  Apply Now
-                </Link>
-              )}
+                    Apply Now
+                  </Link>
+                )}
+              </div>
             </div>
           ))}
         </div>

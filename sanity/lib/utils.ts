@@ -37,6 +37,8 @@ export function resolveHref(
       return slug ? `${locale}/pages/${slug}` : undefined;
     case "event":
       return slug ? `${locale}/events/${slug}` : undefined;
+    case "programme":
+      return slug ? `${locale}/programmes/${slug}` : undefined;
     default:
       console.warn("Invalid document type:", documentType);
       return undefined;

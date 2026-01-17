@@ -22,7 +22,20 @@ export default defineType({
     defineField({
       name: 'description',
       title: 'Description',
-      type: 'internationalizedArrayString',
+      type: 'array',
+      of: [{ type: 'block' }],
+    }),
+    defineField({
+      name: "image",
+      title: "Image",
+      type: "image",
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Alternative text"
+        },
+      ],
     }),
     defineField({
       name: "location",

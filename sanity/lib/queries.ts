@@ -113,12 +113,48 @@ export const programmesQuery = defineQuery(`
     _id,
     email,
     "title": coalesce(title, "Untitled"),
-    description,
     "managers": managers[]->{
       _id,
       "name": coalesce(name, "Untitled"),
       "picture": picture.asset->url
+    },
+    "page": *[_type == "programmePage" && programme._ref == ^._id && language == $language][0] {
+      "slug": slug.current,
+      description
     }
+  }
+`)
+
+export const programmePageQuery = defineQuery(`
+  *[_type == "programmePage" && slug.current == $slug && language == $language][0] {
+    _id,
+    "slug": slug.current,
+    description,
+    "programme": programme->{
+      _id,
+      "title": coalesce(title, "Untitled"),
+      email,
+      "managers": managers[]->{
+        _id,
+        "name": coalesce(name, "Untitled"),
+        picture,
+        biography
+      }
+    }
+  }
+`)
+
+export const eventsByProgrammeQuery = defineQuery(`
+  *[_type == "event" && programme._ref == $programmeId && language == $language] | order(start desc) {
+    _id,
+    "title": coalesce(title, "Untitled"),
+    "slug": slug.current,
+    type,
+    location,
+    start,
+    end,
+    "image": image.asset->url,
+    description
   }
 `)
 
@@ -285,6 +321,7 @@ export const vacanciesQuery = defineQuery(`
     _id,
     "title": coalesce(title, "Untitled"),
     description,
+    image,
     location,
     applicationUrl,
     deadline

@@ -23,6 +23,7 @@ import {internationalizedArray} from 'sanity-plugin-internationalized-array';
 import partner from '@/sanity/schemas/documents/partner';
 import event from '@/sanity/schemas/documents/event';
 import programme from './sanity/schemas/documents/programme';
+import programmePage from './sanity/schemas/documents/programmePage';
 import role from './sanity/schemas/documents/role';
 import page from './sanity/schemas/documents/page';
 import member from './sanity/schemas/documents/member';
@@ -37,7 +38,7 @@ const LANGUAGES = [
 ] 
 
 const SINGLETON_SCHEMA_TYPES = [configuration]
-const LOCALIZED_SCHEMA_TYPES = [post, event, page, vacancy]
+const LOCALIZED_SCHEMA_TYPES = [post, event, page, programmePage, vacancy]
 const DEFAULT_SCHEMA_TYPES = [person, partner, programme, member, role, trainer]
 const OBJECT_SCHEMA_TYPES = [navigationItem]
 
