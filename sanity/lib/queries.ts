@@ -38,6 +38,31 @@ export const settingsQuery = defineQuery(`
           }
         }
       }
+    },
+    announcementBanner {
+      enabled,
+      text,
+      cta,
+      href
+    },
+    footer {
+      fineprint,
+      columns[] {
+        title,
+        links[] {
+          title,
+          linkType,
+          page-> {
+            slug,
+            type
+          },
+          customUrl
+        }
+      },
+      socialLinks[] {
+        platform,
+        url
+      }
     }
   }
 `);
@@ -47,6 +72,7 @@ const postFields = /* groq */ `
   "status": select(_originalId in path("drafts.**") => "draft", "published"),
   "title": coalesce(title, "Untitled"),
   "slug": slug.current,
+  type,
   image,
   "date": coalesce(date, _updatedAt),
   "author": author->{"name": coalesce(name, "Anonymous"), picture},
@@ -322,6 +348,7 @@ export const vacanciesQuery = defineQuery(`
     "title": coalesce(title, "Untitled"),
     "slug": slug.current,
     image,
+    location,
     deadline
   }
 `)

@@ -21,24 +21,22 @@ export default function LanguageSelector({ locale }: { locale: string }) {
   };
   
   return (
-    <div className="mt-4 flex justify-center">
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="sm" className="gap-2">
-            <GlobeIcon className="h-4 w-4" />
-            {languageNames[locale] || locale}
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          {routing.locales.map((value) => (
-            <Link locale={value} key={value} href={pathname}>
-              <DropdownMenuCheckboxItem checked={value === locale}>
-                {languageNames[value] || value}
-              </DropdownMenuCheckboxItem>
-            </Link>
-          ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="sm" className="gap-2">
+          <GlobeIcon className="h-4 w-4" />
+          {languageNames[locale] || locale}
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        {routing.locales.map((value) => (
+          <Link locale={value} key={value} href={pathname}>
+            <DropdownMenuCheckboxItem checked={value === locale}>
+              {languageNames[value] || value}
+            </DropdownMenuCheckboxItem>
+          </Link>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 } 

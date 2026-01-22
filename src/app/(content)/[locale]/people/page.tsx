@@ -3,7 +3,11 @@ import { pageTypeQuery, peopleQuery } from "@/sanity/lib/queries";
 import RoleView, { RoleType, BureauRole, OfficeRole } from "./role-view";
 import PortableText from "@/src/components/portable-text";
 import { PortableTextBlock } from "next-sanity";
-import Link from "next/link";
+import { Link } from "@/src/i18n/navigation";
+import { Main } from "@/src/components/elements/main";
+import { Section } from "@/src/components/elements/section";
+import { Subheading } from "@/src/components/elements/subheading";
+import { Document } from "@/src/components/elements/document";
 
 
 const typeOrder: Record<RoleType, { order: number, title: string }> = {
@@ -73,45 +77,47 @@ export default async function PeoplePage({ params }: { params: Promise<{ locale:
     .sort((a, b) => a.order - b.order);
 
   return (
-    <div className="container mx-auto px-5">
-      <div>
-        <div className="mb-4 flex items-center justify-between">
-          <h1 className="text-balance text-6xl font-bold leading-tight tracking-tighter md:text-7xl md:leading-none lg:text-8xl">
-            {page?.title}
-          </h1>
+    <Main>
+      <Section
+        headline={page?.title || "Our People"}
+        subheadline={
+          page?.content?.length ? (
+            <Document>
+              <PortableText value={page.content as PortableTextBlock[]} />
+            </Document>
+          ) : undefined
+        }
+        cta={
           <Link
-            href={`/${locale}/people/archive`}
-            className="text-blue-600 hover:underline"
+            href="/people/archive"
+            className="text-sm font-semibold text-gray-900 underline underline-offset-4"
           >
             View History →
           </Link>
+        }
+      >
+        <div className="space-y-16">
+          {orderedSections.map(section => (
+            <div key={section.type}>
+              <Subheading className="mb-8">{section.title}</Subheading>
+              <div className="grid grid-cols-2 gap-x-2 gap-y-10 md:grid-cols-3 lg:grid-cols-4">
+                {section.people.map((person) => (
+                  <RoleView 
+                    key={person._id} 
+                    picture={person.picture} 
+                    name={person.name} 
+                    title={person.title} 
+                    email={person.email}
+                    type={person.type}
+                    bureauRole={person.bureauRole}
+                    officeRole={person.officeRole}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
-        {page?.content?.length && (
-          <PortableText
-            className="mx-auto max-w-2xl"
-            value={page.content as PortableTextBlock[]}
-          />
-        )}
-      </div>
-      {orderedSections.map(section => (
-        <div key={section.type} className="mb-16">
-          <h3 className="mb-8 text-3xl font-bold">{section.title}</h3>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {section.people.map((person) => (
-              <RoleView 
-                key={person._id} 
-                picture={person.picture} 
-                name={person.name} 
-                title={person.title} 
-                email={person.email}
-                type={person.type}
-                bureauRole={person.bureauRole}
-                officeRole={person.officeRole}
-              />
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
+      </Section>
+    </Main>
   );
 }

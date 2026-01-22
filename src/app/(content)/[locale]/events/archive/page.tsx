@@ -11,6 +11,9 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/src/components/ui/pagination";
+import { Main } from "@/src/components/elements/main";
+import { Section } from "@/src/components/elements/section";
+import { Text } from "@/src/components/elements/text";
 
 const ITEMS_PER_PAGE = 20;
 
@@ -50,15 +53,16 @@ export default async function EventsArchivePage({
   const totalPages = Math.ceil((totalCount || 0) / ITEMS_PER_PAGE);
 
   return (
-    <div className="container mx-auto px-5">
-      <div className="mb-12">
-        <h1 className="mb-4 text-6xl font-bold md:text-7xl lg:text-8xl">Event Archive</h1>
-        <p className="text-lg text-gray-600">
-          Past events and activities organized by IFLRY
-        </p>
-      </div>
-
-      {events && events.length > 0 ? (
+    <Main>
+      <Section
+        headline="Event Archive"
+        subheadline={
+          <Text>
+            Past events and activities organized by IFLRY
+          </Text>
+        }
+      >
+        {events && events.length > 0 ? (
         <>
           <div className="space-y-6">
             {events.map((event) => (
@@ -95,7 +99,7 @@ export default async function EventsArchivePage({
                   {event.slug && (
                     <Link
                       href={`/${locale}/events/${event.slug}`}
-                      className="mt-auto text-blue-600 hover:underline"
+                      className="mt-auto text-gray-900 underline underline-offset-4 font-semibold"
                     >
                       View details →
                     </Link>
@@ -156,30 +160,31 @@ export default async function EventsArchivePage({
             </div>
           )}
         </>
-      ) : (
-        <div className="py-16 text-center">
-          <div className="mx-auto max-w-md">
-            <svg
-              className="mx-auto h-12 w-12 text-gray-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-              />
-            </svg>
-            <h3 className="mt-4 text-lg font-semibold text-gray-900">No past events</h3>
-            <p className="mt-2 text-sm text-gray-500">
-              There are no past events in the archive yet.
-            </p>
+        ) : (
+          <div className="py-16 text-center">
+            <div className="mx-auto max-w-md">
+              <svg
+                className="mx-auto h-12 w-12 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+              <h3 className="mt-4 text-lg font-semibold text-gray-900">No past events</h3>
+              <p className="mt-2 text-sm text-gray-500">
+                There are no past events in the archive yet.
+              </p>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </Section>
+    </Main>
   );
 }

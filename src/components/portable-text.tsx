@@ -13,6 +13,7 @@ import {
   type PortableTextComponents,
   type PortableTextBlock,
 } from "next-sanity";
+import { Link } from "@/src/i18n/navigation";
 
 export default function CustomPortableText({
   className,
@@ -32,10 +33,21 @@ export default function CustomPortableText({
     },
     marks: {
       link: ({ children, value }) => {
+        const href = value?.href || '';
+        const isExternal = href.startsWith('http://') || href.startsWith('https://') || href.startsWith('mailto:');
+        
+        if (isExternal) {
+          return (
+            <a href={href} rel="noreferrer noopener" target="_blank">
+              {children}
+            </a>
+          );
+        }
+        
         return (
-          <a href={value?.href} rel="noreferrer noopener">
+          <Link href={href}>
             {children}
-          </a>
+          </Link>
         );
       },
     },

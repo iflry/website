@@ -2,9 +2,8 @@ import { defineQuery } from "next-sanity";
 import type { Metadata, ResolvingMetadata } from "next";
 import { type PortableTextBlock } from "next-sanity";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { Link } from "@/src/i18n/navigation";
 
-import ContactView from "../../contact-view";
 import DateComponent from "@/src/components/date";
 import PortableText from "@/src/components/portable-text";
 
@@ -12,7 +11,9 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import { programmePageQuery, eventsByProgrammeQuery } from "@/sanity/lib/queries";
 import { routing } from "@/src/i18n/routing";
 import { urlForImage } from "@/sanity/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "@/src/components/ui/avatar";
+import { Main } from "@/src/components/elements/main";
+import { DocumentCentered } from "@/src/components/sections/document-centered";
+import { Subheading } from "@/src/components/elements/subheading";
 
 type Props = {
   params: Promise<{ slug: string; locale: string }>;
@@ -97,56 +98,54 @@ export default async function ProgrammePage({ params }: Props) {
   });
 
   return (
-    <div className="container mx-auto px-5">
-      <article>
-        <div className="mb-8">
-          <h1 className="mb-6 text-6xl font-bold md:text-7xl lg:text-8xl">
+    <Main>
+      <DocumentCentered
+        headline={
+          <div>
             {programme.title}
-          </h1>
+            {programme.email && (
+              <div className="mt-6 flex items-center text-lg text-gray-600">
+                <svg
+                  className="mr-2 h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
+                <a
+                  href={`mailto:${programme.email}`}
+                  className="text-gray-900 underline underline-offset-4 hover:no-underline"
+                >
+                  {programme.email}
+                </a>
+              </div>
+            )}
+          </div>
+        }
+      >
+        {programmePage.description?.length && (
+          <div className="mb-12">
+            <PortableText
+              className="prose-lg"
+              value={programmePage.description as PortableTextBlock[]}
+            />
+          </div>
+        )}
 
-          {programme.email && (
-            <div className="mb-6 flex items-center text-lg text-gray-600">
-              <svg
-                className="mr-2 h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                />
-              </svg>
-              <Link
-                href={`mailto:${programme.email}`}
-                className="text-blue-600 hover:underline"
-              >
-                {programme.email}
-              </Link>
-            </div>
-          )}
-        </div>
-
-        <div className="mx-auto max-w-2xl">
-          {programmePage.description?.length && (
-            <div className="mb-12">
-              <PortableText
-                className="prose-lg"
-                value={programmePage.description as PortableTextBlock[]}
-              />
-            </div>
-          )}
-
-          {programmeEvents && programmeEvents.length > 0 && (
-            <div className="mb-12">
-              <h2 className="mb-6 text-3xl font-bold">Events</h2>
+        {programmeEvents && programmeEvents.length > 0 && (
+          <div className="mb-12">
+            <Subheading className="mb-6">Events</Subheading>
               <div className="grid gap-6 md:grid-cols-2">
                 {programmeEvents.map((event: any) => (
                   <Link
                     key={event._id}
-                    href={`/${locale}/events/${event.slug}`}
+                    href={`/events/${event.slug}`}
                     className="group flex flex-col rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
                   >
                     {event.type && (
@@ -154,7 +153,7 @@ export default async function ProgrammePage({ params }: Props) {
                         {getEventTypeLabel(event.type)}
                       </span>
                     )}
-                    <h3 className="mb-2 text-xl font-semibold group-hover:text-blue-600">
+                    <h3 className="mb-2 text-xl font-semibold">
                       {event.title}
                     </h3>
                     {event.location && (
@@ -213,8 +212,8 @@ export default async function ProgrammePage({ params }: Props) {
 
           {programme.managers && programme.managers.length > 0 && (
             <div className="mb-12">
-              <h2 className="mb-6 text-3xl font-bold">Programme Managers</h2>
-              <div className="grid gap-6 md:grid-cols-2">
+              <Subheading className="mb-6">Programme Managers</Subheading>
+              <div className="space-y-6">
                 {programme.managers.map((manager: any) => {
                   const biography = getBiographyForLocale(
                     manager.biography,
@@ -223,27 +222,32 @@ export default async function ProgrammePage({ params }: Props) {
                   return (
                     <div
                       key={manager._id}
-                      className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
+                      className="flex gap-4"
                     >
-                      <div className="mb-4">
-                        <ContactView
-                          name={manager.name || "Unknown"}
-                          picture={manager.picture}
+                      {manager.picture?.asset?._ref && (
+                        <img
+                          src={urlForImage(manager.picture)?.height(64).width(64).fit("crop").url() || ""}
+                          alt={manager.name || "Manager"}
+                          className="h-16 w-16 rounded-full object-cover shrink-0"
                         />
-                      </div>
-                      {biography && (
-                        <div className="text-sm text-gray-700">
-                          <p>{biography}</p>
-                        </div>
                       )}
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                          {manager.name || "Unknown"}
+                        </h3>
+                        {biography && (
+                          <p className="text-sm text-gray-700">
+                            {biography}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   );
                 })}
               </div>
             </div>
           )}
-        </div>
-      </article>
-    </div>
+      </DocumentCentered>
+    </Main>
   );
 }

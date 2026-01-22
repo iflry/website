@@ -1,6 +1,5 @@
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { postsQuery, postsCountQuery } from "@/sanity/lib/queries";
-import ContactView from "../contact-view";
 import DateComponent from "@/src/components/date";
 import Link from "next/link";
 import { urlForImage } from "@/sanity/lib/utils";
@@ -13,8 +12,12 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/src/components/ui/pagination";
+import { Badge } from "@/src/components/ui/badge";
+import { Card, CardImage } from "@/src/components/card";
 import PostsTabs from "./posts-tabs";
 import { Suspense } from "react";
+import { Main } from "@/src/components/elements/main";
+import { Section } from "@/src/components/elements/section";
 
 const ITEMS_PER_PAGE = 20;
 
@@ -24,6 +27,17 @@ const POST_TYPES = [
   { value: "press-release", label: "Press Release" },
   { value: "bureau-update", label: "Bureau Update" },
 ] as const;
+
+function getPostTypeBadgeVariant(type: string): "default" | "secondary" | "outline" {
+  switch (type) {
+    case "press-release":
+      return "default";
+    case "bureau-update":
+      return "secondary";
+    default:
+      return "outline";
+  }
+}
 
 function EmptyState({ type }: { type: string }) {
   const typeLabel =
@@ -92,45 +106,58 @@ export default async function PostsPage({
   const totalPages = Math.ceil((totalCount || 0) / ITEMS_PER_PAGE);
 
   return (
-    <div className="container mx-auto px-5">
-      <h1 className="mb-12 text-6xl font-bold md:text-7xl lg:text-8xl">Posts</h1>
+    <Main>
+      <Section headline="Posts">
+        <div className="mb-8">
+          <Suspense fallback={<div className="h-9 w-full rounded-lg bg-muted" />}>
+            <PostsTabs currentType={type} locale={locale} />
+          </Suspense>
+        </div>
 
-      <div className="mb-8">
-        <Suspense fallback={<div className="h-9 w-full rounded-lg bg-muted" />}>
-          <PostsTabs currentType={type} locale={locale} />
-        </Suspense>
-      </div>
-
-      {posts && posts.length > 0 ? (
+        {posts && posts.length > 0 ? (
         <>
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-            {posts.map((post) => (
-              <div
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {posts.map((post: any) => (
+              <Card
                 key={post.slug}
-                className="group relative flex flex-col rounded-3xl bg-white p-2 shadow-md ring-1 shadow-black/5 ring-black/5 transition-shadow hover:shadow-lg"
-              >
-                {post.image && (
-                  <img
-                    src={urlForImage(post.image)?.size(1170, 780).url()}
-                    className="aspect-3/2 w-full rounded-2xl object-cover"
+                href={`/${locale}/posts/${post.slug}`}
+                image={
+                  <CardImage
+                    src={post.image ? urlForImage(post.image)?.size(1170, 780).url() : null}
                     alt={post.title}
+                    placeholder={
+                      <svg className="w-16 h-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    }
                   />
-                )}
-                <div className="flex flex-1 flex-col p-8">
+                }
+                badge={
+                  (post as any).type && (
+                    <Badge variant={getPostTypeBadgeVariant((post as any).type)}>
+                      {POST_TYPES.find((t) => t.value === (post as any).type)?.label || (post as any).type}
+                    </Badge>
+                  )
+                }
+                title={post.title}
+                metadata={
                   <DateComponent dateString={post.date} />
-                  <div className="mt-2 text-base/7 font-medium">
-                    <Link href={`/${locale}/posts/${post.slug}`}>
-                      <span className="absolute inset-0" />
-                      {post.title}
-                    </Link>
-                  </div>
-                  {post.author && (
-                    <div className="mt-4">
-                      <ContactView name={post.author.name} picture={post.author.picture} />
+                }
+                footer={
+                  post.author && (
+                    <div className="flex items-center gap-2 text-sm">
+                      {post.author.picture?.asset?._ref && (
+                        <img
+                          src={urlForImage(post.author.picture)?.height(32).width(32).fit("crop").url() || ""}
+                          alt={post.author.name || ""}
+                          className="h-8 w-8 rounded-full object-cover"
+                        />
+                      )}
+                      <span className="text-gray-600">{post.author.name}</span>
                     </div>
-                  )}
-                </div>
-              </div>
+                  )
+                }
+              />
             ))}
           </div>
 
@@ -185,9 +212,10 @@ export default async function PostsPage({
             </div>
           )}
         </>
-      ) : (
-        <EmptyState type={type} />
-      )}
-    </div>
+        ) : (
+          <EmptyState type={type} />
+        )}
+      </Section>
+    </Main>
   );
 }

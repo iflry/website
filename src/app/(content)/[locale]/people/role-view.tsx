@@ -1,4 +1,3 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/src/components/ui/avatar";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
@@ -49,15 +48,35 @@ export default async function RoleView({ picture, name, title, email, type, bure
   
 
   return (
-    <div className="flex flex-row items-center gap-4">
-      <Avatar className="w-24 h-24">
-        <AvatarImage className="object-cover" src={picture || ""} alt={name || ""} />
-        <AvatarFallback>{name?.charAt(0)}</AvatarFallback>
-      </Avatar>
-      <div className="flex flex-col">
-        <p className="text-lg font-bold">{name}</p>
-        <p className="text-gray-500">{getRole()}</p>
-        <Link href={`mailto:${email}`}>{email}</Link>
+    <div className="flex flex-col gap-3 text-sm/7">
+      {picture ? (
+        <div className="aspect-3/4 w-full overflow-hidden rounded-sm outline -outline-offset-1 outline-black/5">
+          <img
+            src={picture}
+            alt={name || ""}
+            className="size-full object-cover"
+          />
+        </div>
+      ) : (
+        <div className="aspect-3/4 w-full overflow-hidden rounded-sm outline -outline-offset-1 outline-black/5 bg-gray-100 flex items-center justify-center">
+          <span className="text-xl text-gray-400">{name?.charAt(0) || ""}</span>
+        </div>
+      )}
+      <div>
+        <p className="font-semibold text-gray-900">{name}</p>
+        {getRole() && (
+          <p className="text-gray-600">{getRole()}</p>
+        )}
+        {email && (
+          <p className="mt-1">
+            <Link
+              href={`mailto:${email}`}
+              className="font-semibold text-gray-900 underline underline-offset-4"
+            >
+              {email}
+            </Link>
+          </p>
+        )}
       </div>
     </div>
   );

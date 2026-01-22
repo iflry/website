@@ -3,7 +3,6 @@ import type { Metadata, ResolvingMetadata } from "next";
 import { type PortableTextBlock } from "next-sanity";
 import { notFound } from "next/navigation";
 
-import ContactView from "../../contact-view";
 import CoverImage from "../../cover-image";
 import DateComponent from "@/src/components/date";
 import PortableText from "@/src/components/portable-text";
@@ -12,11 +11,13 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import { eventQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import { routing } from "@/src/i18n/routing";
-import { urlForImage } from "@/sanity/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "@/src/components/ui/avatar";
 import Link from "next/link";
 import membershipData from "@/src/data/membership.json";
 import regionalData from "@/src/data/regional.json";
+import { Main } from "@/src/components/elements/main";
+import { DocumentCentered } from "@/src/components/sections/document-centered";
+import { Subheading } from "@/src/components/elements/subheading";
+import { Badge } from "@/src/components/ui/badge";
 
 type Props = {
   params: Promise<{ slug: string; locale: string }>;
@@ -87,18 +88,21 @@ export default async function EventPage({ params }: Props) {
   }
 
   return (
-    <div className="container mx-auto px-5">
-      <article>
-        <div className="mb-8">
-          {event.type && (
-            <span className="mb-4 inline-block rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-800">
-              {getEventTypeLabel(event.type)}
-            </span>
-          )}
-          <h1 className="mb-6 text-6xl font-bold md:text-7xl lg:text-8xl">
+    <Main>
+      <DocumentCentered
+        headline={
+          <div>
+            
             {event.title}
-          </h1>
-          <div className="mb-6 flex flex-wrap items-center gap-4 text-lg text-gray-600">
+          </div>
+        }
+      >
+        <div className="mb-6 flex flex-wrap items-center gap-4 text-lg text-gray-600">
+        {event.type && (
+        <Badge variant="outline">
+          {getEventTypeLabel(event.type)}
+        </Badge>
+      )}
             {event.location && (
               <div className="flex items-center">
                 <svg
@@ -148,15 +152,13 @@ export default async function EventPage({ params }: Props) {
               </div>
             )}
           </div>
-        </div>
 
-        {event.image && (
-          <div className="mb-8 sm:mx-0 md:mb-16">
-            <CoverImage image={event.image} priority />
-          </div>
-        )}
+          {event.image && (
+            <div className="mb-8 sm:mx-0 md:mb-16">
+              <CoverImage image={event.image} priority />
+            </div>
+          )}
 
-        <div className="mx-auto max-w-2xl">
           {event.description?.length && (
             <div className="mb-12">
               <PortableText
@@ -168,31 +170,28 @@ export default async function EventPage({ params }: Props) {
 
           <div className="mb-12 grid gap-8 md:grid-cols-2">
             {event.contactPerson?.person && (
-              <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-                <h2 className="mb-4 text-xl font-semibold">Contact Person</h2>
-                <div className="flex items-center gap-4">
+              <div className="rounded-lg border border-gray-200 bg-white p-6">
+                <Subheading className="mb-4 text-xl">Contact Person</Subheading>
+                <div className="flex items-center gap-2 text-sm">
                   {event.contactPerson.person.picture && (
-                    <Avatar className="h-16 w-16">
-                      <AvatarImage
-                        src={event.contactPerson.person.picture}
-                        alt={event.contactPerson.person.name}
-                      />
-                      <AvatarFallback>
-                        {event.contactPerson.person.name?.charAt(0)}
-                      </AvatarFallback>
-                    </Avatar>
+                    <img
+                      src={event.contactPerson.person.picture}
+                      alt={event.contactPerson.person.name || ""}
+                      className="h-8 w-8 rounded-full object-cover"
+                    />
                   )}
                   <div>
-                    <p className="font-semibold">
-                      {event.contactPerson.person.name}
-                    </p>
+                    <span className="text-gray-600">{event.contactPerson.person.name}</span>
                     {event.contactPerson.email && (
-                      <Link
-                        href={`mailto:${event.contactPerson.email}`}
-                        className="text-sm text-blue-600 hover:underline"
-                      >
-                        {event.contactPerson.email}
-                      </Link>
+                      <>
+                        {" · "}
+                        <Link
+                          href={`mailto:${event.contactPerson.email}`}
+                          className="text-gray-900 underline underline-offset-4 hover:no-underline"
+                        >
+                          {event.contactPerson.email}
+                        </Link>
+                      </>
                     )}
                   </div>
                 </div>
@@ -201,12 +200,12 @@ export default async function EventPage({ params }: Props) {
 
             {event.programme && (
               <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-                <h2 className="mb-4 text-xl font-semibold">Programme</h2>
+                <Subheading className="mb-4 text-xl">Programme</Subheading>
                 <p className="mb-2 font-medium">{event.programme.title}</p>
                 {event.programme.email && (
                   <Link
                     href={`mailto:${event.programme.email}`}
-                    className="text-sm text-blue-600 hover:underline"
+                    className="text-gray-900 underline underline-offset-4 hover:no-underline"
                   >
                     {event.programme.email}
                   </Link>
@@ -217,43 +216,32 @@ export default async function EventPage({ params }: Props) {
 
           {event.trainers && event.trainers.length > 0 && (
             <div className="mb-12">
-              <h2 className="mb-6 text-2xl font-semibold">Trainers</h2>
-              <div className="grid gap-6 md:grid-cols-2">
+              <Subheading className="mb-4">Trainers</Subheading>
+              <div className="space-y-2">
                 {event.trainers.map((trainer: any) => (
                   <div
                     key={trainer._id}
-                    className="flex items-center gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm"
+                    className="flex items-center gap-2 text-sm"
                   >
                     {trainer.person?.picture && (
-                      <Avatar className="h-16 w-16">
-                        <AvatarImage
-                          src={trainer.person.picture}
-                          alt={trainer.person.name}
-                        />
-                        <AvatarFallback>
-                          {trainer.person.name?.charAt(0)}
-                        </AvatarFallback>
-                      </Avatar>
+                      <img
+                        src={trainer.person.picture}
+                        alt={trainer.person.name || ""}
+                        className="h-8 w-8 rounded-full object-cover"
+                      />
                     )}
-                    <div className="flex-1">
-                      <p className="font-semibold">{trainer.person?.name}</p>
+                    <div>
+                      <span className="text-gray-600">{trainer.person?.name}</span>
                       {trainer.email && (
-                        <Link
-                          href={`mailto:${trainer.email}`}
-                          className="text-sm text-blue-600 hover:underline"
-                        >
-                          {trainer.email}
-                        </Link>
-                      )}
-                      {trainer.expertises && trainer.expertises.length > 0 && (
-                        <div className="mt-2">
-                          <p className="text-xs font-medium text-gray-600">
-                            Expertises:
-                          </p>
-                          <p className="text-sm text-gray-700">
-                            {trainer.expertises.join(", ")}
-                          </p>
-                        </div>
+                        <>
+                          {" · "}
+                          <Link
+                            href={`mailto:${trainer.email}`}
+                            className="text-gray-900 underline underline-offset-4 hover:no-underline"
+                          >
+                            {trainer.email}
+                          </Link>
+                        </>
                       )}
                     </div>
                   </div>
@@ -264,7 +252,7 @@ export default async function EventPage({ params }: Props) {
 
           {event.partners && event.partners.length > 0 && (
             <div className="mb-12">
-              <h2 className="mb-6 text-2xl font-semibold">Partners</h2>
+              <Subheading className="mb-6">Partners</Subheading>
               <div className="grid gap-6 md:grid-cols-3">
                 {event.partners.map((partner: any) => (
                   <div
@@ -299,7 +287,7 @@ export default async function EventPage({ params }: Props) {
 
           {event.members && event.members.length > 0 && (
             <div className="mb-12">
-              <h2 className="mb-6 text-2xl font-semibold">Participating Members</h2>
+              <Subheading className="mb-6">Participating Members</Subheading>
               <div className="flex flex-wrap gap-2">
                 {event.members.map((memberId: string, index: number) => {
                   const allMembers = [...membershipData, ...regionalData];
@@ -316,8 +304,7 @@ export default async function EventPage({ params }: Props) {
               </div>
             </div>
           )}
-        </div>
-      </article>
-    </div>
+      </DocumentCentered>
+    </Main>
   );
 }

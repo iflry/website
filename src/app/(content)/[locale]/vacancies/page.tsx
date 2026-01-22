@@ -3,15 +3,49 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import { pageTypeQuery, vacanciesQuery } from "@/sanity/lib/queries";
 import { PortableTextBlock } from "next-sanity";
 import Link from "next/link";
-import CoverImage from "../cover-image";
+import { urlForImage } from "@/sanity/lib/utils";
+import DateComponent from "@/src/components/date";
+import { Badge } from "@/src/components/ui/badge";
+import { Card, CardImage } from "@/src/components/card";
+import { Main } from "@/src/components/elements/main";
+import { Section } from "@/src/components/elements/section";
+import { Document } from "@/src/components/elements/document";
 
 type Vacancy = {
   _id: string;
   title: string;
   slug: string;
   image?: any;
+  location?: string;
   deadline?: string;
 };
+
+function getDeadlineBadgeVariant(deadline: string | undefined): "default" | "secondary" | "destructive" | "outline" {
+  if (!deadline) return "outline";
+  
+  const deadlineDate = new Date(deadline);
+  const today = new Date();
+  const daysUntil = Math.ceil((deadlineDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+  
+  if (daysUntil < 0) return "outline"; // Past deadline
+  if (daysUntil <= 7) return "destructive"; // Urgent
+  if (daysUntil <= 30) return "secondary"; // Upcoming
+  return "default"; // Normal
+}
+
+function getDeadlineLabel(deadline: string | undefined): string {
+  if (!deadline) return "No deadline";
+  
+  const deadlineDate = new Date(deadline);
+  const today = new Date();
+  const daysUntil = Math.ceil((deadlineDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+  
+  if (daysUntil < 0) return "Expired";
+  if (daysUntil === 0) return "Due today";
+  if (daysUntil === 1) return "Due tomorrow";
+  if (daysUntil <= 7) return `Due in ${daysUntil} days`;
+  return `Deadline: ${deadlineDate.toLocaleDateString()}`;
+}
 
 function EmptyState() {
   return (
@@ -55,43 +89,80 @@ export default async function VacanciesPage({ params }: { params: Promise<{ loca
   }) || [];
 
   return (
-    <div className="container mx-auto px-5">
-      <div className="mb-12">
-        <h1 className="mb-4 text-6xl font-bold md:text-7xl lg:text-8xl">
-          {page?.title || "Vacancies"}
-        </h1>
-        {page?.content?.length && (
-          <PortableText
-            className="mx-auto max-w-2xl"
-            value={page.content as PortableTextBlock[]}
-          />
-        )}
-      </div>
-
-      {openVacancies.length > 0 ? (
+    <Main>
+      <Section
+        headline={page?.title || "Vacancies"}
+        subheadline={
+          page?.content?.length ? (
+            <Document>
+              <PortableText value={page.content as PortableTextBlock[]} />
+            </Document>
+          ) : undefined
+        }
+      >
+        {openVacancies.length > 0 ? (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {openVacancies.map((vacancy: Vacancy) => (
-            <Link
+            <Card
               key={vacancy._id}
               href={`/${locale}/vacancies/${vacancy.slug}`}
-              className="group flex flex-col rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md overflow-hidden"
-            >
-              {vacancy.image && (
-                <div className="w-full">
-                  <CoverImage image={vacancy.image} />
-                </div>
-              )}
-              <div className="flex flex-col p-6">
-                <h2 className="text-2xl font-semibold group-hover:text-blue-600">
-                  {vacancy.title}
-                </h2>
-              </div>
-            </Link>
+              image={
+                vacancy.image ? (
+                  <CardImage
+                    src={urlForImage(vacancy.image)?.size(1170, 780).url() || null}
+                    alt={vacancy.title}
+                  />
+                ) : undefined
+              }
+              badge={
+                vacancy.deadline && (
+                  <Badge variant={getDeadlineBadgeVariant(vacancy.deadline)}>
+                    {getDeadlineLabel(vacancy.deadline)}
+                  </Badge>
+                )
+              }
+              title={vacancy.title}
+              titleAs="h2"
+              metadata={
+                vacancy.location && (
+                  <div className="mb-2 flex items-center text-sm text-gray-600">
+                    <svg
+                      className="mr-2 h-4 w-4 shrink-0"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                    </svg>
+                    {vacancy.location}
+                  </div>
+                )
+              }
+              footer={
+                vacancy.deadline && (
+                  <div className="text-sm text-gray-600">
+                    <DateComponent dateString={vacancy.deadline} />
+                  </div>
+                )
+              }
+            />
           ))}
         </div>
-      ) : (
-        <EmptyState />
-      )}
-    </div>
+        ) : (
+          <EmptyState />
+        )}
+      </Section>
+    </Main>
   );
 }

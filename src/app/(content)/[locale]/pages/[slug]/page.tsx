@@ -9,6 +9,8 @@ import {getTranslations} from 'next-intl/server';
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { pageQuery } from "@/sanity/lib/queries";
 import { routing } from "@/src/i18n/routing";
+import { Main } from "@/src/components/elements/main";
+import { DocumentCentered } from "@/src/components/sections/document-centered";
 
 type Props = {
   params: Promise<{ slug: string, locale: string }>;
@@ -61,18 +63,14 @@ export default async function Page({ params }: Props) {
   }
 
   return (
-    <div className="container mx-auto px-5">
-      <div>
-        <h1 className="text-balance mb-12 text-6xl font-bold leading-tight tracking-tighter md:text-7xl md:leading-none lg:text-8xl">
-          {page.title}
-        </h1>
+    <Main>
+      <DocumentCentered headline={page.title}>
         {page.content?.length && (
           <PortableText
-            className="mx-auto max-w-2xl"
             value={page.content as PortableTextBlock[]}
           />
         )}
-      </div>
-    </div>
+      </DocumentCentered>
+    </Main>
   );
 }

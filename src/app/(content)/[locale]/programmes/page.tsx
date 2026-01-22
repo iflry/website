@@ -3,8 +3,11 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import { pageTypeQuery, programmesQuery } from "@/sanity/lib/queries";
 import Link from "next/link";
 import { PortableTextBlock } from "next-sanity";
-import ContactView from "../contact-view";
-import { urlForImage } from "@/sanity/lib/utils";
+import { extractTextFromPortableText, truncateText } from "@/src/lib/text-utils";
+import { Card } from "@/src/components/card";
+import { Main } from "@/src/components/elements/main";
+import { Section } from "@/src/components/elements/section";
+import { Document } from "@/src/components/elements/document";
 
 type Programme = {
   _id: string;
@@ -63,36 +66,38 @@ export default async function ProgrammesPage({
   ]);
 
   return (
-    <div className="container mx-auto px-5">
-      <div className="mb-12">
-        <h1 className="mb-4 text-6xl font-bold md:text-7xl lg:text-8xl">
-          {page?.title || "Programmes"}
-        </h1>
-        {page?.content?.length && (
-          <PortableText
-            className="mx-auto max-w-2xl"
-            value={page.content as PortableTextBlock[]}
-          />
-        )}
-      </div>
-
-      {programmes && programmes.length > 0 ? (
+    <Main>
+      <Section
+        headline={page?.title || "Programmes"}
+        subheadline={
+          page?.content?.length ? (
+            <Document>
+              <PortableText value={page.content as PortableTextBlock[]} />
+            </Document>
+          ) : undefined
+        }
+      >
+        {programmes && programmes.length > 0 ? (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {(programmes as Programme[]).map((programme: Programme) => {
-            return (
-              <div
-                key={programme._id}
-                className="flex flex-col rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
-              >
-                <h2 className="mb-4 text-2xl font-semibold">
-                  {programme.title}
-                </h2>
+            const descriptionText = programme.page?.description
+              ? extractTextFromPortableText(programme.page.description)
+              : "";
+            const excerpt = truncateText(descriptionText, 150);
+            const hasMore = descriptionText.length > 150;
 
-                {programme.page?.description && (
-                  <div className="mb-4 flex-1 text-sm text-gray-700">
-                    <PortableText
-                      value={programme.page.description as PortableTextBlock[]}
-                    />
+            return (
+              <Card
+                key={programme._id}
+                href={programme.page?.slug ? `/${locale}/programmes/${programme.page.slug}` : undefined}
+                title={programme.title}
+                titleAs="h2"
+              >
+                {excerpt && (
+                  <div className="mb-4 flex-1">
+                    <p className="text-sm text-gray-700 line-clamp-3">
+                      {excerpt}
+                    </p>
                   </div>
                 )}
 
@@ -100,46 +105,29 @@ export default async function ProgrammesPage({
                   <div className="mb-4">
                     <Link
                       href={`mailto:${programme.email}`}
-                      className="flex items-center text-sm text-blue-600 hover:underline"
+                      className="text-gray-900 underline underline-offset-4 hover:no-underline"
                     >
-                      <svg
-                        className="mr-2 h-4 w-4"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                        />
-                      </svg>
                       {programme.email}
                     </Link>
                   </div>
                 )}
 
                 {programme.managers && programme.managers.length > 0 && (
-                  <div>
+                  <div className="mb-4">
                     <h3 className="mb-2 text-sm font-semibold text-gray-700">
                       Programme Managers:
                     </h3>
-                    <div className="space-y-3">
+                    <div className="space-y-2">
                       {programme.managers.map((manager: any) => (
-                        <div key={manager._id} className="flex items-center gap-3">
+                        <div key={manager._id} className="flex items-center gap-2 text-sm">
                           {manager.picture && (
-                            <div className="h-12 w-12">
-                              <img
-                                src={manager.picture}
-                                alt={manager.name || "Manager"}
-                                className="h-12 w-12 rounded-full object-cover"
-                              />
-                            </div>
+                            <img
+                              src={manager.picture}
+                              alt={manager.name || "Manager"}
+                              className="h-8 w-8 rounded-full object-cover"
+                            />
                           )}
-                          <div className="text-sm font-semibold">
-                            {manager.name || "Unknown"}
-                          </div>
+                          <span className="text-gray-600">{manager.name || "Unknown"}</span>
                         </div>
                       ))}
                     </div>
@@ -149,18 +137,19 @@ export default async function ProgrammesPage({
                 {programme.page?.slug && (
                   <Link
                     href={`/${locale}/programmes/${programme.page.slug}`}
-                    className="mt-4 text-blue-600 hover:underline font-semibold"
+                    className="mt-auto text-gray-900 underline underline-offset-4 font-semibold"
                   >
-                    See more →
+                    {hasMore ? "Read more" : "See more"} →
                   </Link>
                 )}
-              </div>
+              </Card>
             );
           })}
         </div>
-      ) : (
-        <EmptyState />
-      )}
-    </div>
+        ) : (
+          <EmptyState />
+        )}
+      </Section>
+    </Main>
   );
 }

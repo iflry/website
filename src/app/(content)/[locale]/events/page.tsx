@@ -2,7 +2,6 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import { upcomingEventsQuery, upcomingEventsCountQuery } from "@/sanity/lib/queries";
 import DateComponent from "@/src/components/date";
 import Link from "next/link";
-import { urlForImage } from "@/sanity/lib/utils";
 import {
   Pagination,
   PaginationContent,
@@ -12,6 +11,12 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/src/components/ui/pagination";
+import { Badge } from "@/src/components/ui/badge";
+import { Card, CardImage } from "@/src/components/card";
+import { Main } from "@/src/components/elements/main";
+import { Section } from "@/src/components/elements/section";
+import { Heading } from "@/src/components/elements/heading";
+import { Text } from "@/src/components/elements/text";
 
 const ITEMS_PER_PAGE = 20;
 
@@ -22,6 +27,17 @@ function getEventTypeLabel(type: string) {
     workshop: "Workshop",
   };
   return labels[type] || type;
+}
+
+function getEventTypeBadgeVariant(type: string): "default" | "secondary" | "outline" {
+  switch (type) {
+    case "ga":
+      return "default";
+    case "seminar":
+      return "secondary";
+    default:
+      return "outline";
+  }
 }
 
 function EmptyState() {
@@ -45,7 +61,7 @@ function EmptyState() {
         <h3 className="mt-4 text-lg font-semibold text-gray-900">No upcoming events</h3>
         <p className="mt-2 text-sm text-gray-500">
           Check back later for new events, or view our{" "}
-          <Link href="/events/archive" className="text-blue-600 hover:underline">
+          <Link href="/events/archive" className="text-gray-900 underline underline-offset-4 font-semibold">
             event archive
           </Link>
           .
@@ -82,85 +98,91 @@ export default async function EventsPage({
   const totalPages = Math.ceil((totalCount || 0) / ITEMS_PER_PAGE);
 
   return (
-    <div className="container mx-auto px-5">
-      <div className="mb-12">
-        <h1 className="mb-4 text-6xl font-bold md:text-7xl lg:text-8xl">Events</h1>
-        <p className="text-lg text-gray-600">
-          Upcoming events and activities organized by IFLRY
-        </p>
-      </div>
-
-      {events && events.length > 0 ? (
+    <Main>
+      <Section
+        headline="Events"
+        subheadline={
+          <Text>
+            Upcoming events and activities organized by IFLRY
+          </Text>
+        }
+      >
+        {events && events.length > 0 ? (
         <>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {events.map((event) => (
-              <div
+              <Card
                 key={event._id}
-                className="group flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md"
-              >
-                {event.image && (
-                  <div className="relative h-48 w-full overflow-hidden">
-                    <img
-                      src={event.image}
-                      alt={event.title}
-                      className="h-full w-full object-cover transition-transform group-hover:scale-105"
-                    />
-                  </div>
-                )}
-                <div className="flex flex-1 flex-col p-6">
-                  {event.type && (
-                    <span className="mb-2 inline-block rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-800">
-                      {getEventTypeLabel(event.type)}
-                    </span>
-                  )}
-                  <h3 className="mb-2 text-xl font-semibold line-clamp-2 group-hover:text-blue-600">
-                    {event.title}
-                  </h3>
-                  {event.location && (
-                    <div className="mb-2 flex items-center text-sm text-gray-600">
-                      <svg
-                        className="mr-2 h-4 w-4"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                        />
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                        />
+                href={`/${locale}/events/${event.slug}`}
+                image={
+                  <CardImage
+                    src={event.image || null}
+                    alt={event.title}
+                    placeholder={
+                      <svg className="w-16 h-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
-                      {event.location}
-                    </div>
-                  )}
-                  {event.start && (
-                    <div className="mb-4 text-sm text-gray-600">
-                      <DateComponent dateString={event.start} />
-                      {event.end && (
-                        <span>
-                          {" - "}
-                          <DateComponent dateString={event.end} />
-                        </span>
-                      )}
-                    </div>
-                  )}
-                  {event.slug && (
+                    }
+                  />
+                }
+                badge={
+                  event.type && (
+                    <Badge variant={getEventTypeBadgeVariant(event.type)} className="w-fit">
+                      {getEventTypeLabel(event.type)}
+                    </Badge>
+                  )
+                }
+                title={event.title}
+                metadata={
+                  <>
+                    {event.location && (
+                      <div className="mb-2 flex items-center text-sm text-gray-600">
+                        <svg
+                          className="mr-2 h-4 w-4 shrink-0"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                          />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                          />
+                        </svg>
+                        {event.location}
+                      </div>
+                    )}
+                    {event.start && (
+                      <div className="mb-4 text-sm text-gray-600">
+                        <DateComponent dateString={event.start} />
+                        {event.end && (
+                          <span>
+                            {" - "}
+                            <DateComponent dateString={event.end} />
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </>
+                }
+                footer={
+                  event.slug && (
                     <Link
                       href={`/${locale}/events/${event.slug}`}
-                      className="mt-auto text-blue-600 hover:underline"
+                      className="text-gray-900 underline underline-offset-4 font-semibold"
                     >
                       Learn more →
                     </Link>
-                  )}
-                </div>
-              </div>
+                  )
+                }
+              />
             ))}
           </div>
 
@@ -213,9 +235,10 @@ export default async function EventsPage({
             </div>
           )}
         </>
-      ) : (
-        <EmptyState />
-      )}
-    </div>
+        ) : (
+          <EmptyState />
+        )}
+      </Section>
+    </Main>
   );
 }

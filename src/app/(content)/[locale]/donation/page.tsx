@@ -2,6 +2,8 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import { pageTypeQuery } from "@/sanity/lib/queries";
 import PortableText from "@/src/components/portable-text";
 import { PortableTextBlock } from "next-sanity";
+import { Main } from "@/src/components/elements/main";
+import { DocumentCentered } from "@/src/components/sections/document-centered";
 
 
 export default async function DonationPage({
@@ -16,21 +18,16 @@ export default async function DonationPage({
   });
 
   return (
-    <div className="container mx-auto px-5 py-12">
-      <div className="mx-auto max-w-3xl">
-        <h1 className="mb-8 text-5xl font-bold md:text-6xl lg:text-7xl">
-          {page?.title || "Donation"}
-        </h1>
-
+    <Main>
+      <DocumentCentered
+        headline={page?.title || "Donation"}
+      >
         {page?.content?.length && (
-          <div className="mb-12">
-            <PortableText
-              className="prose prose-lg max-w-none"
-              value={page.content as PortableTextBlock[]}
-            />
-          </div>
+          <PortableText
+            value={page.content as PortableTextBlock[]}
+          />
         )}
-      </div>
-    </div>
+      </DocumentCentered>
+    </Main>
   );
 }

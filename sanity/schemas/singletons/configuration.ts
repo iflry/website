@@ -77,6 +77,148 @@ export default defineType({
         }),
       ],
     }),
+    defineField({
+      name: "announcementBanner",
+      title: "Announcement Banner",
+      description: "Optional banner displayed on the home page hero section",
+      type: "object",
+      fields: [
+        defineField({
+          name: "enabled",
+          title: "Enable Banner",
+          type: "boolean",
+          initialValue: false,
+        }),
+        defineField({
+          name: "text",
+          title: "Banner Text",
+          type: "string",
+        }),
+        defineField({
+          name: "cta",
+          title: "Call to Action Text",
+          type: "string",
+          initialValue: "Learn more",
+        }),
+        defineField({
+          name: "href",
+          title: "Link URL",
+          type: "url",
+        }),
+      ],
+    }),
+    defineField({
+      name: "footer",
+      title: "Footer Configuration",
+      type: "object",
+      fields: [
+        defineField({
+          name: "fineprint",
+          title: "Copyright Text",
+          type: "string",
+          initialValue: "© 2026 International Federation of Liberal Youth",
+        }),
+        defineField({
+          name: "columns",
+          title: "Footer Columns",
+          description: "Create multiple columns of links in the footer",
+          type: "array",
+          of: [
+            defineField({
+              type: "object",
+              name: "footerColumn",
+              fields: [
+                defineField({
+                  name: "title",
+                  title: "Column Title",
+                  type: "string",
+                  validation: (rule) => rule.required(),
+                }),
+                defineField({
+                  name: "links",
+                  title: "Links",
+                  type: "array",
+                  of: [
+                    defineField({
+                      type: "object",
+                      name: "footerLink",
+                      fields: [
+                        defineField({
+                          name: "title",
+                          title: "Link Title",
+                          type: "string",
+                          validation: (rule) => rule.required(),
+                        }),
+                        defineField({
+                          name: "linkType",
+                          title: "Link Type",
+                          type: "string",
+                          options: {
+                            list: [
+                              { title: "Page", value: "page" },
+                              { title: "Events", value: "events" },
+                              { title: "Posts", value: "posts" },
+                              { title: "Trainers", value: "trainers" },
+                              { title: "Vacancies", value: "vacancies" },
+                              { title: "Custom URL", value: "custom" },
+                            ],
+                            layout: "radio",
+                          },
+                          validation: (rule) => rule.required(),
+                        }),
+                        defineField({
+                          name: "page",
+                          title: "Page",
+                          type: "reference",
+                          to: [{ type: "page" }],
+                          hidden: ({ parent }) => parent?.linkType !== "page",
+                        }),
+                        defineField({
+                          name: "customUrl",
+                          title: "Custom URL",
+                          type: "url",
+                          hidden: ({ parent }) => parent?.linkType !== "custom",
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+              ],
+            }),
+          ],
+        }),
+        defineField({
+          name: "socialLinks",
+          title: "Social Media Links",
+          type: "array",
+          of: [
+            defineField({
+              type: "object",
+              name: "socialLink",
+              fields: [
+                defineField({
+                  name: "platform",
+                  title: "Platform",
+                  type: "string",
+                  options: {
+                    list: [
+                      { title: "X (Twitter)", value: "x" },
+                      { title: "Instagram", value: "instagram" },
+                      { title: "Facebook", value: "facebook" },
+                    ],
+                  },
+                }),
+                defineField({
+                  name: "url",
+                  title: "URL",
+                  type: "url",
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }),
   ],
   preview: {
     prepare() {

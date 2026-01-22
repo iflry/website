@@ -2,7 +2,12 @@ import PortableText from "@/src/components/portable-text";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { pageTypeQuery, trainersQuery } from "@/sanity/lib/queries";
 import { PortableTextBlock } from "next-sanity";
-import ContactView from "../contact-view";
+import { Main } from "@/src/components/elements/main";
+import { Section } from "@/src/components/elements/section";
+import { Document } from "@/src/components/elements/document";
+import { urlForImage } from "@/sanity/lib/utils";
+import { Badge } from "@/src/components/ui/badge";
+import Link from "next/link";
 
 const languageNames: Record<string, string> = {
   en: "English",
@@ -26,47 +31,69 @@ export default async function TrainersPage({ params }: { params: Promise<{ local
   ]);
 
   return (
-    <div className="container mx-auto px-5">
-      <div>
-        <h1 className="mb-12 text-6xl font-bold md:text-7xl lg:text-8xl">
-          {page?.title || "Trainers"}
-        </h1>
-        {page?.content?.length && (
-          <PortableText
-            className="mx-auto max-w-2xl"
-            value={page.content as PortableTextBlock[]}
-          />
-        )}
-      </div>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {trainers?.map((trainer: any) => (
-          <div key={trainer._id}>
-            {trainer.person && (
-              <ContactView name={trainer.person.name} picture={trainer.person.picture} />
-            )}
-            {trainer.email && <div>{trainer.email}</div>}
-            {trainer.expertises && trainer.expertises.length > 0 && (
-              <div className="mt-2 flex flex-wrap gap-2">
-                {trainer.expertises.map((exp: string, idx: number) => (
-                  <span key={idx} className="px-2 py-1 bg-gray-100 rounded text-sm">
-                    {exp}
-                  </span>
-                ))}
-              </div>
-            )}
-            {trainer.languages && trainer.languages.length > 0 && (
-              <div className="mt-2 flex flex-wrap gap-2">
-                {trainer.languages.map((lang: string, idx: number) => (
-                  <span key={idx} className="px-2 py-1 bg-blue-100 rounded text-sm">
-                    {languageNames[lang] || lang}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
+    <Main>
+      <Section
+        headline={page?.title || "Trainers"}
+        subheadline={
+          page?.content?.length ? (
+            <Document>
+              <PortableText value={page.content as PortableTextBlock[]} />
+            </Document>
+          ) : undefined
+        }
+      >
+        <ul role="list" className="grid grid-cols-2 gap-x-2 gap-y-10 md:grid-cols-3 lg:grid-cols-5">
+          {trainers?.map((trainer: any) => (
+            <li key={trainer._id} className="flex flex-col gap-3 text-sm/7">
+              {trainer.person && (
+                <>
+                  {trainer.person.picture?.asset?._ref ? (
+                    <div className="aspect-3/4 w-full overflow-hidden rounded-sm outline -outline-offset-1 outline-black/5">
+                      <img
+                        src={urlForImage(trainer.person.picture)?.height(600).width(450).fit("crop").url() as string}
+                        alt={trainer.person.name}
+                        className="size-full object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div className="aspect-3/4 w-full overflow-hidden rounded-sm outline -outline-offset-1 outline-black/5 bg-gray-100 flex items-center justify-center">
+                      <span className="text-xl text-gray-400">{trainer.person.name?.charAt(0) || ""}</span>
+                    </div>
+                  )}
+                  <div>
+                    <p className="font-semibold text-gray-900">{trainer.person.name}</p>
+                    {trainer.email && (
+                      <p className="mt-1">
+                        <Link
+                          href={`mailto:${trainer.email}`}
+                          className="text-gray-500 underline underline-offset-4 hover:text-gray-700"
+                        >
+                          {trainer.email}
+                        </Link>
+                      </p>
+                    )}
+                    {trainer.expertises && trainer.expertises.length > 0 && (
+                      <p className="mt-2 text-sm text-gray-600">
+                        {trainer.expertises.join(", ")}
+                      </p>
+                    )}
+                    {trainer.languages && trainer.languages.length > 0 && (
+                      <div className="mt-2 flex flex-wrap gap-1">
+                        {trainer.languages.map((lang: string, idx: number) => (
+                          <Badge key={idx} variant="outline" className="text-xs">
+                            {languageNames[lang] || lang}
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+            </li>
+          ))}
+        </ul>
+      </Section>
+    </Main>
   );
 }
 

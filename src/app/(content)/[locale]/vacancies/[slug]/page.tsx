@@ -12,6 +12,9 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import { vacancyQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import { routing } from "@/src/i18n/routing";
+import { Button } from "@/src/components/ui/button";
+import { Main } from "@/src/components/elements/main";
+import { DocumentCentered } from "@/src/components/sections/document-centered";
 
 type Props = {
   params: Promise<{ slug: string; locale: string }>;
@@ -70,21 +73,13 @@ export default async function VacancyPage({ params }: Props) {
   }
 
   return (
-    <div className="container mx-auto px-5">
-      <article>
-        <div className="mb-8">
-          <h1 className="mb-6 text-6xl font-bold md:text-7xl lg:text-8xl">
-            {vacancy.title}
-          </h1>
-        </div>
-
+    <Main>
+      <DocumentCentered headline={vacancy.title}>
         {vacancy.image && (
           <div className="mb-8 sm:mx-0 md:mb-16">
             <CoverImage image={vacancy.image} priority />
           </div>
         )}
-
-        <div className="mx-auto max-w-2xl">
           {vacancy.location && (
             <div className="mb-6 flex items-center text-lg text-gray-600">
               <svg
@@ -141,18 +136,18 @@ export default async function VacancyPage({ params }: Props) {
 
           {vacancy.applicationUrl && (
             <div className="mb-12">
-              <Link
-                href={vacancy.applicationUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block rounded-lg bg-blue-600 px-8 py-4 text-center text-lg font-semibold text-white transition-colors hover:bg-blue-700"
-              >
-                Apply Now
-              </Link>
+              <Button variant="outline" asChild>
+                <Link
+                  href={vacancy.applicationUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Apply Now
+                </Link>
+              </Button>
             </div>
           )}
-        </div>
-      </article>
-    </div>
+      </DocumentCentered>
+    </Main>
   );
 }
