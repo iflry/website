@@ -152,7 +152,7 @@ export default async function CountryMembersPage({ params }: Props) {
   
   // Filter members by country code
   const countryMembers = allMembers.filter(
-    (member) => member.country === countryCode
+    (member) => 'country' in member && member.country === countryCode
   );
 
   // If no members found, show 404
