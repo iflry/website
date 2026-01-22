@@ -2,7 +2,7 @@ import { cn } from "@/src/lib/utils";
 import type { ComponentProps, ReactNode } from "react";
 import Link from "next/link";
 
-interface CardProps extends ComponentProps<"div"> {
+interface CardProps extends Omit<ComponentProps<"div">, "title"> {
   href?: string;
   image?: ReactNode;
   badge?: ReactNode;
