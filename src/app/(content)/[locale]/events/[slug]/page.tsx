@@ -159,19 +159,19 @@ export default async function EventPage({ params }: Props) {
           )}
 
           {(event.registrationLink || event.registrationDeadline) && (
-            <div className="mb-10 flex flex-col items-center gap-3 rounded-lg border border-gray-200 bg-gray-50 px-6 py-8">
+            <div className="mb-10 flex flex-col items-center gap-3 rounded-lg border border-gray-200 bg-white px-6 py-8">
               {event.registrationLink && (
                 <a
                   href={event.registrationLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-gray-900 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-gray-700"
+                  className="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white px-6 py-2.5 text-sm font-semibold text-gray-700 transition-all hover:border-gray-400 hover:text-gray-900 hover:shadow-sm"
                 >
                   Register →
                 </a>
               )}
               {event.registrationDeadline && (
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-400">
                   Deadline: <DateComponent dateString={event.registrationDeadline} />
                 </p>
               )}
