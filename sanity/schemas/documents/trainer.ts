@@ -16,6 +16,13 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "displayAsTrainer",
+      title: "Display as PoT Trainer",
+      description: "If enabled, this trainer will be listed on the Trainers page. Otherwise they only appear on individual events.",
+      type: "boolean",
+      initialValue: false,
+    }),
+    defineField({
       name: "email",
       title: "Email",
       type: "email",

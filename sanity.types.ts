@@ -41,6 +41,7 @@ export type Trainer = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "person";
   };
+  displayAsTrainer?: boolean;
   email?: string;
   expertises?: Array<string>;
   languages?: Array<"en" | "fr" | "es" | "de" | "nl" | "it" | "pt" | "ru" | "ar" | "zh" | "ja">;
@@ -107,6 +108,7 @@ export type Partner = {
   description?: Array<{
     _key: string;
   } & InternationalizedArrayStringValue>;
+  displayAsPartner?: boolean;
   logo?: {
     asset?: {
       _ref: string;
@@ -993,7 +995,7 @@ export type PageTypeQueryResult = {
   title: string | "Untitled";
 } | null;
 // Variable: partnersQuery
-// Query: *[_type == "partner"] {    _id,    "title": coalesce(title, "Untitled"),    "logo": logo.asset->url,    description  }
+// Query: *[_type == "partner" && displayAsPartner == true] {    _id,    "title": coalesce(title, "Untitled"),    "logo": logo.asset->url,    description  }
 export type PartnersQueryResult = Array<{
   _id: string;
   title: string | "Untitled";
@@ -1434,7 +1436,7 @@ export type VacancyQueryResult = {
   deadline: string | null;
 } | null;
 // Variable: trainersQuery
-// Query: *[_type == "trainer"] {    _id,    email,    expertises,    languages,    "person": person->{      _id,      "name": coalesce(name, "Untitled"),      picture,      biography    }  }
+// Query: *[_type == "trainer" && displayAsTrainer == true] {    _id,    email,    expertises,    languages,    "person": person->{      _id,      "name": coalesce(name, "Untitled"),      picture,      biography    }  }
 export type TrainersQueryResult = Array<{
   _id: string;
   email: string | null;
@@ -1522,7 +1524,7 @@ declare module "@sanity/client" {
     "\n  *[_type == \"post\" && slug.current == $slug && language == $language] [0] {\n    content,\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  type,\n  image,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n\n  }\n": PostQueryResult;
     "\n  *[_type == \"page\" && slug.current == $slug && language == $language] [0] {\n    _id,\n    content,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n  }\n": PageQueryResult;
     "\n  *[_type == \"page\" && type == $type && language == $language] [0] {\n    _id,\n    content,\n    \"title\": coalesce(title, \"Untitled\"),\n  }\n": PageTypeQueryResult;
-    "\n  *[_type == \"partner\"] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"logo\": logo.asset->url,\n    description\n  }\n": PartnersQueryResult;
+    "\n  *[_type == \"partner\" && displayAsPartner == true] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"logo\": logo.asset->url,\n    description\n  }\n": PartnersQueryResult;
     "\n  *[_type == \"programme\"] {\n    _id,\n    email,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"managers\": managers[]->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url\n    },\n    \"page\": *[_type == \"programmePage\" && programme._ref == ^._id && language == $language][0] {\n      \"slug\": slug.current,\n      description\n    }\n  }\n": ProgrammesQueryResult;
     "\n  *[_type == \"programmePage\" && slug.current == $slug && language == $language][0] {\n    _id,\n    \"slug\": slug.current,\n    description,\n    \"programme\": programme->{\n      _id,\n      \"title\": coalesce(title, \"Untitled\"),\n      email,\n      \"managers\": managers[]->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        picture,\n        biography\n      }\n    }\n  }\n": ProgrammePageQueryResult;
     "\n  *[_type == \"event\" && programme._ref == $programmeId && language == $language] | order(start desc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    type,\n    location,\n    start,\n    end,\n    \"image\": image.asset->url,\n    description\n  }\n": EventsByProgrammeQueryResult;
@@ -1536,7 +1538,7 @@ declare module "@sanity/client" {
     "\n  *[_type == \"event\" && slug.current == $slug && language == $language] [0] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    type,\n    location,\n    start,\n    end,\n    image,\n    description,\n    \"contactPerson\": {\n      \"person\": contactPerson.person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url\n      },\n      \"email\": contactPerson.email\n    },\n    \"programme\": programme->{\n      _id,\n      \"title\": coalesce(title, \"Untitled\"),\n      email\n    },\n    \"partners\": partners[]->{\n      _id,\n      \"title\": coalesce(title, \"Untitled\"),\n      \"logo\": logo.asset->url,\n      description\n    },\n    \"members\": members,\n    \"trainers\": trainers[]->{\n      _id,\n      email,\n      expertises,\n      languages,\n      \"person\": person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url,\n        biography\n      }\n    }\n  }\n": EventQueryResult;
     "\n  *[_type == \"vacancy\" && language == $language] | order(deadline asc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    image,\n    location,\n    deadline\n  }\n": VacanciesQueryResult;
     "\n  *[_type == \"vacancy\" && slug.current == $slug && language == $language][0] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    description,\n    image,\n    location,\n    applicationUrl,\n    deadline\n  }\n": VacancyQueryResult;
-    "\n  *[_type == \"trainer\"] {\n    _id,\n    email,\n    expertises,\n    languages,\n    \"person\": person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      picture,\n      biography\n    }\n  }\n": TrainersQueryResult;
+    "\n  *[_type == \"trainer\" && displayAsTrainer == true] {\n    _id,\n    email,\n    expertises,\n    languages,\n    \"person\": person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      picture,\n      biography\n    }\n  }\n": TrainersQueryResult;
     "\n  *[_type == \"member\"] {\n    _id,\n    memberId,\n    name,\n    \"logo\": logo.asset->url,\n    website,\n    wiki,\n    fb,\n    twitter,\n    ig\n  }\n": MembersQueryResult;
     "*[_type == \"event\" && defined(slug.current)]{\"slug\": slug.current, language}": EventSlugsResult;
     "*[_type == \"page\" && defined(slug.current)]{\"slug\": slug.current}": PageSlugsResult;

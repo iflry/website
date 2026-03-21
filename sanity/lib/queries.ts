@@ -126,7 +126,7 @@ export const pageTypeQuery = defineQuery(`
 `)
 
 export const partnersQuery = defineQuery(`
-  *[_type == "partner"] {
+  *[_type == "partner" && displayAsPartner == true] {
     _id,
     "title": coalesce(title, "Untitled"),
     "logo": logo.asset->url,
@@ -367,7 +367,7 @@ export const vacancyQuery = defineQuery(`
 `)
 
 export const trainersQuery = defineQuery(`
-  *[_type == "trainer"] {
+  *[_type == "trainer" && displayAsTrainer == true] {
     _id,
     email,
     expertises,

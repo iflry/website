@@ -183,6 +183,13 @@
         },
         "optional": true
       },
+      "displayAsTrainer": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
+        },
+        "optional": true
+      },
       "email": {
         "type": "objectAttribute",
         "value": {
@@ -1090,6 +1097,13 @@
               "name": "internationalizedArrayStringValue"
             }
           }
+        },
+        "optional": true
+      },
+      "displayAsPartner": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
         },
         "optional": true
       },
