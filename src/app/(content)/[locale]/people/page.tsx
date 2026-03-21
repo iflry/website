@@ -102,15 +102,17 @@ export default async function PeoplePage({ params }: { params: Promise<{ locale:
               <Subheading className="mb-8">{section.title}</Subheading>
               <div className="grid grid-cols-2 gap-x-2 gap-y-10 md:grid-cols-3 lg:grid-cols-4">
                 {section.people.map((person) => (
-                  <RoleView 
-                    key={person._id} 
-                    picture={person.picture} 
-                    name={person.name} 
-                    title={person.title} 
+                  <RoleView
+                    key={person._id}
+                    picture={person.picture}
+                    name={person.name}
+                    title={person.title}
                     email={person.email}
                     type={person.type}
                     bureauRole={person.bureauRole}
                     officeRole={person.officeRole}
+                    biography={person.biography}
+                    locale={locale}
                   />
                 ))}
               </div>
