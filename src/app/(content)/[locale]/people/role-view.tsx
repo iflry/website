@@ -15,9 +15,21 @@ interface RoleViewProps {
   type: RoleType | null;
   bureauRole: BureauRole | null;
   officeRole: OfficeRole | null;
+  biography?: any;
+  locale?: string;
 }
 
-export default async function RoleView({ picture, name, title, email, type, bureauRole, officeRole }: RoleViewProps) {
+function getBiographyText(biography: any, locale?: string): string | null {
+  if (!biography || !Array.isArray(biography)) return null;
+  const localeBio = biography.find((item: any) => item._key === (locale || "en"));
+  if (localeBio?.value) return localeBio.value;
+  const enBio = biography.find((item: any) => item._key === "en");
+  if (enBio?.value) return enBio.value;
+  const firstBio = biography.find((item: any) => item.value);
+  return firstBio?.value || null;
+}
+
+export default async function RoleView({ picture, name, title, email, type, bureauRole, officeRole, biography, locale }: RoleViewProps) {
   const t = await getTranslations("role")
 
   function getRole() {
@@ -79,6 +91,9 @@ export default async function RoleView({ picture, name, title, email, type, bure
               {email}
             </Link>
           </p>
+        )}
+        {getBiographyText(biography, locale) && (
+          <p className="mt-2 text-gray-600 text-xs/5">{getBiographyText(biography, locale)}</p>
         )}
       </div>
     </div>

@@ -217,7 +217,8 @@ export const peopleQuery = defineQuery(`
     officeRole,
     "organization": organization->name,
     "name": person->name,
-    "picture": person->picture.asset->url
+    "picture": person->picture.asset->url,
+    "biography": person->biography
   }
 `)
 
