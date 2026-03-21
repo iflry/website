@@ -80,6 +80,22 @@ export default defineType({
       type: "reference",
       to: [{ type: personType.name }],
     }),
+    defineField({
+      name: "attachments",
+      title: "Attachments",
+      type: "array",
+      of: [{
+        type: "file",
+        options: { accept: "application/pdf" },
+        fields: [
+          {
+            name: "title",
+            title: "Title",
+            type: "string",
+          },
+        ],
+      }],
+    }),
   ],
   preview: {
     select: {

@@ -21,6 +21,7 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import {Link} from '@/src/i18n/navigation';
 import Navigation from "./navigation";
+import MobileNavigation from "./mobile-navigation";
 import Image from "next/image";
 import { FooterLink, FooterWithNewsletterFormCategoriesAndSocialIcons, NewsletterForm, SocialLink } from "@/src/components/sections/footer-with-newsletter-form-categories-and-social-icons";
 import { FooterCategory } from "@/src/components/sections/footer-with-link-categories";
@@ -112,6 +113,7 @@ export default async function RootLayout({
         if (link.page?.type === "partners") return `/${locale}/partners`;
         if (link.page?.type === "programmes") return `/${locale}/programmes`;
         if (link.page?.type === "people") return `/${locale}/people`;
+        if (link.page?.type === "documents") return `/${locale}/documents`;
         return `/${locale}/pages/${link.page?.slug?.current}`;
       case "events":
         return `/${language}/events`;
@@ -141,8 +143,11 @@ export default async function RootLayout({
                     <Image src="/logo.png" alt={t("title")} width={50} height={50} />
                   </Link>
                   <div className="flex items-center gap-4">
-                    <Navigation language={locale} />
+                    <div className="hidden lg:block">
+                      <Navigation language={locale} />
+                    </div>
                     <LanguageSelector locale={locale} />
+                    <MobileNavigation navigation={settings?.navigation || []} language={locale} />
                   </div>
                 </div>
               </Container>
@@ -158,7 +163,7 @@ export default async function RootLayout({
                       Get the latest news and updates from IFLRY.
                     </p>
                   }
-                  action="#"
+                  action="https://iflry.us4.list-manage.com/subscribe?u=f084df7f03936bcc68ef9dc7d&id=e229b70e26"
                 />
               }
               links={
@@ -177,7 +182,7 @@ export default async function RootLayout({
                   ))}
                 </>
               }
-              fineprint={settings?.footer?.fineprint || "© 2026 International Federation of Liberal Youth"}
+              fineprint={settings?.footer?.fineprint || `© ${new Date().getFullYear()} International Federation of Liberal Youth`}
               socialLinks={
                 <>
                   {settings?.footer?.socialLinks?.map((link: any) => (

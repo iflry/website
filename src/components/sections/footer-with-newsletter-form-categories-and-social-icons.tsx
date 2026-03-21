@@ -56,32 +56,27 @@ export function SocialLink({
 export function NewsletterForm({
   headline,
   subheadline,
+  action,
   className,
-  ...props
 }: {
   headline: ReactNode
   subheadline: ReactNode
-} & ComponentProps<'form'>) {
+  action: string
+  className?: string
+}) {
   return (
-    <form className={cn('flex max-w-sm flex-col gap-2', className)} {...props}>
+    <div className={cn('flex max-w-sm flex-col gap-2', className)}>
       <p className="font-medium">{headline}</p>
       <div className="flex flex-col gap-4">{subheadline}</div>
-      <div className="flex items-center border-b border-gray-900/20 py-2 has-[input:focus]:border-gray-900">
-        <input
-          type="email"
-          placeholder="Email"
-          aria-label="Email"
-          className="flex-1 text-gray-900 focus:outline-hidden"
-        />
-        <button
-          type="submit"
-          aria-label="Subscribe"
-          className="relative inline-flex size-7 items-center justify-center rounded-full after:absolute after:-inset-2 hover:bg-gray-900/10 after:pointer-fine:hidden"
-        >
-          <ArrowNarrowRightIcon />
-        </button>
-      </div>
-    </form>
+      <a
+        href={action}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-2 text-gray-900 hover:text-gray-600"
+      >
+        Subscribe <ArrowNarrowRightIcon />
+      </a>
+    </div>
   )
 }
 

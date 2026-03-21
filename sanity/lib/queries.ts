@@ -76,6 +76,7 @@ const postFields = /* groq */ `
   image,
   "date": coalesce(date, _updatedAt),
   "author": author->{"name": coalesce(name, "Anonymous"), picture},
+  "attachments": attachments[]{ "title": coalesce(title, "Document"), "url": asset->url },
 `;
 
 export const featuredPostsQuery = defineQuery(`
@@ -126,11 +127,33 @@ export const pageTypeQuery = defineQuery(`
 `)
 
 export const partnersQuery = defineQuery(`
-  *[_type == "partner"] {
+  *[_type == "partner" && displayAsPartner == true] {
     _id,
     "title": coalesce(title, "Untitled"),
     "logo": logo.asset->url,
     description
+  }
+`)
+
+export const donationItemsQuery = defineQuery(`
+  *[_type == "donationItem"] | order(order asc) {
+    _id,
+    "title": coalesce(title, "Untitled"),
+    description,
+    "imageUrl": image.asset->url,
+    "programme": programme->{ _id, name },
+    amount,
+    oneOffLink,
+    recurringLink
+  }
+`)
+
+export const coreDocumentsQuery = defineQuery(`
+  *[_type == "coreDocument"] | order(order asc) {
+    _id,
+    "title": coalesce(title, "Untitled"),
+    description,
+    "fileUrl": file.asset->url
   }
 `)
 
@@ -262,6 +285,9 @@ const eventFields = /* groq */ `
     },
     "email": contactPerson.email
   },
+  registrationLink,
+  registrationDeadline,
+  "attachments": attachments[]{ "title": coalesce(title, "Document"), "url": asset->url },
   "trainers": trainers[]->{
     _id,
     email,
@@ -327,6 +353,9 @@ export const eventQuery = defineQuery(`
       description
     },
     "members": members,
+    registrationLink,
+    registrationDeadline,
+    "attachments": attachments[]{ "title": coalesce(title, "Document"), "url": asset->url },
     "trainers": trainers[]->{
       _id,
       email,
@@ -367,7 +396,7 @@ export const vacancyQuery = defineQuery(`
 `)
 
 export const trainersQuery = defineQuery(`
-  *[_type == "trainer"] {
+  *[_type == "trainer" && displayAsTrainer == true] {
     _id,
     email,
     expertises,

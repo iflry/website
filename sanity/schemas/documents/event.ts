@@ -128,6 +128,32 @@ export default defineType({
       type: "array",
       of: [{ type: "reference", to: [{ type: trainerType.name }] }],
     }),
+    defineField({
+      name: "registrationLink",
+      title: "Registration Link",
+      type: "url",
+    }),
+    defineField({
+      name: "registrationDeadline",
+      title: "Registration Deadline",
+      type: "datetime",
+    }),
+    defineField({
+      name: "attachments",
+      title: "Attachments",
+      type: "array",
+      of: [{
+        type: "file",
+        options: { accept: "application/pdf" },
+        fields: [
+          {
+            name: "title",
+            title: "Title",
+            type: "string",
+          },
+        ],
+      }],
+    }),
   ],
   preview: {
     select: {

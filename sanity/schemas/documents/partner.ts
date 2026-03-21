@@ -24,6 +24,13 @@ export default defineType({
       type: 'internationalizedArrayString',
     }),
     defineField({
+      name: "displayAsPartner",
+      title: "Include under Our Partners",
+      description: "If enabled, this partner will be listed on the Partners page. Otherwise they only appear on individual events.",
+      type: "boolean",
+      initialValue: false,
+    }),
+    defineField({
       name: "logo",
       title: "Logo",
       type: "image",

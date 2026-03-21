@@ -19,7 +19,6 @@ import { Container } from "@/src/components/elements/container";
 import { Logo, LogoGrid } from "@/src/components/elements/logo-grid";
 import { ArrowNarrowRightIcon } from "@/src/components/icons/arrow-narrow-right-icon";
 import { AnnouncementBadge } from "@/src/components/elements/announcement-badge";
-import { EmailSignupForm } from "@/src/components/elements/email-signup-form";
 import { Wallpaper } from "@/src/components/elements/wallpaper";
 import { Heading } from "@/src/components/elements/heading";
 import { Subheading } from "@/src/components/elements/subheading";
@@ -296,15 +295,14 @@ export default async function Page({
                       International Federation of Liberal Youth
                     </p>
                   </div>
-                  <EmailSignupForm
-                    className="max-w-full"
-                    variant="overlay"
-                    cta={
-                      <>
-                        Subscribe <ArrowNarrowRightIcon />
-                      </>
-                    }
-                  />
+                  <a
+                    href="https://iflry.us4.list-manage.com/subscribe?u=f084df7f03936bcc68ef9dc7d&id=e229b70e26"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full bg-white/15 px-5 py-2.5 text-sm/7 font-medium text-white inset-ring-1 inset-ring-white/10 hover:bg-white/20"
+                  >
+                    Subscribe to newsletter <ArrowNarrowRightIcon />
+                  </a>
                 </div>
                 <div>
                   <div className="relative h-72 sm:h-92 md:h-125 lg:size-full">
