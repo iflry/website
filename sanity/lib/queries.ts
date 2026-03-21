@@ -207,27 +207,31 @@ export const eventsByProgrammeQuery = defineQuery(`
   }
 `)
 
-const roleFields = /* groq */ `
-  _id,
-  type,
-  email,
-  title,
-  bureauRole,
-  officeRole,
-  "organization": organization->name,
-  "name": person->name,
-  "picture": person->picture.asset->url
-`;
-
 export const peopleQuery = defineQuery(`
   *[_type == "role" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {
-    ${roleFields}
+    _id,
+    type,
+    email,
+    title,
+    bureauRole,
+    officeRole,
+    "organization": organization->name,
+    "name": person->name,
+    "picture": person->picture.asset->url
   }
 `)
 
 export const peopleArchiveQuery = defineQuery(`
   *[_type == "role" && defined(end) && dateTime(end + 'T00:00:00Z') < dateTime($currentDate)] | order(end desc) {
-    ${roleFields},
+    _id,
+    type,
+    email,
+    title,
+    bureauRole,
+    officeRole,
+    "organization": organization->name,
+    "name": person->name,
+    "picture": person->picture.asset->url,
     start,
     end
   }
