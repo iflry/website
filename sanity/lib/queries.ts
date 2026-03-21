@@ -76,6 +76,7 @@ const postFields = /* groq */ `
   image,
   "date": coalesce(date, _updatedAt),
   "author": author->{"name": coalesce(name, "Anonymous"), picture},
+  "attachments": attachments[]{ "title": coalesce(title, "Document"), "url": asset->url },
 `;
 
 export const featuredPostsQuery = defineQuery(`
@@ -284,6 +285,9 @@ const eventFields = /* groq */ `
     },
     "email": contactPerson.email
   },
+  registrationLink,
+  registrationDeadline,
+  "attachments": attachments[]{ "title": coalesce(title, "Document"), "url": asset->url },
   "trainers": trainers[]->{
     _id,
     email,
@@ -349,6 +353,9 @@ export const eventQuery = defineQuery(`
       description
     },
     "members": members,
+    registrationLink,
+    registrationDeadline,
+    "attachments": attachments[]{ "title": coalesce(title, "Document"), "url": asset->url },
     "trainers": trainers[]->{
       _id,
       email,
