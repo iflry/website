@@ -13,7 +13,7 @@ import AlertBanner from "./alert-banner";
 import LanguageSelector from "@/src/components/language-selector";
 
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { settingsQuery } from "@/sanity/lib/queries";
+import { settingsQuery, coreDocumentsQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import { routing } from "@/src/i18n/routing";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
@@ -82,11 +82,14 @@ export default async function RootLayout({
   const { locale } = await params;
   const t = await getTranslations()
   
-  const settings = await sanityFetch({
-    query: settingsQuery,
-    params: { language: locale },
-    stega: false,
-  });
+  const [settings, coreDocuments] = await Promise.all([
+    sanityFetch({
+      query: settingsQuery,
+      params: { language: locale },
+      stega: false,
+    }),
+    sanityFetch({ query: coreDocumentsQuery }),
+  ]);
 
   if (!hasLocale(routing.locales, locale)) {
     notFound();
@@ -175,11 +178,21 @@ export default async function RootLayout({
                   {settings?.footer?.columns?.map((column: any, index: number) => (
                     <FooterCategory key={index} title={column.title}>
                       {column.links?.map((link: any, linkIndex: number) => (
-                        <FooterLink 
-                          key={linkIndex} 
+                        <FooterLink
+                          key={linkIndex}
                           href={resolveFooterLinkHref(link, locale)}
                         >
                           {link.title}
+                        </FooterLink>
+                      ))}
+                      {column.title === "Documents" && coreDocuments?.map((doc: any) => (
+                        <FooterLink
+                          key={doc._id}
+                          href={doc.fileUrl || "/documents"}
+                          target={doc.fileUrl ? "_blank" : undefined}
+                          rel={doc.fileUrl ? "noopener noreferrer" : undefined}
+                        >
+                          {doc.title}
                         </FooterLink>
                       ))}
                     </FooterCategory>

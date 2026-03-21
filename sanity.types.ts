@@ -109,7 +109,12 @@ export type Role = {
   type?: "bureau-member" | "ombudsperson" | "advisory-council" | "regional-representative" | "office" | "individual-member" | "honorary-member";
   bureauRole?: "president" | "secretary-general" | "treasurer" | "vice-president";
   officeRole?: "executive-director" | "intern" | "project-manager";
-  organization?: "LYMEC" | "CALD" | "ALYF" | "JULAC";
+  organization?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "regionalNetwork";
+  };
   person?: {
     _ref: string;
     _type: "reference";
@@ -122,13 +127,16 @@ export type Role = {
   end?: string;
 };
 
-export type Member = {
+export type RegionalNetwork = {
   _id: string;
-  _type: "member";
+  _type: "regionalNetwork";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  memberId?: "ARG-GJFL" | "LVA-PARJ" | "AND-JLA" | "MKD-LDM" | "BIH-YFNS" | "BGR-YMRF" | "PRY-JLRA" | "BOL-NMJ" | "BFA-FL" | "SYR-AYLS" | "TUR-3HM" | "FRA-JR" | "CHE-JS" | "GIN-OJLG" | "POL-NY" | "SVK-YP" | "GIN-CNJR" | "SEN-PCR" | "SEN-JLS" | "COD-JEPR" | "SDN-FYSO" | "SEN-CEEP" | "ARM-ANC" | "UKR-EYU" | "EST-NE2" | "MAR-AJA" | "SEN-JLD" | "KEN-ODM" | "GRC-NEON" | "BLR-CF" | "MRT-FCA" | "COG-CLE" | "USA-YDA" | "EGY-EL" | "SEN-RM" | "BFA-RNJL" | "TZA-ACTW" | "GHA-PYM" | "BEL-JVLD" | "MAR-HRK" | "GEO-IIL" | "SEN-FJR" | "CIV-JALIDE" | "MAR-CDC" | "LBN-FY" | "CIV-JELIC" | "BLR-YB" | "SEN-MFA" | "TZA-PYI" | "CIV-OJLCI" | "LTU-LLJ" | "ISR-YYA" | "BAS-EGI" | "GHA-YLG" | "DEU-LHG" | "GBR-YL" | "IRQ-VIO" | "NIC-AVZ" | "IRQ-SASA" | "AZE-PH" | "AUT-JUNOS" | "CAT-JNC" | "EGY-EYC" | "SEN-COJER" | "ROU-USRT" | "GEO-FK" | "BEL-FEL" | "NLD-JD" | "CHL-JE" | "DNK-VU" | "NOR-NUV" | "NLD-JOVD" | "FIN-SU" | "DNK-LAU" | "SWE-CUF" | "FIN-FCY" | "JOR-S42" | "HUN-MT" | "RUS-YDMV" | "NPL-YI" | "NOR-NLS" | "UKR-LDLU" | "JOR-FTF" | "DNK-RU" | "SWE-LUF" | "DEU-JULIS" | "CIV-RHDP" | "CAN-YLC" | "HRV-IDY" | "HRV-MHNS" | "GIB-GLY" | "MNE-YLM" | "PER-IPL" | "ZAF-DAY" | "VEN-VJ" | "LYMEC" | "CALD" | "ALYF" | "JULAC";
+  name?: string;
+  fullName?: string;
+  memberId?: string;
+  region?: string;
   logo?: {
     asset?: {
       _ref: string;
@@ -442,7 +450,17 @@ export type Event = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "programme";
   };
-  members?: Array<"ARG-GJFL" | "LVA-PARJ" | "AND-JLA" | "MKD-LDM" | "BIH-YFNS" | "BGR-YMRF" | "PRY-JLRA" | "BOL-NMJ" | "BFA-FL" | "SYR-AYLS" | "TUR-3HM" | "FRA-JR" | "CHE-JS" | "GIN-OJLG" | "POL-NY" | "SVK-YP" | "GIN-CNJR" | "SEN-PCR" | "SEN-JLS" | "COD-JEPR" | "SDN-FYSO" | "SEN-CEEP" | "ARM-ANC" | "UKR-EYU" | "EST-NE2" | "MAR-AJA" | "SEN-JLD" | "KEN-ODM" | "GRC-NEON" | "BLR-CF" | "MRT-FCA" | "COG-CLE" | "USA-YDA" | "EGY-EL" | "SEN-RM" | "BFA-RNJL" | "TZA-ACTW" | "GHA-PYM" | "BEL-JVLD" | "MAR-HRK" | "GEO-IIL" | "SEN-FJR" | "CIV-JALIDE" | "MAR-CDC" | "LBN-FY" | "CIV-JELIC" | "BLR-YB" | "SEN-MFA" | "TZA-PYI" | "CIV-OJLCI" | "LTU-LLJ" | "ISR-YYA" | "BAS-EGI" | "GHA-YLG" | "DEU-LHG" | "GBR-YL" | "IRQ-VIO" | "NIC-AVZ" | "IRQ-SASA" | "AZE-PH" | "AUT-JUNOS" | "CAT-JNC" | "EGY-EYC" | "SEN-COJER" | "ROU-USRT" | "GEO-FK" | "BEL-FEL" | "NLD-JD" | "CHL-JE" | "DNK-VU" | "NOR-NUV" | "NLD-JOVD" | "FIN-SU" | "DNK-LAU" | "SWE-CUF" | "FIN-FCY" | "JOR-S42" | "HUN-MT" | "RUS-YDMV" | "NPL-YI" | "NOR-NLS" | "UKR-LDLU" | "JOR-FTF" | "DNK-RU" | "SWE-LUF" | "DEU-JULIS" | "CIV-RHDP" | "CAN-YLC" | "HRV-IDY" | "HRV-MHNS" | "GIB-GLY" | "MNE-YLM" | "PER-IPL" | "ZAF-DAY" | "VEN-VJ" | "LYMEC" | "CALD" | "ALYF" | "JULAC">;
+  members?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "memberOrganisation";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "regionalNetwork";
+  }>;
   partners?: Array<{
     _ref: string;
     _type: "reference";
@@ -602,7 +620,45 @@ export type Person = {
     crop?: SanityImageCrop;
     _type: "image";
   };
-  organization?: "ARG-GJFL" | "LVA-PARJ" | "AND-JLA" | "MKD-LDM" | "BIH-YFNS" | "BGR-YMRF" | "PRY-JLRA" | "BOL-NMJ" | "BFA-FL" | "SYR-AYLS" | "TUR-3HM" | "FRA-JR" | "CHE-JS" | "GIN-OJLG" | "POL-NY" | "SVK-YP" | "GIN-CNJR" | "SEN-PCR" | "SEN-JLS" | "COD-JEPR" | "SDN-FYSO" | "SEN-CEEP" | "ARM-ANC" | "UKR-EYU" | "EST-NE2" | "MAR-AJA" | "SEN-JLD" | "KEN-ODM" | "GRC-NEON" | "BLR-CF" | "MRT-FCA" | "COG-CLE" | "USA-YDA" | "EGY-EL" | "SEN-RM" | "BFA-RNJL" | "TZA-ACTW" | "GHA-PYM" | "BEL-JVLD" | "MAR-HRK" | "GEO-IIL" | "SEN-FJR" | "CIV-JALIDE" | "MAR-CDC" | "LBN-FY" | "CIV-JELIC" | "BLR-YB" | "SEN-MFA" | "TZA-PYI" | "CIV-OJLCI" | "LTU-LLJ" | "ISR-YYA" | "BAS-EGI" | "GHA-YLG" | "DEU-LHG" | "GBR-YL" | "IRQ-VIO" | "NIC-AVZ" | "IRQ-SASA" | "AZE-PH" | "AUT-JUNOS" | "CAT-JNC" | "EGY-EYC" | "SEN-COJER" | "ROU-USRT" | "GEO-FK" | "BEL-FEL" | "NLD-JD" | "CHL-JE" | "DNK-VU" | "NOR-NUV" | "NLD-JOVD" | "FIN-SU" | "DNK-LAU" | "SWE-CUF" | "FIN-FCY" | "JOR-S42" | "HUN-MT" | "RUS-YDMV" | "NPL-YI" | "NOR-NLS" | "UKR-LDLU" | "JOR-FTF" | "DNK-RU" | "SWE-LUF" | "DEU-JULIS" | "CIV-RHDP" | "CAN-YLC" | "HRV-IDY" | "HRV-MHNS" | "GIB-GLY" | "MNE-YLM" | "PER-IPL" | "ZAF-DAY" | "VEN-VJ";
+  organization?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "memberOrganisation";
+  };
+};
+
+export type MemberOrganisation = {
+  _id: string;
+  _type: "memberOrganisation";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  memberId?: string;
+  country?: string;
+  countryName?: string;
+  membershipType?: "full" | "associate" | "observer";
+  primaryRegion?: "Western Europe" | "Eastern Europe" | "Africa" | "Asia-Pacific" | "Latin America" | "MENA" | "North America and Israel" | "Caucasus";
+  secondaryRegion?: "Western Europe" | "Eastern Europe" | "Africa" | "Asia-Pacific" | "Latin America" | "MENA" | "North America and Israel" | "Caucasus";
+  votes?: number;
+  logo?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  website?: string;
+  wiki?: string;
+  fb?: string;
+  twitter?: string;
+  ig?: string;
 };
 
 export type InternationalizedArrayReference = Array<{
@@ -727,7 +783,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = NavigationItem | DonationItem | CoreDocument | Trainer | Role | Member | Partner | Configuration | InternationalizedArrayStringValue | InternationalizedArrayString | TranslationMetadata | InternationalizedArrayReferenceValue | Vacancy | ProgrammePage | Page | Event | Programme | Post | Person | InternationalizedArrayReference | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = NavigationItem | DonationItem | CoreDocument | Trainer | Role | RegionalNetwork | Partner | Configuration | InternationalizedArrayStringValue | InternationalizedArrayString | TranslationMetadata | InternationalizedArrayReferenceValue | Vacancy | ProgrammePage | Page | Event | Programme | Post | Person | MemberOrganisation | InternationalizedArrayReference | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: settingsQuery
@@ -1232,7 +1288,7 @@ export type EventsByProgrammeQueryResult = Array<{
   }> | null;
 }>;
 // Variable: peopleQuery
-// Query: *[_type == "role" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {      _id,  type,  email,  title,  bureauRole,  officeRole,  organization,  "name": person->name,  "picture": person->picture.asset->url  }
+// Query: *[_type == "role" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {      _id,  type,  email,  title,  bureauRole,  officeRole,  "organization": organization->name,  "name": person->name,  "picture": person->picture.asset->url  }
 export type PeopleQueryResult = Array<{
   _id: string;
   type: "advisory-council" | "bureau-member" | "honorary-member" | "individual-member" | "office" | "ombudsperson" | "regional-representative" | null;
@@ -1240,12 +1296,12 @@ export type PeopleQueryResult = Array<{
   title: string | null;
   bureauRole: "president" | "secretary-general" | "treasurer" | "vice-president" | null;
   officeRole: "executive-director" | "intern" | "project-manager" | null;
-  organization: "ALYF" | "CALD" | "JULAC" | "LYMEC" | null;
+  organization: string | null;
   name: string | null;
   picture: string | null;
 }>;
 // Variable: peopleArchiveQuery
-// Query: *[_type == "role" && defined(end) && dateTime(end + 'T00:00:00Z') < dateTime($currentDate)] | order(end desc) {      _id,  type,  email,  title,  bureauRole,  officeRole,  organization,  "name": person->name,  "picture": person->picture.asset->url,    start,    end  }
+// Query: *[_type == "role" && defined(end) && dateTime(end + 'T00:00:00Z') < dateTime($currentDate)] | order(end desc) {      _id,  type,  email,  title,  bureauRole,  officeRole,  "organization": organization->name,  "name": person->name,  "picture": person->picture.asset->url,    start,    end  }
 export type PeopleArchiveQueryResult = Array<{
   _id: string;
   type: "advisory-council" | "bureau-member" | "honorary-member" | "individual-member" | "office" | "ombudsperson" | "regional-representative" | null;
@@ -1253,7 +1309,7 @@ export type PeopleArchiveQueryResult = Array<{
   title: string | null;
   bureauRole: "president" | "secretary-general" | "treasurer" | "vice-president" | null;
   officeRole: "executive-director" | "intern" | "project-manager" | null;
-  organization: "ALYF" | "CALD" | "JULAC" | "LYMEC" | null;
+  organization: string | null;
   name: string | null;
   picture: string | null;
   start: string | null;
@@ -1428,7 +1484,7 @@ export type PastEventsQueryResult = Array<{
 // Query: count(*[_type == "event" && language == $language && dateTime(start) < dateTime($currentDate)])
 export type PastEventsCountQueryResult = number;
 // Variable: eventQuery
-// Query: *[_type == "event" && slug.current == $slug && language == $language] [0] {    _id,    "title": coalesce(title, "Untitled"),    "slug": slug.current,    type,    location,    start,    end,    image,    description,    "contactPerson": {      "person": contactPerson.person->{        _id,        "name": coalesce(name, "Untitled"),        "picture": picture.asset->url      },      "email": contactPerson.email    },    "programme": programme->{      _id,      "title": coalesce(title, "Untitled"),      email    },    "partners": partners[]->{      _id,      "title": coalesce(title, "Untitled"),      "logo": logo.asset->url,      description    },    "members": members,    registrationLink,    registrationDeadline,    "attachments": attachments[]{ "title": coalesce(title, "Document"), "url": asset->url },    "trainers": trainers[]->{      _id,      email,      expertises,      languages,      "person": person->{        _id,        "name": coalesce(name, "Untitled"),        "picture": picture.asset->url,        biography      }    }  }
+// Query: *[_type == "event" && slug.current == $slug && language == $language] [0] {    _id,    "title": coalesce(title, "Untitled"),    "slug": slug.current,    type,    location,    start,    end,    image,    description,    "contactPerson": {      "person": contactPerson.person->{        _id,        "name": coalesce(name, "Untitled"),        "picture": picture.asset->url      },      "email": contactPerson.email    },    "programme": programme->{      _id,      "title": coalesce(title, "Untitled"),      email    },    "partners": partners[]->{      _id,      "title": coalesce(title, "Untitled"),      "logo": logo.asset->url,      description    },    "members": members[]->{      _id,      _type,      name,      memberId,      "logo": logo.asset->url    },    registrationLink,    registrationDeadline,    "attachments": attachments[]{ "title": coalesce(title, "Document"), "url": asset->url },    "trainers": trainers[]->{      _id,      email,      expertises,      languages,      "person": person->{        _id,        "name": coalesce(name, "Untitled"),        "picture": picture.asset->url,        biography      }    }  }
 export type EventQueryResult = {
   _id: string;
   title: string | "Untitled";
@@ -1488,7 +1544,19 @@ export type EventQueryResult = {
       _key: string;
     } & InternationalizedArrayStringValue> | null;
   }> | null;
-  members: Array<"ALYF" | "AND-JLA" | "ARG-GJFL" | "ARM-ANC" | "AUT-JUNOS" | "AZE-PH" | "BAS-EGI" | "BEL-FEL" | "BEL-JVLD" | "BFA-FL" | "BFA-RNJL" | "BGR-YMRF" | "BIH-YFNS" | "BLR-CF" | "BLR-YB" | "BOL-NMJ" | "CALD" | "CAN-YLC" | "CAT-JNC" | "CHE-JS" | "CHL-JE" | "CIV-JALIDE" | "CIV-JELIC" | "CIV-OJLCI" | "CIV-RHDP" | "COD-JEPR" | "COG-CLE" | "DEU-JULIS" | "DEU-LHG" | "DNK-LAU" | "DNK-RU" | "DNK-VU" | "EGY-EL" | "EGY-EYC" | "EST-NE2" | "FIN-FCY" | "FIN-SU" | "FRA-JR" | "GBR-YL" | "GEO-FK" | "GEO-IIL" | "GHA-PYM" | "GHA-YLG" | "GIB-GLY" | "GIN-CNJR" | "GIN-OJLG" | "GRC-NEON" | "HRV-IDY" | "HRV-MHNS" | "HUN-MT" | "IRQ-SASA" | "IRQ-VIO" | "ISR-YYA" | "JOR-FTF" | "JOR-S42" | "JULAC" | "KEN-ODM" | "LBN-FY" | "LTU-LLJ" | "LVA-PARJ" | "LYMEC" | "MAR-AJA" | "MAR-CDC" | "MAR-HRK" | "MKD-LDM" | "MNE-YLM" | "MRT-FCA" | "NIC-AVZ" | "NLD-JD" | "NLD-JOVD" | "NOR-NLS" | "NOR-NUV" | "NPL-YI" | "PER-IPL" | "POL-NY" | "PRY-JLRA" | "ROU-USRT" | "RUS-YDMV" | "SDN-FYSO" | "SEN-CEEP" | "SEN-COJER" | "SEN-FJR" | "SEN-JLD" | "SEN-JLS" | "SEN-MFA" | "SEN-PCR" | "SEN-RM" | "SVK-YP" | "SWE-CUF" | "SWE-LUF" | "SYR-AYLS" | "TUR-3HM" | "TZA-ACTW" | "TZA-PYI" | "UKR-EYU" | "UKR-LDLU" | "USA-YDA" | "VEN-VJ" | "ZAF-DAY"> | null;
+  members: Array<{
+    _id: string;
+    _type: "memberOrganisation";
+    name: string | null;
+    memberId: string | null;
+    logo: string | null;
+  } | {
+    _id: string;
+    _type: "regionalNetwork";
+    name: string | null;
+    memberId: string | null;
+    logo: string | null;
+  }> | null;
   registrationLink: string | null;
   registrationDeadline: string | null;
   attachments: Array<{
@@ -1596,12 +1664,33 @@ export type TrainersQueryResult = Array<{
     biography: InternationalizedArrayString | null;
   } | null;
 }>;
-// Variable: membersQuery
-// Query: *[_type == "member"] {    _id,    memberId,    name,    "logo": logo.asset->url,    website,    wiki,    fb,    twitter,    ig  }
-export type MembersQueryResult = Array<{
+// Variable: memberOrganisationsQuery
+// Query: *[_type == "memberOrganisation"] | order(name asc) {    _id,    name,    memberId,    country,    countryName,    membershipType,    primaryRegion,    secondaryRegion,    votes,    "logo": logo.asset->url,    website,    wiki,    fb,    twitter,    ig  }
+export type MemberOrganisationsQueryResult = Array<{
   _id: string;
-  memberId: "ALYF" | "AND-JLA" | "ARG-GJFL" | "ARM-ANC" | "AUT-JUNOS" | "AZE-PH" | "BAS-EGI" | "BEL-FEL" | "BEL-JVLD" | "BFA-FL" | "BFA-RNJL" | "BGR-YMRF" | "BIH-YFNS" | "BLR-CF" | "BLR-YB" | "BOL-NMJ" | "CALD" | "CAN-YLC" | "CAT-JNC" | "CHE-JS" | "CHL-JE" | "CIV-JALIDE" | "CIV-JELIC" | "CIV-OJLCI" | "CIV-RHDP" | "COD-JEPR" | "COG-CLE" | "DEU-JULIS" | "DEU-LHG" | "DNK-LAU" | "DNK-RU" | "DNK-VU" | "EGY-EL" | "EGY-EYC" | "EST-NE2" | "FIN-FCY" | "FIN-SU" | "FRA-JR" | "GBR-YL" | "GEO-FK" | "GEO-IIL" | "GHA-PYM" | "GHA-YLG" | "GIB-GLY" | "GIN-CNJR" | "GIN-OJLG" | "GRC-NEON" | "HRV-IDY" | "HRV-MHNS" | "HUN-MT" | "IRQ-SASA" | "IRQ-VIO" | "ISR-YYA" | "JOR-FTF" | "JOR-S42" | "JULAC" | "KEN-ODM" | "LBN-FY" | "LTU-LLJ" | "LVA-PARJ" | "LYMEC" | "MAR-AJA" | "MAR-CDC" | "MAR-HRK" | "MKD-LDM" | "MNE-YLM" | "MRT-FCA" | "NIC-AVZ" | "NLD-JD" | "NLD-JOVD" | "NOR-NLS" | "NOR-NUV" | "NPL-YI" | "PER-IPL" | "POL-NY" | "PRY-JLRA" | "ROU-USRT" | "RUS-YDMV" | "SDN-FYSO" | "SEN-CEEP" | "SEN-COJER" | "SEN-FJR" | "SEN-JLD" | "SEN-JLS" | "SEN-MFA" | "SEN-PCR" | "SEN-RM" | "SVK-YP" | "SWE-CUF" | "SWE-LUF" | "SYR-AYLS" | "TUR-3HM" | "TZA-ACTW" | "TZA-PYI" | "UKR-EYU" | "UKR-LDLU" | "USA-YDA" | "VEN-VJ" | "ZAF-DAY" | null;
-  name: null;
+  name: string | null;
+  memberId: string | null;
+  country: string | null;
+  countryName: string | null;
+  membershipType: "associate" | "full" | "observer" | null;
+  primaryRegion: "Africa" | "Asia-Pacific" | "Caucasus" | "Eastern Europe" | "Latin America" | "MENA" | "North America and Israel" | "Western Europe" | null;
+  secondaryRegion: "Africa" | "Asia-Pacific" | "Caucasus" | "Eastern Europe" | "Latin America" | "MENA" | "North America and Israel" | "Western Europe" | null;
+  votes: number | null;
+  logo: string | null;
+  website: string | null;
+  wiki: string | null;
+  fb: string | null;
+  twitter: string | null;
+  ig: string | null;
+}>;
+// Variable: regionalNetworksQuery
+// Query: *[_type == "regionalNetwork"] | order(name asc) {    _id,    name,    fullName,    memberId,    region,    "logo": logo.asset->url,    website,    wiki,    fb,    twitter,    ig  }
+export type RegionalNetworksQueryResult = Array<{
+  _id: string;
+  name: string | null;
+  fullName: string | null;
+  memberId: string | null;
+  region: string | null;
   logo: string | null;
   website: string | null;
   wiki: string | null;
@@ -1666,18 +1755,19 @@ declare module "@sanity/client" {
     "\n  *[_type == \"programme\"] {\n    _id,\n    email,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"managers\": managers[]->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url\n    },\n    \"page\": *[_type == \"programmePage\" && programme._ref == ^._id && language == $language][0] {\n      \"slug\": slug.current,\n      description\n    }\n  }\n": ProgrammesQueryResult;
     "\n  *[_type == \"programmePage\" && slug.current == $slug && language == $language][0] {\n    _id,\n    \"slug\": slug.current,\n    description,\n    \"programme\": programme->{\n      _id,\n      \"title\": coalesce(title, \"Untitled\"),\n      email,\n      \"managers\": managers[]->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        picture,\n        biography\n      }\n    }\n  }\n": ProgrammePageQueryResult;
     "\n  *[_type == \"event\" && programme._ref == $programmeId && language == $language] | order(start desc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    type,\n    location,\n    start,\n    end,\n    \"image\": image.asset->url,\n    description\n  }\n": EventsByProgrammeQueryResult;
-    "\n  *[_type == \"role\" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {\n    \n  _id,\n  type,\n  email,\n  title,\n  bureauRole,\n  officeRole,\n  organization,\n  \"name\": person->name,\n  \"picture\": person->picture.asset->url\n\n  }\n": PeopleQueryResult;
-    "\n  *[_type == \"role\" && defined(end) && dateTime(end + 'T00:00:00Z') < dateTime($currentDate)] | order(end desc) {\n    \n  _id,\n  type,\n  email,\n  title,\n  bureauRole,\n  officeRole,\n  organization,\n  \"name\": person->name,\n  \"picture\": person->picture.asset->url\n,\n    start,\n    end\n  }\n": PeopleArchiveQueryResult;
+    "\n  *[_type == \"role\" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {\n    \n  _id,\n  type,\n  email,\n  title,\n  bureauRole,\n  officeRole,\n  \"organization\": organization->name,\n  \"name\": person->name,\n  \"picture\": person->picture.asset->url\n\n  }\n": PeopleQueryResult;
+    "\n  *[_type == \"role\" && defined(end) && dateTime(end + 'T00:00:00Z') < dateTime($currentDate)] | order(end desc) {\n    \n  _id,\n  type,\n  email,\n  title,\n  bureauRole,\n  officeRole,\n  \"organization\": organization->name,\n  \"name\": person->name,\n  \"picture\": person->picture.asset->url\n,\n    start,\n    end\n  }\n": PeopleArchiveQueryResult;
     "\n  *[_type == \"event\" && language == $language] | order(start desc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    type,\n    location,\n    start,\n    end,\n    \"image\": image.asset->url,\n    description,\n    \"contactPerson\": {\n      \"person\": contactPerson.person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url\n      },\n      \"email\": contactPerson.email\n    },\n    \"trainers\": trainers[]->{\n      _id,\n      email,\n      expertises,\n      languages,\n      \"person\": person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url,\n        biography\n      }\n    }\n  }\n": EventsQueryResult;
     "\n  *[_type == \"event\" && language == $language && dateTime(start) >= dateTime($currentDate)] | order(start asc) [$offset...$limit] {\n    \n  _id,\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  type,\n  location,\n  start,\n  end,\n  \"image\": image.asset->url,\n  description,\n  \"contactPerson\": {\n    \"person\": contactPerson.person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url\n    },\n    \"email\": contactPerson.email\n  },\n  registrationLink,\n  registrationDeadline,\n  \"attachments\": attachments[]{ \"title\": coalesce(title, \"Document\"), \"url\": asset->url },\n  \"trainers\": trainers[]->{\n    _id,\n    email,\n    expertises,\n    languages,\n    \"person\": person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url,\n      biography\n    }\n  }\n\n  }\n": UpcomingEventsQueryResult;
     "\n  count(*[_type == \"event\" && language == $language && dateTime(start) >= dateTime($currentDate)])\n": UpcomingEventsCountQueryResult;
     "\n  *[_type == \"event\" && language == $language && dateTime(start) < dateTime($currentDate)] | order(start desc) [$offset...$limit] {\n    \n  _id,\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  type,\n  location,\n  start,\n  end,\n  \"image\": image.asset->url,\n  description,\n  \"contactPerson\": {\n    \"person\": contactPerson.person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url\n    },\n    \"email\": contactPerson.email\n  },\n  registrationLink,\n  registrationDeadline,\n  \"attachments\": attachments[]{ \"title\": coalesce(title, \"Document\"), \"url\": asset->url },\n  \"trainers\": trainers[]->{\n    _id,\n    email,\n    expertises,\n    languages,\n    \"person\": person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url,\n      biography\n    }\n  }\n\n  }\n": PastEventsQueryResult;
     "\n  count(*[_type == \"event\" && language == $language && dateTime(start) < dateTime($currentDate)])\n": PastEventsCountQueryResult;
-    "\n  *[_type == \"event\" && slug.current == $slug && language == $language] [0] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    type,\n    location,\n    start,\n    end,\n    image,\n    description,\n    \"contactPerson\": {\n      \"person\": contactPerson.person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url\n      },\n      \"email\": contactPerson.email\n    },\n    \"programme\": programme->{\n      _id,\n      \"title\": coalesce(title, \"Untitled\"),\n      email\n    },\n    \"partners\": partners[]->{\n      _id,\n      \"title\": coalesce(title, \"Untitled\"),\n      \"logo\": logo.asset->url,\n      description\n    },\n    \"members\": members,\n    registrationLink,\n    registrationDeadline,\n    \"attachments\": attachments[]{ \"title\": coalesce(title, \"Document\"), \"url\": asset->url },\n    \"trainers\": trainers[]->{\n      _id,\n      email,\n      expertises,\n      languages,\n      \"person\": person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url,\n        biography\n      }\n    }\n  }\n": EventQueryResult;
+    "\n  *[_type == \"event\" && slug.current == $slug && language == $language] [0] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    type,\n    location,\n    start,\n    end,\n    image,\n    description,\n    \"contactPerson\": {\n      \"person\": contactPerson.person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url\n      },\n      \"email\": contactPerson.email\n    },\n    \"programme\": programme->{\n      _id,\n      \"title\": coalesce(title, \"Untitled\"),\n      email\n    },\n    \"partners\": partners[]->{\n      _id,\n      \"title\": coalesce(title, \"Untitled\"),\n      \"logo\": logo.asset->url,\n      description\n    },\n    \"members\": members[]->{\n      _id,\n      _type,\n      name,\n      memberId,\n      \"logo\": logo.asset->url\n    },\n    registrationLink,\n    registrationDeadline,\n    \"attachments\": attachments[]{ \"title\": coalesce(title, \"Document\"), \"url\": asset->url },\n    \"trainers\": trainers[]->{\n      _id,\n      email,\n      expertises,\n      languages,\n      \"person\": person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url,\n        biography\n      }\n    }\n  }\n": EventQueryResult;
     "\n  *[_type == \"vacancy\" && language == $language] | order(deadline asc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    image,\n    location,\n    deadline\n  }\n": VacanciesQueryResult;
     "\n  *[_type == \"vacancy\" && slug.current == $slug && language == $language][0] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    description,\n    image,\n    location,\n    applicationUrl,\n    deadline\n  }\n": VacancyQueryResult;
     "\n  *[_type == \"trainer\" && displayAsTrainer == true] {\n    _id,\n    email,\n    expertises,\n    languages,\n    \"person\": person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      picture,\n      biography\n    }\n  }\n": TrainersQueryResult;
-    "\n  *[_type == \"member\"] {\n    _id,\n    memberId,\n    name,\n    \"logo\": logo.asset->url,\n    website,\n    wiki,\n    fb,\n    twitter,\n    ig\n  }\n": MembersQueryResult;
+    "\n  *[_type == \"memberOrganisation\"] | order(name asc) {\n    _id,\n    name,\n    memberId,\n    country,\n    countryName,\n    membershipType,\n    primaryRegion,\n    secondaryRegion,\n    votes,\n    \"logo\": logo.asset->url,\n    website,\n    wiki,\n    fb,\n    twitter,\n    ig\n  }\n": MemberOrganisationsQueryResult;
+    "\n  *[_type == \"regionalNetwork\"] | order(name asc) {\n    _id,\n    name,\n    fullName,\n    memberId,\n    region,\n    \"logo\": logo.asset->url,\n    website,\n    wiki,\n    fb,\n    twitter,\n    ig\n  }\n": RegionalNetworksQueryResult;
     "*[_type == \"event\" && defined(slug.current)]{\"slug\": slug.current, language}": EventSlugsResult;
     "*[_type == \"page\" && defined(slug.current)]{\"slug\": slug.current}": PageSlugsResult;
     "*[_type == \"post\" && defined(slug.current)]{\"slug\": slug.current}": PostSlugsResult;
