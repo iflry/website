@@ -152,6 +152,26 @@ export default async function EventPage({ params }: Props) {
             )}
           </div>
 
+          {(event.registrationLink || event.registrationDeadline) && (
+            <div className="mb-8 rounded-lg border-2 border-blue-600 bg-blue-50 p-6 text-center">
+              {event.registrationDeadline && (
+                <p className="mb-3 text-sm font-medium text-blue-800">
+                  Registration deadline: <DateComponent dateString={event.registrationDeadline} />
+                </p>
+              )}
+              {event.registrationLink && (
+                <a
+                  href={event.registrationLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block rounded-lg bg-blue-600 px-8 py-3 text-lg font-semibold text-white transition-colors hover:bg-blue-700"
+                >
+                  Register Now
+                </a>
+              )}
+            </div>
+          )}
+
           {event.image && (
             <div className="mb-8 sm:mx-0 md:mb-16">
               <CoverImage image={event.image} priority />

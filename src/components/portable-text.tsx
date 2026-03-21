@@ -38,14 +38,14 @@ export default function CustomPortableText({
         
         if (isExternal) {
           return (
-            <a href={href} rel="noreferrer noopener" target="_blank">
+            <a href={href} rel="noreferrer noopener" target="_blank" className="break-all">
               {children}
             </a>
           );
         }
-        
+
         return (
-          <Link href={href}>
+          <Link href={href} className="break-all">
             {children}
           </Link>
         );
