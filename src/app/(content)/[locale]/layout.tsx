@@ -181,7 +181,7 @@ export default async function RootLayout({
                   ))}
                 </>
               }
-              fineprint={settings?.footer?.fineprint || "© 2026 International Federation of Liberal Youth"}
+              fineprint={settings?.footer?.fineprint || `© ${new Date().getFullYear()} International Federation of Liberal Youth`}
               socialLinks={
                 <>
                   {settings?.footer?.socialLinks?.map((link: any) => (
