@@ -54,7 +54,7 @@ export default function CustomPortableText({
   };
 
   return (
-    <div className={["prose", className].filter(Boolean).join(" ")}>
+    <div className={["prose max-w-none break-words [&_pre]:overflow-x-auto [&_table]:overflow-x-auto [&_img]:max-w-full [&_iframe]:max-w-full", className].filter(Boolean).join(" ")}>
       <PortableText components={components} value={value} />
     </div>
   );

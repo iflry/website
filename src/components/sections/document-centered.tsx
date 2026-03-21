@@ -26,7 +26,7 @@ export function DocumentCentered({
             </Text>
           )}
         </div>
-        <Document className="mx-auto max-w-2xl">{children}</Document>
+        <Document className="mx-auto max-w-2xl overflow-hidden">{children}</Document>
       </Container>
     </section>
   )
