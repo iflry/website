@@ -113,6 +113,11 @@ export default async function RootLayout({
         if (link.page?.type === "programmes") return `/programmes`;
         if (link.page?.type === "people") return `/people`;
         if (link.page?.type === "documents") return `/documents`;
+        if (link.page?.type === "vacancies") return `/vacancies`;
+        if (link.page?.type === "trainers") return `/trainers`;
+        if (link.page?.type === "events") return `/events`;
+        if (link.page?.type === "posts") return `/posts`;
+        if (link.page?.type === "donation") return `/donation`;
         return `/pages/${link.page?.slug?.current || ""}`;
       case "events":
         return `/events`;

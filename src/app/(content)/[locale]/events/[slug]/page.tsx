@@ -13,8 +13,6 @@ import { eventQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import { routing } from "@/src/i18n/routing";
 import Link from "next/link";
-import membershipData from "@/src/data/membership.json";
-import regionalData from "@/src/data/regional.json";
 import { Main } from "@/src/components/elements/main";
 import { DocumentCentered } from "@/src/components/sections/document-centered";
 import { Subheading } from "@/src/components/elements/subheading";
@@ -298,18 +296,14 @@ export default async function EventPage({ params }: Props) {
             <div className="mb-12">
               <Subheading className="mb-6">Participating Members</Subheading>
               <div className="flex flex-wrap gap-2">
-                {event.members.map((memberId: string, index: number) => {
-                  const allMembers = [...membershipData, ...regionalData];
-                  const member = allMembers.find((m) => m.id === memberId);
-                  return (
-                    <span
-                      key={index}
-                      className="rounded-full bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700"
-                    >
-                      {member?.name || memberId}
-                    </span>
-                  );
-                })}
+                {event.members.map((member: any) => (
+                  <span
+                    key={member._id}
+                    className="rounded-full bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700"
+                  >
+                    {member.name}
+                  </span>
+                ))}
               </div>
             </div>
           )}

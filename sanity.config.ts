@@ -26,7 +26,8 @@ import programme from './sanity/schemas/documents/programme';
 import programmePage from './sanity/schemas/documents/programmePage';
 import role from './sanity/schemas/documents/role';
 import page from './sanity/schemas/documents/page';
-import member from './sanity/schemas/documents/member';
+import memberOrganisation from './sanity/schemas/documents/memberOrganisation';
+import regionalNetwork from './sanity/schemas/documents/regionalNetwork';
 import coreDocument from './sanity/schemas/documents/coreDocument';
 import donationItem from './sanity/schemas/documents/donationItem';
 import navigationItem from './sanity/schemas/objects/navigationItem';
@@ -41,7 +42,7 @@ const LANGUAGES = [
 
 const SINGLETON_SCHEMA_TYPES = [configuration]
 const LOCALIZED_SCHEMA_TYPES = [post, event, page, programmePage, vacancy]
-const DEFAULT_SCHEMA_TYPES = [person, partner, programme, member, role, trainer, coreDocument, donationItem]
+const DEFAULT_SCHEMA_TYPES = [person, partner, programme, memberOrganisation, regionalNetwork, role, trainer, coreDocument, donationItem]
 const OBJECT_SCHEMA_TYPES = [navigationItem]
 
 const structure: StructureResolver = (S) => {
@@ -249,7 +250,18 @@ export default defineConfig({
               ],
             }),
           }),
-          member: defineLocations({
+          memberOrganisation: defineLocations({
+            select: {},
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: "Members",
+                  href: "/members"
+                },
+              ],
+            }),
+          }),
+          regionalNetwork: defineLocations({
             select: {},
             resolve: (doc) => ({
               locations: [

@@ -1,11 +1,7 @@
 "use server";
 
-import membershipData from "@/src/data/membership.json";
-import regionalData from "@/src/data/regional.json";
-import { existsSync } from "fs";
-import { join } from "path";
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { membersQuery } from "@/sanity/lib/queries";
+import { memberOrganisationsQuery, regionalNetworksQuery } from "@/sanity/lib/queries";
 
 export type MemberType = "full" | "associate" | "observer" | "regional";
 export type Member = {
@@ -13,6 +9,11 @@ export type Member = {
   name: string;
   type: MemberType;
   country?: string;
+  countryName?: string;
+  primaryRegion?: string;
+  secondaryRegion?: string;
+  votes?: number;
+  fullName?: string;
   website?: string;
   fb?: string;
   twitter?: string;
@@ -21,81 +22,43 @@ export type Member = {
   image_url?: string;
 };
 
-function findImagePath(memberId: string): string | undefined {
-  const extensions = ['.png', '.jpeg', '.jpg', '.webp'];
-  const publicDir = join(process.cwd(), 'public', 'members');
-  
-  for (const ext of extensions) {
-    const imagePath = join(publicDir, `${memberId}${ext}`);
-    if (existsSync(imagePath)) {
-      return `/members/${memberId}${ext}`;
-    }
-  }
-}
+export async function getAllMembers(): Promise<Member[]> {
+  const [memberOrgs, regionalNetworks] = await Promise.all([
+    sanityFetch({ query: memberOrganisationsQuery }),
+    sanityFetch({ query: regionalNetworksQuery }),
+  ]);
 
-async function getSanityOverrides(): Promise<Map<string, Partial<Member>>> {
-  const sanityMembers = await sanityFetch({ query: membersQuery });
-    const overrides = new Map<string, Partial<Member>>();
-    
-    if (sanityMembers && Array.isArray(sanityMembers)) {
-      sanityMembers.forEach((sanityMember) => {
-        const override: Partial<Member> = {};
-        if (sanityMember.logo) override.image_url = sanityMember.logo;
-        if (sanityMember.website) override.website = sanityMember.website;
-        if (sanityMember.wiki) override.wiki = sanityMember.wiki;
-        if (sanityMember.fb !== undefined) override.fb = sanityMember.fb || undefined;
-        if (sanityMember.twitter !== undefined) override.twitter = sanityMember.twitter || undefined;
-        if (sanityMember.ig !== undefined) override.ig = sanityMember.ig || undefined;
-        
-        if (sanityMember.memberId) {
-          overrides.set(sanityMember.memberId, override);
-        }
-      });
-    }
-    
-    return overrides;
-}
+  const members: Member[] = (memberOrgs || []).map((m: any) => ({
+    id: m.memberId,
+    name: m.name,
+    type: (m.membershipType?.toLowerCase() || "full") as MemberType,
+    country: m.country || undefined,
+    countryName: m.countryName || undefined,
+    primaryRegion: m.primaryRegion || undefined,
+    secondaryRegion: m.secondaryRegion || undefined,
+    votes: m.votes ?? undefined,
+    website: m.website || undefined,
+    fb: m.fb || undefined,
+    twitter: m.twitter || undefined,
+    ig: m.ig || undefined,
+    wiki: m.wiki || undefined,
+    image_url: m.logo || undefined,
+  }));
 
-function normalizeMembershipData(overrides: Map<string, Partial<Member>>) {
-  return membershipData.map((member) => {
-    const override = overrides.get(member.id) || {};
-    return {
-      id: member.id,
-      name: override.name || member.name,
-      country: member.country,
-      type: member.type as MemberType,
-      website: override.website || member.website,
-      fb: override.fb !== undefined ? override.fb : member.fb,
-      twitter: override.twitter !== undefined ? override.twitter : member.twitter,
-      ig: override.ig !== undefined ? override.ig : member.ig,
-      wiki: override.wiki,
-      image_url: override.image_url || findImagePath(member.id)
-    };
-  });
-}
+  const regionals: Member[] = (regionalNetworks || []).map((m: any) => ({
+    id: m.memberId,
+    name: m.name,
+    fullName: m.fullName || undefined,
+    type: "regional" as MemberType,
+    website: m.website || undefined,
+    fb: m.fb || undefined,
+    twitter: m.twitter || undefined,
+    ig: m.ig || undefined,
+    wiki: m.wiki || undefined,
+    image_url: m.logo || undefined,
+  }));
 
-function normalizeRegionalData(overrides: Map<string, Partial<Member>>) {
-  return regionalData.map((member) => {
-    const override = overrides.get(member.id) || {};
-    return {
-      id: member.id,
-      name: override.name || member.name,
-      type: "regional" as MemberType,
-      website: override.website || member.website,
-      fb: override.fb !== undefined ? override.fb : member.fb,
-      twitter: override.twitter !== undefined ? override.twitter : member.twitter,
-      ig: override.ig !== undefined ? override.ig : member.ig,
-      wiki: override.wiki || member.wiki,
-      image_url: override.image_url,
-    };
-  });
-}
-
-export async function getAllMembers() {
-  const overrides = await getSanityOverrides();
-  const membership = normalizeMembershipData(overrides);
-  const regional = normalizeRegionalData(overrides);
-  return [...membership, ...regional];
+  return [...members, ...regionals];
 }
 
 export async function getMembersByType() {
@@ -106,12 +69,10 @@ export async function getMembersByType() {
     associate: [],
     observer: [],
   };
-  
+
   members.forEach((member) => {
     grouped[member.type].push(member);
   });
-  
+
   return grouped;
 }
-
-

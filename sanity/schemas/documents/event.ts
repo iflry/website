@@ -4,8 +4,8 @@ import partnerType from './partner';
 import programmeType from './programme';
 import personType from './person';
 import trainerType from './trainer';
-import membershipData from "@/src/data/membership.json";
-import regionalData from "@/src/data/regional.json";
+import memberOrganisationType from './memberOrganisation';
+import regionalNetworkType from './regionalNetwork';
 
 export default defineType({
   name: "event",
@@ -96,13 +96,11 @@ export default defineType({
         title: "Members",
         type: "array",
         of: [{
-            type: "string",
-            options: {
-                list: [...membershipData, ...regionalData].map((member) => ({
-                  title: member.name,
-                  value: member.id,
-                })),
-            },
+            type: "reference",
+            to: [
+              { type: memberOrganisationType.name },
+              { type: regionalNetworkType.name },
+            ],
         }],
     }),
     defineField({
