@@ -2,6 +2,7 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import { postsQuery, postsCountQuery } from "@/sanity/lib/queries";
 import DateComponent from "@/src/components/date";
 import Link from "next/link";
+import Image from "next/image";
 import { urlForImage } from "@/sanity/lib/utils";
 import {
   Pagination,
@@ -147,9 +148,11 @@ export default async function PostsPage({
                   post.author && (
                     <div className="flex items-center gap-2 text-sm">
                       {post.author.picture?.asset?._ref && (
-                        <img
+                        <Image
                           src={urlForImage(post.author.picture)?.height(32).width(32).fit("crop").url() || ""}
                           alt={post.author.name || ""}
+                          width={32}
+                          height={32}
                           className="h-8 w-8 rounded-full object-cover"
                         />
                       )}

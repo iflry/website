@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import DateComponent from "@/src/components/date";
 import HeroMap from "@/src/components/hero-map";
@@ -81,9 +82,11 @@ function NewsSection({ posts, locale }: { posts: any[]; locale: string }) {
                   post.author && (
                     <div className="flex items-center gap-2 text-sm">
                       {post.author.picture?.asset?._ref && (
-                        <img
+                        <Image
                           src={urlForImage(post.author.picture)?.height(32).width(32).fit("crop").url() || ""}
                           alt={post.author.name || ""}
+                          width={32}
+                          height={32}
                           className="h-8 w-8 rounded-full object-cover"
                         />
                       )}
@@ -236,10 +239,12 @@ function PartnersSection({
             {featuredPartners.map((partner) => (
               <Logo key={partner._id}>
                 {partner.logo && (
-                  <img
+                  <Image
                     src={partner.logo}
                     alt={partner.title}
-                    className="h-full w-full object-contain opacity-60 transition-opacity hover:opacity-100"
+                    fill
+                    sizes="(max-width: 768px) 50vw, 16vw"
+                    className="object-contain opacity-60 transition-opacity hover:opacity-100"
                   />
                 )}
               </Logo>

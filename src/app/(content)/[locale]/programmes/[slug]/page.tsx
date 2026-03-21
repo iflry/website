@@ -7,6 +7,7 @@ import { Link } from "@/src/i18n/navigation";
 import DateComponent from "@/src/components/date";
 import PortableText from "@/src/components/portable-text";
 
+import Image from "next/image";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { programmePageQuery, eventsByProgrammeQuery } from "@/sanity/lib/queries";
 import { routing } from "@/src/i18n/routing";
@@ -225,9 +226,11 @@ export default async function ProgrammePage({ params }: Props) {
                       className="flex gap-4"
                     >
                       {manager.picture?.asset?._ref && (
-                        <img
+                        <Image
                           src={urlForImage(manager.picture)?.height(64).width(64).fit("crop").url() || ""}
                           alt={manager.name || "Manager"}
+                          width={64}
+                          height={64}
                           className="h-16 w-16 rounded-full object-cover shrink-0"
                         />
                       )}

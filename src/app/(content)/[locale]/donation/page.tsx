@@ -60,6 +60,9 @@ export default async function DonationPage({
                   <p className="text-sm text-gray-600">{item.description}</p>
                 )}
                 <div className="mt-auto flex flex-col gap-3 pt-2">
+                  {item.amount && (
+                    <p className="text-2xl font-bold text-gray-900">€{item.amount}</p>
+                  )}
                   {item.oneOffLink && (
                     <a
                       href={item.oneOffLink}
@@ -67,7 +70,7 @@ export default async function DonationPage({
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center rounded-full bg-gray-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-800"
                     >
-                      Donate €{item.amount}
+                      Donate once
                     </a>
                   )}
                   {item.recurringLink && (
@@ -77,7 +80,7 @@ export default async function DonationPage({
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium text-gray-900 ring-1 ring-gray-900/20 hover:bg-gray-50"
                     >
-                      Donate €{item.amount}/month
+                      Donate monthly
                     </a>
                   )}
                 </div>

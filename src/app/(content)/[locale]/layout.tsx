@@ -105,28 +105,32 @@ export default async function RootLayout({
     }
   };
 
-  const resolveFooterLinkHref = (link: any, language: string): string => {
+  const resolveFooterLinkHref = (link: any, _language: string): string => {
     switch (link.linkType) {
       case "page":
-        const locale = link.page?.language || language;
-        if (link.page?.type === "members") return `/${locale}/members`;
-        if (link.page?.type === "partners") return `/${locale}/partners`;
-        if (link.page?.type === "programmes") return `/${locale}/programmes`;
-        if (link.page?.type === "people") return `/${locale}/people`;
-        if (link.page?.type === "documents") return `/${locale}/documents`;
-        return `/${locale}/pages/${link.page?.slug?.current}`;
+        if (link.page?.type === "members") return `/members`;
+        if (link.page?.type === "partners") return `/partners`;
+        if (link.page?.type === "programmes") return `/programmes`;
+        if (link.page?.type === "people") return `/people`;
+        if (link.page?.type === "documents") return `/documents`;
+        if (link.page?.type === "vacancies") return `/vacancies`;
+        if (link.page?.type === "trainers") return `/trainers`;
+        if (link.page?.type === "events") return `/events`;
+        if (link.page?.type === "posts") return `/posts`;
+        if (link.page?.type === "donation") return `/donation`;
+        return `/pages/${link.page?.slug?.current || ""}`;
       case "events":
-        return `/${language}/events`;
+        return `/events`;
       case "posts":
-        return `/${language}/posts`;
+        return `/posts`;
       case "trainers":
-        return `/${language}/trainers`;
+        return `/trainers`;
       case "vacancies":
-        return `/${language}/vacancies`;
+        return `/vacancies`;
       case "custom":
-        return link.customUrl || `/${language}`;
+        return link.customUrl || `/`;
       default:
-        return `/${language}`;
+        return `/`;
     }
   };
 

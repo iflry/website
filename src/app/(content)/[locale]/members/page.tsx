@@ -3,6 +3,7 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import { pageTypeQuery } from "@/sanity/lib/queries";
 import { PortableTextBlock } from "next-sanity";
 import { getMembersByType, Member } from "@/src/lib/members";
+import Image from "next/image";
 import Link from "next/link";
 import { Main } from "@/src/components/elements/main";
 import { Section } from "@/src/components/elements/section";
@@ -34,10 +35,12 @@ function MemberLogo({ member }: { member: Member }) {
     <div className="flex flex-col items-center w-full">
       <div className="group relative w-full aspect-3/4">
         <div className="flex items-center justify-center w-full h-full p-2 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-all">
-          {member.image_url ? ( <img 
-            src={member.image_url} 
-            alt={member.name} 
-            className="object-contain max-h-full max-w-full" 
+          {member.image_url ? ( <Image
+            src={member.image_url}
+            alt={member.name}
+            width={200}
+            height={150}
+            className="object-contain max-h-full max-w-full"
           />) : (
             <div className="flex items-center justify-center h-full w-full text-gray-400 text-xs">
               No image

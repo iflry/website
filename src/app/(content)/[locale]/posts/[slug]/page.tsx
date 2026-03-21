@@ -7,6 +7,7 @@ import CoverImage from "../../cover-image";
 import DateComponent from "@/src/components/date";
 import PortableText from "@/src/components/portable-text";
 
+import Image from "next/image";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { postQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
@@ -78,9 +79,11 @@ export default async function PostPage({ params }: Props) {
           {post.author && (
             <>
               {post.author.picture?.asset?._ref && (
-                <img
+                <Image
                   src={urlForImage(post.author.picture)?.height(32).width(32).fit("crop").url() || ""}
                   alt={post.author.name || ""}
+                  width={32}
+                  height={32}
                   className="h-8 w-8 rounded-full object-cover"
                 />
               )}

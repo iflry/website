@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import Image from "next/image";
 import Link from "next/link";
 
 
@@ -50,11 +51,13 @@ export default async function RoleView({ picture, name, title, email, type, bure
   return (
     <div className="flex flex-col gap-3 text-sm/7">
       {picture ? (
-        <div className="aspect-3/4 w-full overflow-hidden rounded-sm outline -outline-offset-1 outline-black/5">
-          <img
+        <div className="relative aspect-3/4 w-full overflow-hidden rounded-sm outline -outline-offset-1 outline-black/5">
+          <Image
             src={picture}
             alt={name || ""}
-            className="size-full object-cover"
+            fill
+            sizes="(max-width: 768px) 50vw, 20vw"
+            className="object-cover"
           />
         </div>
       ) : (

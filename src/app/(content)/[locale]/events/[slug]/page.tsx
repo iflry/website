@@ -7,13 +7,12 @@ import CoverImage from "../../cover-image";
 import DateComponent from "@/src/components/date";
 import PortableText from "@/src/components/portable-text";
 
+import Image from "next/image";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { eventQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import { routing } from "@/src/i18n/routing";
 import Link from "next/link";
-import membershipData from "@/src/data/membership.json";
-import regionalData from "@/src/data/regional.json";
 import { Main } from "@/src/components/elements/main";
 import { DocumentCentered } from "@/src/components/sections/document-centered";
 import { Subheading } from "@/src/components/elements/subheading";
@@ -174,9 +173,11 @@ export default async function EventPage({ params }: Props) {
                 <Subheading className="mb-4 text-xl">Contact Person</Subheading>
                 <div className="flex items-center gap-2 text-sm">
                   {event.contactPerson.person.picture && (
-                    <img
+                    <Image
                       src={event.contactPerson.person.picture}
                       alt={event.contactPerson.person.name || ""}
+                      width={32}
+                      height={32}
                       className="h-8 w-8 rounded-full object-cover"
                     />
                   )}
@@ -224,9 +225,11 @@ export default async function EventPage({ params }: Props) {
                     className="flex items-center gap-2 text-sm"
                   >
                     {trainer.person?.picture && (
-                      <img
+                      <Image
                         src={trainer.person.picture}
                         alt={trainer.person.name || ""}
+                        width={32}
+                        height={32}
                         className="h-8 w-8 rounded-full object-cover"
                       />
                     )}
@@ -260,11 +263,15 @@ export default async function EventPage({ params }: Props) {
                     className="flex flex-col items-center rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
                   >
                     {partner.logo && (
-                      <img
-                        src={partner.logo}
-                        alt={partner.title}
-                        className="mb-4 h-24 w-auto object-contain"
-                      />
+                      <div className="relative mb-4 h-24 w-full">
+                        <Image
+                          src={partner.logo}
+                          alt={partner.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          className="object-contain"
+                        />
+                      </div>
                     )}
                     <h3 className="mb-2 text-center font-semibold">
                       {partner.title}
@@ -289,18 +296,14 @@ export default async function EventPage({ params }: Props) {
             <div className="mb-12">
               <Subheading className="mb-6">Participating Members</Subheading>
               <div className="flex flex-wrap gap-2">
-                {event.members.map((memberId: string, index: number) => {
-                  const allMembers = [...membershipData, ...regionalData];
-                  const member = allMembers.find((m) => m.id === memberId);
-                  return (
-                    <span
-                      key={index}
-                      className="rounded-full bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700"
-                    >
-                      {member?.name || memberId}
-                    </span>
-                  );
-                })}
+                {event.members.map((member: any) => (
+                  <span
+                    key={member._id}
+                    className="rounded-full bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700"
+                  >
+                    {member.name}
+                  </span>
+                ))}
               </div>
             </div>
           )}

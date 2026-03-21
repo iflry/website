@@ -352,7 +352,13 @@ export const eventQuery = defineQuery(`
       "logo": logo.asset->url,
       description
     },
-    "members": members,
+    "members": members[]->{
+      _id,
+      _type,
+      name,
+      memberId,
+      "logo": logo.asset->url
+    },
     registrationLink,
     registrationDeadline,
     "attachments": attachments[]{ "title": coalesce(title, "Document"), "url": asset->url },
@@ -410,11 +416,33 @@ export const trainersQuery = defineQuery(`
   }
 `)
 
-export const membersQuery = defineQuery(`
-  *[_type == "member"] {
+export const memberOrganisationsQuery = defineQuery(`
+  *[_type == "memberOrganisation"] | order(name asc) {
     _id,
-    memberId,
     name,
+    memberId,
+    country,
+    countryName,
+    membershipType,
+    primaryRegion,
+    secondaryRegion,
+    votes,
+    "logo": logo.asset->url,
+    website,
+    wiki,
+    fb,
+    twitter,
+    ig
+  }
+`)
+
+export const regionalNetworksQuery = defineQuery(`
+  *[_type == "regionalNetwork"] | order(name asc) {
+    _id,
+    name,
+    fullName,
+    memberId,
+    region,
     "logo": logo.asset->url,
     website,
     wiki,

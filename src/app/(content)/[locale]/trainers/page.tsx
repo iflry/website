@@ -6,6 +6,7 @@ import { Main } from "@/src/components/elements/main";
 import { Section } from "@/src/components/elements/section";
 import { Document } from "@/src/components/elements/document";
 import { urlForImage } from "@/sanity/lib/utils";
+import Image from "next/image";
 import { Badge } from "@/src/components/ui/badge";
 import Link from "next/link";
 
@@ -48,11 +49,13 @@ export default async function TrainersPage({ params }: { params: Promise<{ local
               {trainer.person && (
                 <>
                   {trainer.person.picture?.asset?._ref ? (
-                    <div className="aspect-3/4 w-full overflow-hidden rounded-sm outline -outline-offset-1 outline-black/5">
-                      <img
+                    <div className="relative aspect-3/4 w-full overflow-hidden rounded-sm outline -outline-offset-1 outline-black/5">
+                      <Image
                         src={urlForImage(trainer.person.picture)?.height(600).width(450).fit("crop").url() as string}
                         alt={trainer.person.name}
-                        className="size-full object-cover"
+                        fill
+                        sizes="(max-width: 768px) 50vw, 20vw"
+                        className="object-cover"
                       />
                     </div>
                   ) : (
