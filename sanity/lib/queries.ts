@@ -134,6 +134,15 @@ export const partnersQuery = defineQuery(`
   }
 `)
 
+export const coreDocumentsQuery = defineQuery(`
+  *[_type == "coreDocument"] | order(order asc) {
+    _id,
+    "title": coalesce(title, "Untitled"),
+    description,
+    "fileUrl": file.asset->url
+  }
+`)
+
 export const programmesQuery = defineQuery(`
   *[_type == "programme"] {
     _id,

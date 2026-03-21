@@ -13,11 +13,11 @@ import { settingsQuery } from "@/sanity/lib/queries";
 
 interface NavigationItemData {
   title?: string | null;
-  linkType?: "page" | "events" | "posts" | "trainers" | "vacancies" | "custom" | "submenu" | null;
+  linkType?: "page" | "events" | "posts" | "trainers" | "vacancies" | "documents" | "custom" | "submenu" | null;
   page?: {
     language?: string | null;
     slug?: { current?: string | null } | null;
-    type?: "other" | "programmes" | "members" | "partners" | "people" | "trainers" | "vacancies" | null;
+    type?: "other" | "programmes" | "members" | "partners" | "people" | "trainers" | "vacancies" | "documents" | null;
   } | null;
   customUrl?: string | null;
   children?: NavigationItemData[] | null;
@@ -31,6 +31,7 @@ function resolveNavigationHref(item: NavigationItemData, language: string): stri
       if (item.page?.type === "partners") return `/${locale}/partners`;
       if (item.page?.type === "programmes") return `/${locale}/programmes`;
       if (item.page?.type === "people") return `/${locale}/people`;
+      if (item.page?.type === "documents") return `/${locale}/documents`;
       return `/${locale}/pages/${item.page?.slug?.current}`
     case "events":
       return `/${language}/events`;
@@ -40,6 +41,8 @@ function resolveNavigationHref(item: NavigationItemData, language: string): stri
       return `/${language}/trainers`;
     case "vacancies":
       return `/${language}/vacancies`;
+    case "documents":
+      return `/${language}/documents`;
     case "custom":
       return item.customUrl || `/${language}`;
     default:

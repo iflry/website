@@ -113,6 +113,7 @@ export default async function RootLayout({
         if (link.page?.type === "partners") return `/${locale}/partners`;
         if (link.page?.type === "programmes") return `/${locale}/programmes`;
         if (link.page?.type === "people") return `/${locale}/people`;
+        if (link.page?.type === "documents") return `/${locale}/documents`;
         return `/${locale}/pages/${link.page?.slug?.current}`;
       case "events":
         return `/${language}/events`;

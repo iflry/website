@@ -16,7 +16,7 @@
 export type NavigationItem = {
   _type: "navigationItem";
   title?: string;
-  linkType?: "page" | "events" | "posts" | "trainers" | "vacancies" | "custom" | "submenu";
+  linkType?: "page" | "events" | "posts" | "trainers" | "vacancies" | "documents" | "custom" | "submenu";
   page?: {
     _ref: string;
     _type: "reference";
@@ -27,6 +27,27 @@ export type NavigationItem = {
   children?: Array<{
     _key: string;
   } & NavigationItem>;
+};
+
+export type CoreDocument = {
+  _id: string;
+  _type: "coreDocument";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  description?: string;
+  file?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    media?: unknown;
+    _type: "file";
+  };
+  order?: number;
 };
 
 export type Trainer = {
@@ -338,7 +359,7 @@ export type Page = {
   _rev: string;
   title?: string;
   language?: string;
-  type?: "members" | "partners" | "programmes" | "people" | "trainers" | "vacancies" | "other";
+  type?: "members" | "partners" | "programmes" | "people" | "trainers" | "vacancies" | "documents" | "other";
   slug?: Slug;
   content?: Array<{
     children?: Array<{
@@ -648,7 +669,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = NavigationItem | Trainer | Role | Member | Partner | Configuration | InternationalizedArrayStringValue | InternationalizedArrayString | TranslationMetadata | InternationalizedArrayReferenceValue | Vacancy | ProgrammePage | Page | Event | Programme | Post | Person | InternationalizedArrayReference | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = NavigationItem | CoreDocument | Trainer | Role | Member | Partner | Configuration | InternationalizedArrayStringValue | InternationalizedArrayString | TranslationMetadata | InternationalizedArrayReferenceValue | Vacancy | ProgrammePage | Page | Event | Programme | Post | Person | InternationalizedArrayReference | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: settingsQuery
@@ -680,34 +701,34 @@ export type SettingsQueryResult = {
   }>;
   navigation: Array<{
     title: string | null;
-    linkType: "custom" | "events" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
+    linkType: "custom" | "documents" | "events" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
     page: {
       slug: Slug | null;
-      type: "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
+      type: "documents" | "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
     } | null;
     customUrl: string | null;
     children: Array<{
       title: string | null;
-      linkType: "custom" | "events" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
+      linkType: "custom" | "documents" | "events" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
       page: {
         slug: Slug | null;
-        type: "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
+        type: "documents" | "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
       } | null;
       customUrl: string | null;
       children: Array<{
         title: string | null;
-        linkType: "custom" | "events" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
+        linkType: "custom" | "documents" | "events" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
         page: {
           slug: Slug | null;
-          type: "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
+          type: "documents" | "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
         } | null;
         customUrl: string | null;
         children: Array<{
           title: string | null;
-          linkType: "custom" | "events" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
+          linkType: "custom" | "documents" | "events" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
           page: {
             slug: Slug | null;
-            type: "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
+            type: "documents" | "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
           } | null;
           customUrl: string | null;
         }> | null;
@@ -743,7 +764,7 @@ export type SettingsQueryResult = {
         linkType: "custom" | "events" | "page" | "posts" | "trainers" | "vacancies" | null;
         page: {
           slug: Slug | null;
-          type: "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
+          type: "documents" | "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
         } | null;
         customUrl: string | null;
       }> | null;
@@ -1003,6 +1024,14 @@ export type PartnersQueryResult = Array<{
   description: Array<{
     _key: string;
   } & InternationalizedArrayStringValue> | null;
+}>;
+// Variable: coreDocumentsQuery
+// Query: *[_type == "coreDocument"] | order(order asc) {    _id,    "title": coalesce(title, "Untitled"),    description,    "fileUrl": file.asset->url  }
+export type CoreDocumentsQueryResult = Array<{
+  _id: string;
+  title: string | "Untitled";
+  description: string | null;
+  fileUrl: string | null;
 }>;
 // Variable: programmesQuery
 // Query: *[_type == "programme"] {    _id,    email,    "title": coalesce(title, "Untitled"),    "managers": managers[]->{      _id,      "name": coalesce(name, "Untitled"),      "picture": picture.asset->url    },    "page": *[_type == "programmePage" && programme._ref == ^._id && language == $language][0] {      "slug": slug.current,      description    }  }
@@ -1525,6 +1554,7 @@ declare module "@sanity/client" {
     "\n  *[_type == \"page\" && slug.current == $slug && language == $language] [0] {\n    _id,\n    content,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n  }\n": PageQueryResult;
     "\n  *[_type == \"page\" && type == $type && language == $language] [0] {\n    _id,\n    content,\n    \"title\": coalesce(title, \"Untitled\"),\n  }\n": PageTypeQueryResult;
     "\n  *[_type == \"partner\" && displayAsPartner == true] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"logo\": logo.asset->url,\n    description\n  }\n": PartnersQueryResult;
+    "\n  *[_type == \"coreDocument\"] | order(order asc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    description,\n    \"fileUrl\": file.asset->url\n  }\n": CoreDocumentsQueryResult;
     "\n  *[_type == \"programme\"] {\n    _id,\n    email,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"managers\": managers[]->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url\n    },\n    \"page\": *[_type == \"programmePage\" && programme._ref == ^._id && language == $language][0] {\n      \"slug\": slug.current,\n      description\n    }\n  }\n": ProgrammesQueryResult;
     "\n  *[_type == \"programmePage\" && slug.current == $slug && language == $language][0] {\n    _id,\n    \"slug\": slug.current,\n    description,\n    \"programme\": programme->{\n      _id,\n      \"title\": coalesce(title, \"Untitled\"),\n      email,\n      \"managers\": managers[]->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        picture,\n        biography\n      }\n    }\n  }\n": ProgrammePageQueryResult;
     "\n  *[_type == \"event\" && programme._ref == $programmeId && language == $language] | order(start desc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    type,\n    location,\n    start,\n    end,\n    \"image\": image.asset->url,\n    description\n  }\n": EventsByProgrammeQueryResult;
