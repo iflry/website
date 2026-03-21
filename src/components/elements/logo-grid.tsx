@@ -1,8 +1,8 @@
 import { cn } from '@/src/lib/utils'
 import type { ComponentProps } from 'react'
 
-export function Logo({ className, ...props }: ComponentProps<'span'>) {
-  return <span className={cn('flex h-8 items-stretch', className)} {...props} />
+export function Logo({ className, ...props }: ComponentProps<'div'>) {
+  return <div className={cn('relative h-12 w-full', className)} {...props} />
 }
 
 export function LogoGrid({ className, ...props }: ComponentProps<'div'>) {
