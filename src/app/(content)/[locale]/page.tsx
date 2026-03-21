@@ -24,8 +24,6 @@ import { Wallpaper } from "@/src/components/elements/wallpaper";
 import { Heading } from "@/src/components/elements/heading";
 import { Subheading } from "@/src/components/elements/subheading";
 import { cn } from "@/src/lib/utils";
-// IFLRY brand colors
-const IFLRY_DONATION_BLUE = "#0066CC"; // Primary blue for donations
 
 function getEventTypeLabel(type: string) {
   const labels: Record<string, string> = {
@@ -331,22 +329,19 @@ export default async function Page({
       {/* Donation CTA */}
       <section className="py-8 md:py-12">
         <Container>
-          <div
-            className="rounded-3xl p-8 md:p-12 text-center"
-            style={{ backgroundColor: IFLRY_DONATION_BLUE }}
-          >
+          <div className="rounded-3xl bg-gradient-to-br from-gray-900 to-gray-800 p-8 md:p-12 text-center">
             <h2 className="mb-4 text-3xl font-bold md:text-4xl text-white">
               Support IFLRY
             </h2>
-            <p className="mb-6 text-lg text-white/90">
+            <p className="mb-6 text-lg text-white/70">
               Help us continue our mission to promote liberal values and empower
               young leaders worldwide.
             </p>
             <Link
               href={`/${locale}/donation`}
-              className="inline-block rounded-lg bg-white px-8 py-3 text-lg font-semibold text-gray-900 transition-colors hover:bg-gray-100"
+              className="inline-flex items-center gap-2 rounded-full bg-white/15 px-6 py-2.5 text-sm font-semibold text-white inset-ring-1 inset-ring-white/20 transition-colors hover:bg-white/25"
             >
-              Donate Now
+              Donate Now <ArrowNarrowRightIcon />
             </Link>
           </div>
         </Container>
