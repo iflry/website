@@ -1,6 +1,7 @@
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { pastEventsQuery, pastEventsCountQuery } from "@/sanity/lib/queries";
 import DateComponent from "@/src/components/date";
+import Image from "next/image";
 import Link from "next/link";
 import {
   Pagination,
@@ -71,11 +72,13 @@ export default async function EventsArchivePage({
                 className="flex flex-col gap-4 rounded-lg border border-gray-200 bg-white p-6 shadow-sm md:flex-row"
               >
                 {event.image && (
-                  <div className="h-48 w-full overflow-hidden rounded-lg md:h-32 md:w-48">
-                    <img
+                  <div className="relative h-48 w-full overflow-hidden rounded-lg md:h-32 md:w-48">
+                    <Image
                       src={event.image}
                       alt={event.title}
-                      className="h-full w-full object-cover"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 192px"
+                      className="object-cover"
                     />
                   </div>
                 )}

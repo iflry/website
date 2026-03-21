@@ -7,6 +7,7 @@ import CoverImage from "../../cover-image";
 import DateComponent from "@/src/components/date";
 import PortableText from "@/src/components/portable-text";
 
+import Image from "next/image";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { eventQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
@@ -174,9 +175,11 @@ export default async function EventPage({ params }: Props) {
                 <Subheading className="mb-4 text-xl">Contact Person</Subheading>
                 <div className="flex items-center gap-2 text-sm">
                   {event.contactPerson.person.picture && (
-                    <img
+                    <Image
                       src={event.contactPerson.person.picture}
                       alt={event.contactPerson.person.name || ""}
+                      width={32}
+                      height={32}
                       className="h-8 w-8 rounded-full object-cover"
                     />
                   )}
@@ -224,9 +227,11 @@ export default async function EventPage({ params }: Props) {
                     className="flex items-center gap-2 text-sm"
                   >
                     {trainer.person?.picture && (
-                      <img
+                      <Image
                         src={trainer.person.picture}
                         alt={trainer.person.name || ""}
+                        width={32}
+                        height={32}
                         className="h-8 w-8 rounded-full object-cover"
                       />
                     )}
@@ -260,11 +265,15 @@ export default async function EventPage({ params }: Props) {
                     className="flex flex-col items-center rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
                   >
                     {partner.logo && (
-                      <img
-                        src={partner.logo}
-                        alt={partner.title}
-                        className="mb-4 h-24 w-auto object-contain"
-                      />
+                      <div className="relative mb-4 h-24 w-full">
+                        <Image
+                          src={partner.logo}
+                          alt={partner.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          className="object-contain"
+                        />
+                      </div>
                     )}
                     <h3 className="mb-2 text-center font-semibold">
                       {partner.title}

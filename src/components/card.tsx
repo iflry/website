@@ -1,6 +1,7 @@
 import { cn } from "@/src/lib/utils";
 import type { ComponentProps, ReactNode } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface CardProps extends Omit<ComponentProps<"div">, "title"> {
   href?: string;
@@ -77,10 +78,12 @@ interface CardImageProps {
 export function CardImage({ src, alt, placeholder, className }: CardImageProps) {
   if (src) {
     return (
-      <img
+      <Image
         src={src}
         alt={alt || ""}
-        className={cn("h-full w-full object-cover transition-transform group-hover:scale-105", className)}
+        fill
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        className={cn("object-cover transition-transform group-hover:scale-105", className)}
       />
     );
   }

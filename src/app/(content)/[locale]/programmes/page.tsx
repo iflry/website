@@ -2,6 +2,7 @@ import PortableText from "@/src/components/portable-text";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { pageTypeQuery, programmesQuery } from "@/sanity/lib/queries";
 import Link from "next/link";
+import Image from "next/image";
 import { PortableTextBlock } from "next-sanity";
 import { extractTextFromPortableText, truncateText } from "@/src/lib/text-utils";
 import { Card } from "@/src/components/card";
@@ -121,9 +122,11 @@ export default async function ProgrammesPage({
                       {programme.managers.map((manager: any) => (
                         <div key={manager._id} className="flex items-center gap-2 text-sm">
                           {manager.picture && (
-                            <img
+                            <Image
                               src={manager.picture}
                               alt={manager.name || "Manager"}
+                              width={32}
+                              height={32}
                               className="h-8 w-8 rounded-full object-cover"
                             />
                           )}
