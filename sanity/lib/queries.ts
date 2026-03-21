@@ -134,6 +134,19 @@ export const partnersQuery = defineQuery(`
   }
 `)
 
+export const donationItemsQuery = defineQuery(`
+  *[_type == "donationItem"] | order(order asc) {
+    _id,
+    "title": coalesce(title, "Untitled"),
+    description,
+    "imageUrl": image.asset->url,
+    "programme": programme->{ _id, name },
+    amount,
+    oneOffLink,
+    recurringLink
+  }
+`)
+
 export const coreDocumentsQuery = defineQuery(`
   *[_type == "coreDocument"] | order(order asc) {
     _id,

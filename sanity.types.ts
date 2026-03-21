@@ -29,6 +29,38 @@ export type NavigationItem = {
   } & NavigationItem>;
 };
 
+export type DonationItem = {
+  _id: string;
+  _type: "donationItem";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  description?: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  programme?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "programme";
+  };
+  amount?: number;
+  oneOffLink?: string;
+  recurringLink?: string;
+  order?: number;
+};
+
 export type CoreDocument = {
   _id: string;
   _type: "coreDocument";
@@ -669,7 +701,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = NavigationItem | CoreDocument | Trainer | Role | Member | Partner | Configuration | InternationalizedArrayStringValue | InternationalizedArrayString | TranslationMetadata | InternationalizedArrayReferenceValue | Vacancy | ProgrammePage | Page | Event | Programme | Post | Person | InternationalizedArrayReference | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = NavigationItem | DonationItem | CoreDocument | Trainer | Role | Member | Partner | Configuration | InternationalizedArrayStringValue | InternationalizedArrayString | TranslationMetadata | InternationalizedArrayReferenceValue | Vacancy | ProgrammePage | Page | Event | Programme | Post | Person | InternationalizedArrayReference | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: settingsQuery
@@ -1024,6 +1056,21 @@ export type PartnersQueryResult = Array<{
   description: Array<{
     _key: string;
   } & InternationalizedArrayStringValue> | null;
+}>;
+// Variable: donationItemsQuery
+// Query: *[_type == "donationItem"] | order(order asc) {    _id,    "title": coalesce(title, "Untitled"),    description,    "imageUrl": image.asset->url,    "programme": programme->{ _id, name },    amount,    oneOffLink,    recurringLink  }
+export type DonationItemsQueryResult = Array<{
+  _id: string;
+  title: string | "Untitled";
+  description: string | null;
+  imageUrl: string | null;
+  programme: {
+    _id: string;
+    name: null;
+  } | null;
+  amount: number | null;
+  oneOffLink: string | null;
+  recurringLink: string | null;
 }>;
 // Variable: coreDocumentsQuery
 // Query: *[_type == "coreDocument"] | order(order asc) {    _id,    "title": coalesce(title, "Untitled"),    description,    "fileUrl": file.asset->url  }
@@ -1554,6 +1601,7 @@ declare module "@sanity/client" {
     "\n  *[_type == \"page\" && slug.current == $slug && language == $language] [0] {\n    _id,\n    content,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n  }\n": PageQueryResult;
     "\n  *[_type == \"page\" && type == $type && language == $language] [0] {\n    _id,\n    content,\n    \"title\": coalesce(title, \"Untitled\"),\n  }\n": PageTypeQueryResult;
     "\n  *[_type == \"partner\" && displayAsPartner == true] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"logo\": logo.asset->url,\n    description\n  }\n": PartnersQueryResult;
+    "\n  *[_type == \"donationItem\"] | order(order asc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    description,\n    \"imageUrl\": image.asset->url,\n    \"programme\": programme->{ _id, name },\n    amount,\n    oneOffLink,\n    recurringLink\n  }\n": DonationItemsQueryResult;
     "\n  *[_type == \"coreDocument\"] | order(order asc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    description,\n    \"fileUrl\": file.asset->url\n  }\n": CoreDocumentsQueryResult;
     "\n  *[_type == \"programme\"] {\n    _id,\n    email,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"managers\": managers[]->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url\n    },\n    \"page\": *[_type == \"programmePage\" && programme._ref == ^._id && language == $language][0] {\n      \"slug\": slug.current,\n      description\n    }\n  }\n": ProgrammesQueryResult;
     "\n  *[_type == \"programmePage\" && slug.current == $slug && language == $language][0] {\n    _id,\n    \"slug\": slug.current,\n    description,\n    \"programme\": programme->{\n      _id,\n      \"title\": coalesce(title, \"Untitled\"),\n      email,\n      \"managers\": managers[]->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        picture,\n        biography\n      }\n    }\n  }\n": ProgrammePageQueryResult;
