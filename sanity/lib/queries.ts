@@ -214,7 +214,7 @@ const roleFields = /* groq */ `
   title,
   bureauRole,
   officeRole,
-  organization,
+  "organization": organization->name,
   "name": person->name,
   "picture": person->picture.asset->url
 `;
