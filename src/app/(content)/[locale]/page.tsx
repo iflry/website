@@ -291,7 +291,7 @@ export default async function Page({
                     />
                   )}
                   <Heading className="max-w-5xl" color="light">
-                    Globalising freedom since 1949
+                    Globalising freedom since 1947
                   </Heading>
                   <div className="flex max-w-3xl flex-col gap-4 text-lg/8 text-white/70">
                     <p>
