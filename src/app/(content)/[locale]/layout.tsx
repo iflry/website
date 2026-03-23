@@ -52,15 +52,35 @@ export async function generateMetadata({ params }: { params: Promise<{locale: st
   } catch {
     // ignore
   }
+  const plainDescription = description ? toPlainText(description) : undefined;
+
   return {
     metadataBase,
     title: {
       template: `%s | ${title}`,
       default: title,
     },
-    description: description ? toPlainText(description) : undefined,
+    description: plainDescription,
     openGraph: {
       images: ogImage ? [ogImage] : [],
+      locale,
+      type: "website",
+      siteName: title,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: {
+        template: `%s | ${title}`,
+        default: title,
+      },
+      description: plainDescription,
+      images: ogImage ? [ogImage.url] : [],
+    },
+    alternates: {
+      canonical: `/${locale}`,
+      languages: Object.fromEntries(
+        routing.locales.map((l) => [l, `/${l}`])
+      ),
     },
   };
 }

@@ -15,6 +15,7 @@ import { routing } from "@/src/i18n/routing";
 import { Button } from "@/src/components/ui/button";
 import { Main } from "@/src/components/elements/main";
 import { DocumentCentered } from "@/src/components/sections/document-centered";
+import { Breadcrumbs } from "@/src/components/breadcrumbs";
 
 type Props = {
   params: Promise<{ slug: string; locale: string }>;
@@ -74,6 +75,13 @@ export default async function VacancyPage({ params }: Props) {
 
   return (
     <Main>
+      <Breadcrumbs
+        items={[
+          { label: "Vacancies", href: `/${locale}/vacancies` },
+          { label: vacancy.title },
+        ]}
+        locale={locale}
+      />
       <DocumentCentered headline={vacancy.title}>
         {vacancy.image && (
           <div className="mb-8 sm:mx-0 md:mb-16">

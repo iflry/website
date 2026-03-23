@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import PortableText from "@/src/components/portable-text";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { pageTypeQuery } from "@/sanity/lib/queries";
@@ -10,6 +11,14 @@ import { Section } from "@/src/components/elements/section";
 import { Heading } from "@/src/components/elements/heading";
 import { Subheading } from "@/src/components/elements/subheading";
 import { Document } from "@/src/components/elements/document";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Member Organisations",
+    description:
+      "Full, associate, and observer member organisations of the International Federation of Liberal Youth (IFLRY).",
+  };
+}
 
 function MemberLogo({ member }: { member: Member }) {
   const hasSocials = member.website || member.fb || member.twitter || member.ig || member.wiki;
@@ -157,6 +166,7 @@ export default async function MembersPage({ params }: { params: Promise<{ locale
     <Main>
       <Section
         headline={page?.title}
+        headlineAs="h1"
         subheadline={
           page?.content?.length ? (
             <Document>

@@ -15,6 +15,7 @@ import { urlForImage } from "@/sanity/lib/utils";
 import { Main } from "@/src/components/elements/main";
 import { DocumentCentered } from "@/src/components/sections/document-centered";
 import { Subheading } from "@/src/components/elements/subheading";
+import { Breadcrumbs } from "@/src/components/breadcrumbs";
 
 type Props = {
   params: Promise<{ slug: string; locale: string }>;
@@ -100,6 +101,13 @@ export default async function ProgrammePage({ params }: Props) {
 
   return (
     <Main>
+      <Breadcrumbs
+        items={[
+          { label: "Programmes", href: `/${locale}/programmes` },
+          { label: programme.title },
+        ]}
+        locale={locale}
+      />
       <DocumentCentered
         headline={
           <div>

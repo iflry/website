@@ -1,4 +1,4 @@
-import { defineQuery } from "next-sanity";
+import { defineQuery, toPlainText } from "next-sanity";
 import type { Metadata, ResolvingMetadata } from "next";
 import { type PortableTextBlock } from "next-sanity";
 import { notFound } from "next/navigation";
@@ -15,6 +15,8 @@ import { urlForImage } from "@/sanity/lib/utils";
 import { routing } from "@/src/i18n/routing";
 import { Main } from "@/src/components/elements/main";
 import { DocumentCentered } from "@/src/components/sections/document-centered";
+import { JsonLd } from "@/src/components/json-ld";
+import { Breadcrumbs } from "@/src/components/breadcrumbs";
 
 type Props = {
   params: Promise<{ slug: string, locale: string }>;
@@ -54,7 +56,9 @@ export async function generateMetadata(
   return {
     authors: post?.author?.name ? [{ name: post?.author?.name }] : [],
     title: post?.title,
-    //description: post?.excerpt,
+    description: post?.content
+      ? toPlainText(post.content as PortableTextBlock[]).slice(0, 160)
+      : undefined,
     openGraph: {
       images: ogImage ? [ogImage, ...previousImages] : previousImages,
     },
@@ -69,8 +73,39 @@ export default async function PostPage({ params }: Props) {
     return notFound();
   }
 
+  const plainDescription = post.content
+    ? toPlainText(post.content as PortableTextBlock[]).slice(0, 160)
+    : undefined;
+
   return (
     <Main>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: post.title,
+          ...(post.date && { datePublished: post.date }),
+          ...(post.author?.name && {
+            author: {
+              "@type": "Person",
+              name: post.author.name,
+            },
+          }),
+          ...(plainDescription && { description: plainDescription }),
+          publisher: {
+            "@type": "Organization",
+            name: "IFLRY",
+            url: "https://new.iflry.org",
+          },
+        }}
+      />
+      <Breadcrumbs
+        items={[
+          { label: "Posts", href: `/${locale}/posts` },
+          { label: post.title },
+        ]}
+        locale={locale}
+      />
       <DocumentCentered headline={post.title}>
         <div className="mb-8 sm:mx-0 md:mb-16">
           <CoverImage image={post.image} priority />

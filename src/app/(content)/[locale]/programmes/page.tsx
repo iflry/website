@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import PortableText from "@/src/components/portable-text";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { pageTypeQuery, programmesQuery } from "@/sanity/lib/queries";
@@ -9,6 +10,14 @@ import { Card } from "@/src/components/card";
 import { Main } from "@/src/components/elements/main";
 import { Section } from "@/src/components/elements/section";
 import { Document } from "@/src/components/elements/document";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Programmes",
+    description:
+      "Programmes and projects run by the International Federation of Liberal Youth (IFLRY).",
+  };
+}
 
 type Programme = {
   _id: string;
@@ -70,6 +79,7 @@ export default async function ProgrammesPage({
     <Main>
       <Section
         headline={page?.title || "Programmes"}
+        headlineAs="h1"
         subheadline={
           page?.content?.length ? (
             <Document>
