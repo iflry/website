@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import PortableText from "@/src/components/portable-text";
 
 import { sanityFetch } from "@/sanity/lib/fetch";
@@ -7,6 +8,14 @@ import { PortableTextBlock } from "next-sanity";
 import { Main } from "@/src/components/elements/main";
 import { Section } from "@/src/components/elements/section";
 import { Document } from "@/src/components/elements/document";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Partners",
+    description:
+      "Partner organisations working with the International Federation of Liberal Youth (IFLRY).",
+  };
+}
 
 
 export default async function PartnersPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -20,6 +29,7 @@ export default async function PartnersPage({ params }: { params: Promise<{ local
     <Main>
       <Section
         headline={page?.title}
+        headlineAs="h1"
         subheadline={
           page?.content?.length ? (
             <Document>

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import PortableText from "@/src/components/portable-text";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { pageTypeQuery, vacanciesQuery } from "@/sanity/lib/queries";
@@ -10,6 +11,14 @@ import { Card, CardImage } from "@/src/components/card";
 import { Main } from "@/src/components/elements/main";
 import { Section } from "@/src/components/elements/section";
 import { Document } from "@/src/components/elements/document";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Vacancies",
+    description:
+      "Open positions and opportunities at the International Federation of Liberal Youth (IFLRY).",
+  };
+}
 
 type Vacancy = {
   _id: string;
@@ -92,6 +101,7 @@ export default async function VacanciesPage({ params }: { params: Promise<{ loca
     <Main>
       <Section
         headline={page?.title || "Vacancies"}
+        headlineAs="h1"
         subheadline={
           page?.content?.length ? (
             <Document>

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import PortableText from "@/src/components/portable-text";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { pageTypeQuery, trainersQuery } from "@/sanity/lib/queries";
@@ -9,6 +10,14 @@ import { urlForImage } from "@/sanity/lib/utils";
 import Image from "next/image";
 import { Badge } from "@/src/components/ui/badge";
 import Link from "next/link";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Trainers",
+    description:
+      "IFLRY's pool of expert trainers for liberal youth capacity building and education.",
+  };
+}
 
 const languageNames: Record<string, string> = {
   en: "English",
@@ -35,6 +44,7 @@ export default async function TrainersPage({ params }: { params: Promise<{ local
     <Main>
       <Section
         headline={page?.title || "Trainers"}
+        headlineAs="h1"
         subheadline={
           page?.content?.length ? (
             <Document>

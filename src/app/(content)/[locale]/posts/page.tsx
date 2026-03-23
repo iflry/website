@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { postsQuery, postsCountQuery } from "@/sanity/lib/queries";
 import DateComponent from "@/src/components/date";
@@ -19,6 +20,14 @@ import PostsTabs from "./posts-tabs";
 import { Suspense } from "react";
 import { Main } from "@/src/components/elements/main";
 import { Section } from "@/src/components/elements/section";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "News",
+    description:
+      "Statements, press releases and updates from the International Federation of Liberal Youth (IFLRY).",
+  };
+}
 
 const ITEMS_PER_PAGE = 20;
 
@@ -108,7 +117,7 @@ export default async function PostsPage({
 
   return (
     <Main>
-      <Section headline="Posts">
+      <Section headline="Posts" headlineAs="h1">
         <div className="mb-8">
           <Suspense fallback={<div className="h-9 w-full rounded-lg bg-muted" />}>
             <PostsTabs currentType={type} locale={locale} />

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { pastEventsQuery, pastEventsCountQuery } from "@/sanity/lib/queries";
 import DateComponent from "@/src/components/date";
@@ -15,6 +16,14 @@ import {
 import { Main } from "@/src/components/elements/main";
 import { Section } from "@/src/components/elements/section";
 import { Text } from "@/src/components/elements/text";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Event Archive",
+    description:
+      "Archive of past events and activities organized by the International Federation of Liberal Youth (IFLRY).",
+  };
+}
 
 const ITEMS_PER_PAGE = 20;
 
@@ -57,6 +66,7 @@ export default async function EventsArchivePage({
     <Main>
       <Section
         headline="Event Archive"
+        headlineAs="h1"
         subheadline={
           <Text>
             Past events and activities organized by IFLRY

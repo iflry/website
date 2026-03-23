@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { pageTypeQuery, donationItemsQuery } from "@/sanity/lib/queries";
 import PortableText from "@/src/components/portable-text";
@@ -6,6 +7,14 @@ import { Image } from "next-sanity/image";
 import { Main } from "@/src/components/elements/main";
 import { Section } from "@/src/components/elements/section";
 import { Document } from "@/src/components/elements/document";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Donate",
+    description:
+      "Support the International Federation of Liberal Youth (IFLRY) and help promote liberal values worldwide.",
+  };
+}
 
 export default async function DonationPage({
   params,
@@ -22,6 +31,7 @@ export default async function DonationPage({
     <Main>
       <Section
         headline={page?.title || "Donation"}
+        headlineAs="h1"
         subheadline={
           page?.content?.length ? (
             <Document>

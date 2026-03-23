@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { peopleArchiveQuery } from "@/sanity/lib/queries";
 import RoleView from "../role-view";
@@ -5,6 +6,14 @@ import DateComponent from "@/src/components/date";
 import { Main } from "@/src/components/elements/main";
 import { Section } from "@/src/components/elements/section";
 import { Text } from "@/src/components/elements/text";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "People History",
+    description:
+      "Past roles and positions in the International Federation of Liberal Youth (IFLRY).",
+  };
+}
 
 export default async function PeopleArchivePage({
   params,
@@ -22,6 +31,7 @@ export default async function PeopleArchivePage({
     <Main>
       <Section
         headline="People History"
+        headlineAs="h1"
         subheadline={
           <Text>
             Past roles and positions in IFLRY

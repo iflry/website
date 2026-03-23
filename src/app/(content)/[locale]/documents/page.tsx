@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import PortableText from "@/src/components/portable-text";
 
 import { sanityFetch } from "@/sanity/lib/fetch";
@@ -7,6 +8,14 @@ import { Main } from "@/src/components/elements/main";
 import { Section } from "@/src/components/elements/section";
 import { Document } from "@/src/components/elements/document";
 import { FileTextIcon } from "lucide-react";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Documents",
+    description:
+      "Core documents, statutes, and official publications of the International Federation of Liberal Youth (IFLRY).",
+  };
+}
 
 export default async function DocumentsPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -19,6 +28,7 @@ export default async function DocumentsPage({ params }: { params: Promise<{ loca
     <Main>
       <Section
         headline={page?.title || "Documents"}
+        headlineAs="h1"
         subheadline={
           page?.content?.length ? (
             <Document>

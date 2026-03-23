@@ -24,6 +24,7 @@ import { Wallpaper } from "@/src/components/elements/wallpaper";
 import { Heading } from "@/src/components/elements/heading";
 import { Subheading } from "@/src/components/elements/subheading";
 import { cn } from "@/src/lib/utils";
+import { JsonLd } from "@/src/components/json-ld";
 
 function getEventTypeLabel(type: string) {
   const labels: Record<string, string> = {
@@ -275,6 +276,22 @@ export default async function Page({
 
   return (
     <Main>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "International Federation of Liberal Youth",
+          alternateName: "IFLRY",
+          url: "https://new.iflry.org",
+          logo: "https://new.iflry.org/logo.png",
+          foundingDate: "1947",
+          description:
+            "The global umbrella organisation for liberal youth organisations, globalising freedom since 1947.",
+          sameAs: settings?.footer?.socialLinks
+            ?.map((link: any) => link.url)
+            .filter(Boolean) || [],
+        }}
+      />
       {/* Hero Section - World Map */}
       <section id="hero" className={cn('flex flex-col gap-16 px-2 pb-16')}>
         <Wallpaper className="rounded-lg" color="blue">

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Link } from "@/src/i18n/navigation";
 import { readFileSync } from "fs";
@@ -148,6 +149,15 @@ function MemberLogo({ member }: { member: Member }) {
 type Props = {
   params: Promise<{ country: string; locale: string }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { country: countryCode } = await params;
+  const countryName = getCountryName(countryCode);
+  return {
+    title: `Members from ${countryName}`,
+    description: `IFLRY member organisations from ${countryName}.`,
+  };
+}
 
 export default async function CountryMembersPage({ params }: Props) {
   const { country: countryCode, locale } = await params;

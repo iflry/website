@@ -11,6 +11,7 @@ import { pageQuery } from "@/sanity/lib/queries";
 import { routing } from "@/src/i18n/routing";
 import { Main } from "@/src/components/elements/main";
 import { DocumentCentered } from "@/src/components/sections/document-centered";
+import { Breadcrumbs } from "@/src/components/breadcrumbs";
 
 type Props = {
   params: Promise<{ slug: string, locale: string }>;
@@ -64,6 +65,12 @@ export default async function Page({ params }: Props) {
 
   return (
     <Main>
+      <Breadcrumbs
+        items={[
+          { label: page.title },
+        ]}
+        locale={locale}
+      />
       <DocumentCentered headline={page.title}>
         {page.content?.length && (
           <PortableText

@@ -17,6 +17,8 @@ import { Main } from "@/src/components/elements/main";
 import { DocumentCentered } from "@/src/components/sections/document-centered";
 import { Subheading } from "@/src/components/elements/subheading";
 import { Badge } from "@/src/components/ui/badge";
+import { JsonLd } from "@/src/components/json-ld";
+import { Breadcrumbs } from "@/src/components/breadcrumbs";
 
 type Props = {
   params: Promise<{ slug: string; locale: string }>;
@@ -86,12 +88,46 @@ export default async function EventPage({ params }: Props) {
     return notFound();
   }
 
+  const baseUrl = "https://new.iflry.org";
+
   return (
     <Main>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Event",
+          name: event.title,
+          ...(event.start && { startDate: event.start }),
+          ...(event.end && { endDate: event.end }),
+          ...(event.location && {
+            location: {
+              "@type": "Place",
+              name: event.location,
+            },
+          }),
+          ...(event.description && {
+            description: getEventTypeLabel(event.type || "") + (event.location ? ` in ${event.location}` : ""),
+          }),
+          organizer: {
+            "@type": "Organization",
+            name: "IFLRY",
+            url: baseUrl,
+          },
+          ...(event.image?.asset && {
+            image: `${baseUrl}/${locale}/events/${event.slug}`,
+          }),
+        }}
+      />
+      <Breadcrumbs
+        items={[
+          { label: "Events", href: `/${locale}/events` },
+          { label: event.title },
+        ]}
+        locale={locale}
+      />
       <DocumentCentered
         headline={
           <div>
-            
             {event.title}
           </div>
         }

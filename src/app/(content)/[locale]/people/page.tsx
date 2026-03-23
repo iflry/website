@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { pageTypeQuery, peopleQuery } from "@/sanity/lib/queries";
 import RoleView, { RoleType, BureauRole, OfficeRole } from "./role-view";
@@ -8,6 +9,14 @@ import { Main } from "@/src/components/elements/main";
 import { Section } from "@/src/components/elements/section";
 import { Subheading } from "@/src/components/elements/subheading";
 import { Document } from "@/src/components/elements/document";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Our People",
+    description:
+      "Meet the bureau, staff, and representatives of the International Federation of Liberal Youth (IFLRY).",
+  };
+}
 
 
 const typeOrder: Record<RoleType, { order: number, title: string }> = {
@@ -80,6 +89,7 @@ export default async function PeoplePage({ params }: { params: Promise<{ locale:
     <Main>
       <Section
         headline={page?.title || "Our People"}
+        headlineAs="h1"
         subheadline={
           page?.content?.length ? (
             <Document>
