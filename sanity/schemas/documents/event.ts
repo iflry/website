@@ -152,6 +152,145 @@ export default defineType({
         ],
       }],
     }),
+    defineField({
+      name: "deadlines",
+      title: "Deadlines",
+      type: "array",
+      hidden: ({ parent }) => parent?.type !== "ga",
+      of: [{
+        type: "object",
+        fields: [
+          defineField({
+            name: "label",
+            title: "Label",
+            type: "string",
+            validation: (rule) => rule.required(),
+          }),
+          defineField({
+            name: "date",
+            title: "Date",
+            type: "datetime",
+            validation: (rule) => rule.required(),
+          }),
+        ],
+        preview: {
+          select: { title: "label" },
+        },
+      }],
+    }),
+    defineField({
+      name: "programmeHighlights",
+      title: "Programme Highlights",
+      type: "array",
+      hidden: ({ parent }) => parent?.type !== "ga",
+      of: [{
+        type: "object",
+        fields: [
+          defineField({
+            name: "icon",
+            title: "Icon",
+            type: "string",
+            options: {
+              list: [
+                { title: "Landmark (Statutory)", value: "landmark" },
+                { title: "Vote (Elections)", value: "vote" },
+                { title: "Mic (Speakers)", value: "mic" },
+                { title: "Messages (Discussions)", value: "messages-square" },
+                { title: "Map (Field Trip)", value: "map" },
+                { title: "Handshake (Networking)", value: "handshake" },
+                { title: "Book (Training)", value: "book-open" },
+                { title: "Globe (International)", value: "globe" },
+                { title: "Calendar (Scheduling)", value: "calendar" },
+                { title: "Users (Group)", value: "users" },
+              ],
+            },
+          }),
+          defineField({
+            name: "title",
+            title: "Title",
+            type: "string",
+            validation: (rule) => rule.required(),
+          }),
+          defineField({
+            name: "description",
+            title: "Description",
+            type: "text",
+            validation: (rule) => rule.required(),
+          }),
+        ],
+        preview: {
+          select: { title: "title" },
+        },
+      }],
+    }),
+    defineField({
+      name: "preSessions",
+      title: "Pre-Sessions",
+      type: "array",
+      hidden: ({ parent }) => parent?.type !== "ga",
+      of: [{
+        type: "object",
+        fields: [
+          defineField({
+            name: "title",
+            title: "Title",
+            type: "string",
+            validation: (rule) => rule.required(),
+          }),
+          defineField({
+            name: "description",
+            title: "Description",
+            type: "text",
+            validation: (rule) => rule.required(),
+          }),
+          defineField({
+            name: "date",
+            title: "Date",
+            type: "datetime",
+            validation: (rule) => rule.required(),
+          }),
+        ],
+        preview: {
+          select: { title: "title" },
+        },
+      }],
+    }),
+    defineField({
+      name: "visaNote",
+      title: "Visa Note",
+      type: "text",
+      hidden: ({ parent }) => parent?.type !== "ga",
+    }),
+    defineField({
+      name: "additionalContacts",
+      title: "Additional Contacts",
+      type: "array",
+      hidden: ({ parent }) => parent?.type !== "ga",
+      of: [{
+        type: "object",
+        fields: [
+          defineField({
+            name: "person",
+            title: "Person",
+            type: "reference",
+            to: [{ type: personType.name }],
+          }),
+          defineField({
+            name: "email",
+            title: "Email",
+            type: "email",
+          }),
+          defineField({
+            name: "role",
+            title: "Role",
+            type: "string",
+          }),
+        ],
+        preview: {
+          select: { title: "role" },
+        },
+      }],
+    }),
   ],
   preview: {
     select: {
