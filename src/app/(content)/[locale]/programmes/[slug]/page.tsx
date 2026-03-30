@@ -154,7 +154,7 @@ export default async function ProgrammePage({ params }: Props) {
                 {programmeEvents.map((event: any) => (
                   <Link
                     key={event._id}
-                    href={`/events/${event.slug}`}
+                    href={event.type === "ga" ? `/ga/${event.slug}` : `/events/${event.slug}`}
                     className="group flex flex-col rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
                   >
                     {event.type && (
