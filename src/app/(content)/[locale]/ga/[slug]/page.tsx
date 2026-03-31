@@ -216,13 +216,13 @@ export default async function GAEventPage({ params }: Props) {
         <div className="bg-gray-50">
           <Section eyebrow="Programme" headline="What to Expect">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {event.programmeHighlights.map((highlight: any, index: number) => {
+              {event.programmeHighlights.map((highlight: any) => {
                 const IconComponent = highlight.icon
                   ? iconMap[highlight.icon]
                   : null;
                 return (
                   <div
-                    key={index}
+                    key={highlight._key}
                     className="rounded-xl bg-white p-6 ring-1 ring-black/5"
                   >
                     {IconComponent && (
@@ -256,9 +256,9 @@ export default async function GAEventPage({ params }: Props) {
                 </Subheading>
               </div>
               <div className="max-w-3xl">
-                {event.deadlines.map((deadline: any, index: number) => (
+                {event.deadlines.map((deadline: any) => (
                   <div
-                    key={index}
+                    key={deadline._key}
                     className="flex items-center justify-between border-b border-white/10 py-4 last:border-b-0"
                   >
                     <span className="text-sm text-white/70 sm:text-base">
@@ -279,9 +279,9 @@ export default async function GAEventPage({ params }: Props) {
       {event.preSessions && event.preSessions.length > 0 && (
         <Section eyebrow="Pre-Sessions" headline="Online Sessions Ahead of the GA">
           <div className="flex max-w-3xl flex-col gap-3">
-            {event.preSessions.map((session: any, index: number) => (
+            {event.preSessions.map((session: any) => (
               <div
-                key={index}
+                key={session._key}
                 className="flex flex-col gap-4 rounded-xl bg-white p-6 ring-1 ring-black/5 sm:flex-row sm:items-center sm:justify-between"
               >
                 <div>
@@ -344,8 +344,8 @@ export default async function GAEventPage({ params }: Props) {
             {/* Contacts Column */}
             <div className="flex flex-col gap-6">
               {event.additionalContacts && event.additionalContacts.length > 0 ? (
-                event.additionalContacts.map((contact: any, index: number) => (
-                  <div key={index}>
+                event.additionalContacts.map((contact: any) => (
+                  <div key={contact._key}>
                     {contact.role && (
                       <p className="mb-1 text-sm text-gray-500">
                         {contact.role}
