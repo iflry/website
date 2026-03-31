@@ -16,6 +16,7 @@ import {
 import { Main } from "@/src/components/elements/main";
 import { Section } from "@/src/components/elements/section";
 import { Text } from "@/src/components/elements/text";
+import { getEventUrl } from "@/src/lib/event-url";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -111,7 +112,7 @@ export default async function EventsArchivePage({
                   )}
                   {event.slug && (
                     <Link
-                      href={`/${locale}/events/${event.slug}`}
+                      href={getEventUrl(locale, event.slug, event.type ?? undefined)}
                       className="mt-auto text-gray-900 underline underline-offset-4 font-semibold"
                     >
                       View details →

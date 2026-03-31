@@ -18,6 +18,7 @@ import { Main } from "@/src/components/elements/main";
 import { Section } from "@/src/components/elements/section";
 import { Heading } from "@/src/components/elements/heading";
 import { Text } from "@/src/components/elements/text";
+import { getEventUrl } from "@/src/lib/event-url";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -123,7 +124,7 @@ export default async function EventsPage({
             {events.map((event) => (
               <Card
                 key={event._id}
-                href={`/${locale}/events/${event.slug}`}
+                href={getEventUrl(locale, event.slug ?? "", event.type ?? undefined)}
                 image={
                   <CardImage
                     src={event.image || null}
@@ -185,7 +186,7 @@ export default async function EventsPage({
                 footer={
                   event.slug && (
                     <Link
-                      href={`/${locale}/events/${event.slug}`}
+                      href={getEventUrl(locale, event.slug, event.type ?? undefined)}
                       className="text-gray-900 underline underline-offset-4 font-semibold"
                     >
                       Learn more →

@@ -382,6 +382,78 @@ export const eventQuery = defineQuery(`
   }
 `)
 
+export const gaEventQuery = defineQuery(`
+  *[_type == "event" && slug.current == $slug && language == $language && type == "ga"][0] {
+    _id,
+    "title": coalesce(title, "Untitled"),
+    "slug": slug.current,
+    type,
+    location,
+    start,
+    end,
+    image,
+    description,
+    "contactPerson": {
+      "person": contactPerson.person->{
+        _id,
+        "name": coalesce(name, "Untitled"),
+        "picture": picture.asset->url
+      },
+      "email": contactPerson.email
+    },
+    "programme": programme->{
+      _id,
+      "title": coalesce(title, "Untitled"),
+      email
+    },
+    "partners": partners[]->{
+      _id,
+      "title": coalesce(title, "Untitled"),
+      "logo": logo.asset->url,
+      description
+    },
+    "members": members[]->{
+      _id,
+      _type,
+      name,
+      memberId,
+      "logo": logo.asset->url
+    },
+    registrationLink,
+    registrationDeadline,
+    "attachments": attachments[]{ "title": coalesce(title, "Document"), "url": asset->url },
+    "trainers": trainers[]->{
+      _id,
+      email,
+      expertises,
+      languages,
+      "person": person->{
+        _id,
+        "name": coalesce(name, "Untitled"),
+        "picture": picture.asset->url,
+        biography
+      }
+    },
+    deadlines,
+    programmeHighlights,
+    preSessions,
+    visaNote,
+    "additionalContacts": additionalContacts[]{
+      "person": person->{
+        _id,
+        "name": coalesce(name, "Untitled"),
+        "picture": picture.asset->url
+      },
+      email,
+      role
+    }
+  }
+`)
+
+export const gaEventSlugs = defineQuery(
+  `*[_type == "event" && type == "ga" && defined(slug.current)]{"slug": slug.current, language}`
+)
+
 export const vacanciesQuery = defineQuery(`
   *[_type == "vacancy" && language == $language] | order(deadline asc) {
     _id,

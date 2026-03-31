@@ -25,6 +25,7 @@ import { Heading } from "@/src/components/elements/heading";
 import { Subheading } from "@/src/components/elements/subheading";
 import { cn } from "@/src/lib/utils";
 import { JsonLd } from "@/src/components/json-ld";
+import { getEventUrl } from "@/src/lib/event-url";
 
 function getEventTypeLabel(type: string) {
   const labels: Record<string, string> = {
@@ -135,7 +136,7 @@ function EventsSection({ events, locale }: { events: any[]; locale: string }) {
             {upcomingEvents.map((event) => (
               <Card
                 key={event._id}
-                href={`/${locale}/events/${event.slug}`}
+                href={getEventUrl(locale, event.slug, event.type)}
                 image={
                   <CardImage
                     src={event.image || null}
@@ -191,7 +192,7 @@ function EventsSection({ events, locale }: { events: any[]; locale: string }) {
                 footer={
                   event.slug && (
                     <Link
-                      href={`/${locale}/events/${event.slug}`}
+                      href={getEventUrl(locale, event.slug, event.type)}
                       className="text-gray-900 underline underline-offset-4 font-semibold"
                     >
                       Learn more →
