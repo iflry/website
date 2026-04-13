@@ -42,7 +42,7 @@ export default function HeroMap({ members, locale }: HeroMapProps) {
       <ComposableMap
         projectionConfig={{
           scale: 180,
-          center: [10, 20],
+          center: [15, 20],
         }}
         className="w-full h-full"
         style={{ 
