@@ -327,7 +327,7 @@ export default async function Page({
                 </div>
                 <div>
                   <div className="relative h-72 sm:h-92 md:h-125 lg:size-full">
-                    <div className="absolute inset-y-0 left-0 flex w-screen overflow-hidden *:h-full *:w-auto *:max-w-none max-lg:rounded-t-lg lg:static lg:size-full lg:rounded-tl-lg lg:*:w-full">
+                    <div className="absolute inset-y-0 left-0 flex w-screen overflow-hidden *:h-full *:w-auto *:max-w-none max-lg:rounded-t-lg lg:rounded-tl-lg lg:-left-[8vw]">
                       <HeroMap members={members} locale={locale} />
                     </div>
                   </div>
