@@ -35,7 +35,7 @@ export default function CustomPortableText({
       link: ({ children, value }) => {
         const href = value?.href || '';
         const isExternal = href.startsWith('http://') || href.startsWith('https://') || href.startsWith('mailto:');
-        
+
         if (isExternal) {
           return (
             <a href={href} rel="noreferrer noopener" target="_blank" className="break-all">
@@ -44,8 +44,11 @@ export default function CustomPortableText({
           );
         }
 
+        // Strip locale prefix if present — the i18n Link adds it automatically
+        const cleanHref = href.replace(/^\/(en|fr|es)(\/|$)/, '/$2');
+
         return (
-          <Link href={href} className="break-all">
+          <Link href={cleanHref} className="break-all">
             {children}
           </Link>
         );
