@@ -84,7 +84,7 @@ export default function MembersMap({ members }: MembersMapProps) {
         <ComposableMap
           projectionConfig={{
             scale: 220,
-            center: [15, 20],
+            center: [0, 20],
           }}
           className="w-full"
           style={{ width: "100%", height: "600px" }}
