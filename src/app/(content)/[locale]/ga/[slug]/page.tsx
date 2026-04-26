@@ -102,6 +102,9 @@ export default async function GAEventPage({ params }: Props) {
   }
 
   const baseUrl = "https://new.iflry.org";
+  const isInPersonClosed =
+    !!event.registrationDeadline &&
+    new Date(event.registrationDeadline) < new Date();
 
   return (
     <Main>
@@ -164,7 +167,8 @@ export default async function GAEventPage({ params }: Props) {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full bg-white/15 px-5 py-2.5 text-sm/7 font-medium text-white inset-ring-1 inset-ring-white/10 hover:bg-white/20"
                 >
-                  Register Now <ArrowNarrowRightIcon />
+                  {isInPersonClosed ? "Register Online" : "Register Now"}
+                  <ArrowNarrowRightIcon />
                 </a>
               )}
             </div>
@@ -175,39 +179,12 @@ export default async function GAEventPage({ params }: Props) {
       {/* About Section */}
       {event.description?.length && (
         <Section eyebrow="About the GA" headline="About this General Assembly">
-          {event.partners && event.partners.length > 0 ? (
-            <div className="grid grid-cols-1 gap-16 md:grid-cols-2">
-              <div className="max-w-2xl">
-                <PortableText
-                  className="prose-lg"
-                  value={event.description as PortableTextBlock[]}
-                />
-              </div>
-              <div>
-                <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                  Organised in cooperation with
-                </p>
-                <div className="flex flex-col gap-3">
-                  {event.partners.map((partner: any) => (
-                    <div
-                      key={partner._id}
-                      className="flex items-center gap-3 text-sm text-gray-700"
-                    >
-                      <div className="h-1.5 w-1.5 shrink-0 rounded-full bg-gray-300" />
-                      {partner.title}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="max-w-2xl">
-              <PortableText
-                className="prose-lg"
-                value={event.description as PortableTextBlock[]}
-              />
-            </div>
-          )}
+          <div className="max-w-2xl">
+            <PortableText
+              className="prose-lg"
+              value={event.description as PortableTextBlock[]}
+            />
+          </div>
         </Section>
       )}
 
@@ -308,16 +285,21 @@ export default async function GAEventPage({ params }: Props) {
             {(event.registrationLink || event.registrationDeadline) && (
               <div className="rounded-2xl bg-gray-900 p-8 text-white">
                 <h3 className="mb-3 text-xl font-semibold">
-                  Register for the General Assembly
+                  {isInPersonClosed
+                    ? "Online Registration Only"
+                    : "Register for the General Assembly"}
                 </h3>
                 <p className="mb-6 text-sm leading-relaxed text-white/70">
-                  Registration is now open. We warmly invite all Member
-                  Organisations to confirm their participation.
+                  {isInPersonClosed
+                    ? "In-person registration has closed. Online registration remains open — you can still sign up to participate remotely."
+                    : "Registration is now open. We warmly invite all Member Organisations to confirm their participation."}
                 </p>
                 {event.registrationDeadline && (
                   <div className="mb-6">
                     <p className="text-xs font-medium uppercase tracking-wider text-white/50">
-                      Registration Deadline
+                      {isInPersonClosed
+                        ? "In-Person Registration Closed"
+                        : "Registration Deadline"}
                     </p>
                     <p className="mt-1 text-lg font-medium text-white">
                       <DateComponent dateString={event.registrationDeadline} />
@@ -331,10 +313,11 @@ export default async function GAEventPage({ params }: Props) {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 rounded-full bg-white/15 px-5 py-2.5 text-sm font-medium text-white inset-ring-1 inset-ring-white/10 hover:bg-white/20"
                   >
-                    Register Here <ArrowNarrowRightIcon />
+                    {isInPersonClosed ? "Register Online" : "Register Here"}
+                    <ArrowNarrowRightIcon />
                   </a>
                 )}
-                {event.visaNote && (
+                {event.visaNote && !isInPersonClosed && (
                   <div className="mt-6 border-l-2 border-white/20 pl-4 text-sm text-white/60">
                     {event.visaNote}
                   </div>
@@ -407,6 +390,45 @@ export default async function GAEventPage({ params }: Props) {
                 </div>
               ) : null}
             </div>
+          </div>
+        </Section>
+      )}
+
+      {/* Partners */}
+      {event.partners && event.partners.length > 0 && (
+        <Section eyebrow="Partners" headline="Organised in Cooperation With">
+          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+            {event.partners.map((partner: any) => (
+              <div
+                key={partner._id}
+                className="flex flex-col items-center rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
+              >
+                {partner.logo && (
+                  <div className="relative mb-4 h-24 w-full">
+                    <Image
+                      src={partner.logo}
+                      alt={partner.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-contain"
+                    />
+                  </div>
+                )}
+                <h3 className="mb-2 text-center font-semibold">
+                  {partner.title}
+                </h3>
+                {partner.description && (
+                  <p className="text-center text-sm text-gray-600">
+                    {Array.isArray(partner.description)
+                      ? partner.description
+                          .filter((item: any) => item.value)
+                          .map((item: any) => item.value)
+                          .join(" ")
+                      : partner.description}
+                  </p>
+                )}
+              </div>
+            ))}
           </div>
         </Section>
       )}
