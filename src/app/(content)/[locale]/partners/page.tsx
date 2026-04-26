@@ -41,7 +41,15 @@ export default async function PartnersPage({ params }: { params: Promise<{ local
         <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
           {partners?.map((partner) => (
             <div className="flex items-center justify-center p-8 bg-white ring-1 ring-black/5 rounded-3xl" key={partner._id}>
-              <Image className="max-h-16 w-full object-contain" src={partner.logo || ""} alt={partner.title} width={200} height={200} />
+              <div className="relative h-16 w-full">
+                <Image
+                  src={partner.logo || ""}
+                  alt={partner.title}
+                  fill
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                  className="object-contain"
+                />
+              </div>
             </div>
           ))}
         </div>

@@ -13,6 +13,7 @@ import {
   BookOpen,
   Globe,
   Calendar,
+  CalendarPlus,
   Users,
   type LucideIcon,
 } from "lucide-react";
@@ -259,9 +260,9 @@ export default async function GAEventPage({ params }: Props) {
             {event.preSessions.map((session: any) => (
               <div
                 key={session._key}
-                className="flex flex-col gap-4 rounded-xl bg-white p-6 ring-1 ring-black/5 sm:flex-row sm:items-center sm:justify-between"
+                className="flex flex-col gap-4 rounded-xl bg-white p-6 ring-1 ring-black/5 sm:flex-row sm:items-start sm:justify-between"
               >
-                <div>
+                <div className="sm:flex-1">
                   <h3 className="font-semibold text-gray-900">
                     {session.title}
                   </h3>
@@ -269,9 +270,19 @@ export default async function GAEventPage({ params }: Props) {
                     {session.description}
                   </p>
                 </div>
-                <span className="whitespace-nowrap text-sm font-medium text-gray-500">
-                  <DateComponent dateString={session.date} />
-                </span>
+                <div className="flex flex-col items-start gap-2 sm:items-end">
+                  <span className="whitespace-nowrap text-sm font-medium text-gray-500">
+                    <DateComponent dateString={session.date} showTime />
+                  </span>
+                  <a
+                    href={`/api/ical/${event._id}/${session._key}`}
+                    download
+                    className="inline-flex items-center gap-1.5 text-xs font-medium text-gray-600 underline-offset-4 hover:text-gray-900 hover:underline"
+                  >
+                    <CalendarPlus className="h-3.5 w-3.5" />
+                    Add to calendar
+                  </a>
+                </div>
               </div>
             ))}
           </div>
