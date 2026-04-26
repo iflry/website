@@ -450,6 +450,22 @@ export const gaEventQuery = defineQuery(`
   }
 `)
 
+export const gaPreSessionQuery = defineQuery(`
+  *[_type == "event" && _id == $id][0]{
+    _id,
+    "title": coalesce(title, "Untitled"),
+    "slug": slug.current,
+    language,
+    location,
+    "preSessions": preSessions[_key == $sessionKey]{
+      _key,
+      title,
+      description,
+      date
+    }
+  }
+`)
+
 export const gaEventSlugs = defineQuery(
   `*[_type == "event" && type == "ga" && defined(slug.current)]{"slug": slug.current, language}`
 )

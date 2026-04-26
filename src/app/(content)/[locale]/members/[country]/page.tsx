@@ -51,13 +51,17 @@ function MemberLogo({ member }: { member: Member }) {
     <div className="flex flex-col items-center w-full">
       <div className="group relative w-full aspect-3/4">
         <div className="flex items-center justify-center w-full h-full p-2 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-all">
-          {member.image_url ? ( <Image
-            src={member.image_url}
-            alt={member.name}
-            width={200}
-            height={150}
-            className="object-contain max-h-full max-w-full"
-          />) : (
+          {member.image_url ? (
+            <div className="relative h-full w-full">
+              <Image
+                src={member.image_url}
+                alt={member.name}
+                fill
+                sizes="(max-width: 768px) 50vw, 16vw"
+                className="object-contain"
+              />
+            </div>
+          ) : (
             <div className="flex items-center justify-center h-full w-full text-gray-400 text-xs">
               No image
             </div>
