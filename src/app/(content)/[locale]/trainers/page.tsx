@@ -28,6 +28,7 @@ const languageNames: Record<string, string> = {
   it: "Italian",
   pt: "Portuguese",
   ru: "Russian",
+  uk: "Ukrainian",
   ar: "Arabic",
   zh: "Chinese",
   ja: "Japanese",
