@@ -18,6 +18,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import { getTranslations } from "next-intl/server";
+
 import DateComponent from "@/src/components/date";
 import PortableText from "@/src/components/portable-text";
 import { sanityFetch } from "@/sanity/lib/fetch";
@@ -94,6 +96,7 @@ export async function generateMetadata(
 
 export default async function GAEventPage({ params }: Props) {
   const { slug, locale } = await params;
+  const t = await getTranslations();
   const event = await sanityFetch({
     query: gaEventQuery,
     params: { slug, language: locale },
@@ -133,7 +136,7 @@ export default async function GAEventPage({ params }: Props) {
       />
       <Breadcrumbs
         items={[
-          { label: "General Assembly", href: `/${locale}/events` },
+          { label: t("ga.breadcrumb"), href: `/${locale}/events` },
           { label: event.title },
         ]}
         locale={locale}
@@ -145,7 +148,7 @@ export default async function GAEventPage({ params }: Props) {
           <Container className="pt-24 pb-16 sm:pt-32">
             <div className="flex flex-col items-start gap-6">
               <p className="text-sm font-semibold uppercase tracking-wider text-white/70">
-                General Assembly
+                {t("ga.breadcrumb")}
               </p>
               <Heading color="light">{event.title}</Heading>
               <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-lg/8 text-white/70">
@@ -169,7 +172,7 @@ export default async function GAEventPage({ params }: Props) {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full bg-white/15 px-5 py-2.5 text-sm/7 font-medium text-white inset-ring-1 inset-ring-white/10 hover:bg-white/20"
                 >
-                  {isInPersonClosed ? "Register Online" : "Register Now"}
+                  {isInPersonClosed ? t("ga.registerOnline") : t("ga.registerNow")}
                   <ArrowNarrowRightIcon />
                 </a>
               )}
@@ -180,7 +183,7 @@ export default async function GAEventPage({ params }: Props) {
 
       {/* About Section */}
       {event.description?.length && (
-        <Section eyebrow="About the GA" headline="About this General Assembly">
+        <Section eyebrow={t("ga.aboutEyebrow")} headline={t("ga.aboutHeading")}>
           <div className="max-w-2xl">
             <PortableText
               className="prose-lg"
@@ -193,7 +196,7 @@ export default async function GAEventPage({ params }: Props) {
       {/* Programme Highlights Section */}
       {event.programmeHighlights && event.programmeHighlights.length > 0 && (
         <div className="bg-gray-50">
-          <Section eyebrow="Programme" headline="What to Expect">
+          <Section eyebrow={t("ga.programmeEyebrow")} headline={t("ga.programmeHeading")}>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {event.programmeHighlights.map((highlight: any) => {
                 const IconComponent = highlight.icon
@@ -228,10 +231,10 @@ export default async function GAEventPage({ params }: Props) {
             <div className="flex flex-col gap-10 sm:gap-16">
               <div className="flex max-w-2xl flex-col gap-2">
                 <p className="text-sm/7 font-semibold text-white/70">
-                  Key Dates
+                  {t("ga.keyDates")}
                 </p>
                 <Subheading className="text-white">
-                  Important Deadlines
+                  {t("ga.importantDeadlines")}
                 </Subheading>
               </div>
               <div className="max-w-3xl">
@@ -256,7 +259,7 @@ export default async function GAEventPage({ params }: Props) {
 
       {/* Pre-Sessions Section */}
       {event.preSessions && event.preSessions.length > 0 && (
-        <Section eyebrow="Pre-Sessions" headline="Online Sessions Ahead of the GA">
+        <Section eyebrow={t("ga.preSessionsEyebrow")} headline={t("ga.preSessionsHeading")}>
           <div className="flex max-w-3xl flex-col gap-3">
             {event.preSessions.map((session: any) => (
               <div
@@ -281,7 +284,7 @@ export default async function GAEventPage({ params }: Props) {
                     className="inline-flex items-center gap-1.5 text-xs font-medium text-gray-600 underline-offset-4 hover:text-gray-900 hover:underline"
                   >
                     <CalendarPlus className="h-3.5 w-3.5" />
-                    Add to calendar
+                    {t("ga.addToCalendar")}
                   </a>
                 </div>
               </div>
@@ -292,26 +295,26 @@ export default async function GAEventPage({ params }: Props) {
 
       {/* Registration Section */}
       {(event.registrationLink || event.registrationDeadline || (event.additionalContacts && event.additionalContacts.length > 0)) && (
-        <Section eyebrow="Registration" headline="Secure Your Place">
+        <Section eyebrow={t("ga.registrationEyebrow")} headline={t("ga.registrationHeading")}>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             {(event.registrationLink || event.registrationDeadline) && (
               <div className="rounded-2xl bg-gray-900 p-8 text-white">
                 <h3 className="mb-3 text-xl font-semibold">
                   {isInPersonClosed
-                    ? "Online Registration Only"
-                    : "Register for the General Assembly"}
+                    ? t("ga.registerOnlineOnly")
+                    : t("ga.registerForGA")}
                 </h3>
                 <p className="mb-6 text-sm leading-relaxed text-white/70">
                   {isInPersonClosed
-                    ? "In-person registration has closed. Online registration remains open — you can still sign up to participate remotely."
-                    : "Registration is now open. We warmly invite all Member Organisations to confirm their participation."}
+                    ? t("ga.registrationClosedBody")
+                    : t("ga.registrationOpenBody")}
                 </p>
                 {event.registrationDeadline && (
                   <div className="mb-6">
                     <p className="text-xs font-medium uppercase tracking-wider text-white/50">
                       {isInPersonClosed
-                        ? "In-Person Registration Closed"
-                        : "Registration Deadline"}
+                        ? t("ga.inPersonClosed")
+                        : t("ga.registrationDeadline")}
                     </p>
                     <p className="mt-1 text-lg font-medium text-white">
                       <DateComponent dateString={event.registrationDeadline} />
@@ -325,7 +328,7 @@ export default async function GAEventPage({ params }: Props) {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 rounded-full bg-white/15 px-5 py-2.5 text-sm font-medium text-white inset-ring-1 inset-ring-white/10 hover:bg-white/20"
                   >
-                    {isInPersonClosed ? "Register Online" : "Register Here"}
+                    {isInPersonClosed ? t("ga.registerOnline") : t("ga.registerHere")}
                     <ArrowNarrowRightIcon />
                   </a>
                 )}
@@ -374,7 +377,7 @@ export default async function GAEventPage({ params }: Props) {
                 ))
               ) : event.contactPerson?.person ? (
                 <div>
-                  <p className="mb-1 text-sm text-gray-500">Contact</p>
+                  <p className="mb-1 text-sm text-gray-500">{t("ga.contact")}</p>
                   <div className="flex items-center gap-3">
                     {event.contactPerson.person.picture && (
                       <Image
@@ -408,7 +411,7 @@ export default async function GAEventPage({ params }: Props) {
 
       {/* Partners */}
       {event.partners && event.partners.length > 0 && (
-        <Section eyebrow="Partners" headline="Organised in Cooperation With">
+        <Section eyebrow={t("ga.partnersEyebrow")} headline={t("ga.partnersHeading")}>
           <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
             {event.partners.map((partner: any) => (
               <div
@@ -447,7 +450,7 @@ export default async function GAEventPage({ params }: Props) {
 
       {/* Participating Members */}
       {event.members && event.members.length > 0 && (
-        <Section eyebrow="Participating Members" headline="Member Organisations">
+        <Section eyebrow={t("ga.membersEyebrow")} headline={t("ga.membersHeading")}>
           <div className="flex flex-wrap gap-2">
             {event.members.map((member: any) => (
               <span

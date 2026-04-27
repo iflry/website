@@ -34,5 +34,33 @@
     "newsletter": {
         "heading": "Newsletter",
         "subheading": "Recevez les dernières nouvelles et mises à jour de l'IFLRY."
+    },
+    "ga": {
+        "breadcrumb": "Assemblée générale",
+        "registerNow": "S'inscrire",
+        "registerOnline": "S'inscrire en ligne",
+        "registerHere": "S'inscrire ici",
+        "aboutEyebrow": "À propos de l'AG",
+        "aboutHeading": "À propos de cette Assemblée générale",
+        "programmeEyebrow": "Programme",
+        "programmeHeading": "Ce qui vous attend",
+        "keyDates": "Dates clés",
+        "importantDeadlines": "Échéances importantes",
+        "preSessionsEyebrow": "Pré-sessions",
+        "preSessionsHeading": "Sessions en ligne avant l'AG",
+        "addToCalendar": "Ajouter au calendrier",
+        "registrationEyebrow": "Inscription",
+        "registrationHeading": "Réservez votre place",
+        "registerForGA": "S'inscrire à l'Assemblée générale",
+        "registerOnlineOnly": "Inscription en ligne uniquement",
+        "registrationOpenBody": "Les inscriptions sont ouvertes. Nous invitons chaleureusement toutes les organisations membres à confirmer leur participation.",
+        "registrationClosedBody": "Les inscriptions en présentiel sont closes. Les inscriptions en ligne restent ouvertes — vous pouvez toujours vous inscrire pour participer à distance.",
+        "registrationDeadline": "Date limite d'inscription",
+        "inPersonClosed": "Inscriptions en présentiel closes",
+        "contact": "Contact",
+        "partnersEyebrow": "Partenaires",
+        "partnersHeading": "Organisé en coopération avec",
+        "membersEyebrow": "Organisations membres participantes",
+        "membersHeading": "Organisations membres"
     }
 }

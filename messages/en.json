@@ -34,5 +34,33 @@
     "newsletter": {
         "heading": "Newsletter",
         "subheading": "Get the latest news and updates from IFLRY."
+    },
+    "ga": {
+        "breadcrumb": "General Assembly",
+        "registerNow": "Register Now",
+        "registerOnline": "Register Online",
+        "registerHere": "Register Here",
+        "aboutEyebrow": "About the GA",
+        "aboutHeading": "About this General Assembly",
+        "programmeEyebrow": "Programme",
+        "programmeHeading": "What to Expect",
+        "keyDates": "Key Dates",
+        "importantDeadlines": "Important Deadlines",
+        "preSessionsEyebrow": "Pre-Sessions",
+        "preSessionsHeading": "Online Sessions Ahead of the GA",
+        "addToCalendar": "Add to calendar",
+        "registrationEyebrow": "Registration",
+        "registrationHeading": "Secure Your Place",
+        "registerForGA": "Register for the General Assembly",
+        "registerOnlineOnly": "Online Registration Only",
+        "registrationOpenBody": "Registration is now open. We warmly invite all Member Organisations to confirm their participation.",
+        "registrationClosedBody": "In-person registration has closed. Online registration remains open — you can still sign up to participate remotely.",
+        "registrationDeadline": "Registration Deadline",
+        "inPersonClosed": "In-Person Registration Closed",
+        "contact": "Contact",
+        "partnersEyebrow": "Partners",
+        "partnersHeading": "Organised in Cooperation With",
+        "membersEyebrow": "Participating Members",
+        "membersHeading": "Member Organisations"
     }
 }
