@@ -61,8 +61,19 @@ function MemberLogo({ member }: { member: Member }) {
           )}
         </div>
         
-        {hasSocials && (
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/80 rounded-lg backdrop-blur-sm">
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-3 opacity-0 group-hover:opacity-100 transition-opacity bg-black/80 rounded-lg backdrop-blur-sm text-center">
+          <div className="flex flex-col gap-0.5">
+            <p className="text-xs font-semibold text-white line-clamp-3">
+              {member.fullName || member.name}
+            </p>
+            {member.countryName && (
+              <p className="text-[10px] text-white/70">{member.countryName}</p>
+            )}
+            {!member.countryName && member.primaryRegion && (
+              <p className="text-[10px] text-white/70">{member.primaryRegion}</p>
+            )}
+          </div>
+          {hasSocials && (
             <div className="grid grid-cols-2 gap-1.5">
               {member.website && (
                 <Link
@@ -130,8 +141,8 @@ function MemberLogo({ member }: { member: Member }) {
                 </Link>
               )}
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
       
       <div className="mt-2 text-center w-full">
