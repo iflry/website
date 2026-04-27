@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Container } from "./elements/container";
 import { JsonLd } from "./json-ld";
+import { SITE_URL } from "@/src/lib/site-url";
 
 type BreadcrumbItem = {
   label: string;
@@ -14,7 +15,7 @@ export function Breadcrumbs({
   items: BreadcrumbItem[];
   locale: string;
 }) {
-  const baseUrl = "https://new.iflry.org";
+  const baseUrl = SITE_URL;
 
   const allItems = [{ label: "Home", href: `/${locale}` }, ...items];
 

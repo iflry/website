@@ -19,6 +19,7 @@ import { Subheading } from "@/src/components/elements/subheading";
 import { Badge } from "@/src/components/ui/badge";
 import { JsonLd } from "@/src/components/json-ld";
 import { Breadcrumbs } from "@/src/components/breadcrumbs";
+import { SITE_URL } from "@/src/lib/site-url";
 
 type Props = {
   params: Promise<{ slug: string; locale: string }>;
@@ -88,7 +89,7 @@ export default async function EventPage({ params }: Props) {
     return notFound();
   }
 
-  const baseUrl = "https://new.iflry.org";
+  const baseUrl = SITE_URL;
 
   return (
     <Main>

@@ -1,5 +1,6 @@
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { gaPreSessionQuery } from "@/sanity/lib/queries";
+import { SITE_URL } from "@/src/lib/site-url";
 
 export const revalidate = 3600;
 
@@ -30,7 +31,7 @@ export async function GET(
 
   const start = new Date(session.date);
   const end = new Date(start.getTime() + 60 * 60 * 1000);
-  const url = `https://new.iflry.org/${event.language}/ga/${event.slug}`;
+  const url = `${SITE_URL}/${event.language}/ga/${event.slug}`;
 
   const ics = [
     "BEGIN:VCALENDAR",

@@ -2,8 +2,9 @@ import type { MetadataRoute } from "next";
 import { defineQuery } from "next-sanity";
 import { client } from "@/sanity/lib/client";
 import { routing } from "@/src/i18n/routing";
+import { SITE_URL } from "@/src/lib/site-url";
 
-const BASE_URL = "https://new.iflry.org";
+const BASE_URL = SITE_URL;
 
 const postSlugsQuery = defineQuery(
   `*[_type == "post" && defined(slug.current)]{ "slug": slug.current, language }`

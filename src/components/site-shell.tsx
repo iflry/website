@@ -114,10 +114,8 @@ export async function SiteShell({
           id="footer"
           cta={
             <NewsletterForm
-              headline="Newsletter"
-              subheadline={
-                <p>Get the latest news and updates from IFLRY.</p>
-              }
+              headline={t("newsletter.heading")}
+              subheadline={<p>{t("newsletter.subheading")}</p>}
               action="https://iflry.us4.list-manage.com/subscribe?u=f084df7f03936bcc68ef9dc7d&id=e229b70e26"
             />
           }

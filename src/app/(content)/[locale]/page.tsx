@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 
 import DateComponent from "@/src/components/date";
 import HeroMap from "@/src/components/hero-map";
@@ -25,15 +26,14 @@ import { Heading } from "@/src/components/elements/heading";
 import { Subheading } from "@/src/components/elements/subheading";
 import { cn } from "@/src/lib/utils";
 import { JsonLd } from "@/src/components/json-ld";
+import { SITE_URL } from "@/src/lib/site-url";
 import { getEventUrl } from "@/src/lib/event-url";
 
-function getEventTypeLabel(type: string) {
-  const labels: Record<string, string> = {
-    ga: "General Assembly",
-    seminar: "Seminar",
-    workshop: "Workshop",
-  };
-  return labels[type] || type;
+function getEventTypeLabel(type: string, t: (key: string) => string) {
+  if (type === "ga" || type === "seminar" || type === "workshop") {
+    return t(`eventType.${type}`);
+  }
+  return type;
 }
 
 function getEventTypeBadgeVariant(type: string): "default" | "secondary" | "outline" {
@@ -47,21 +47,22 @@ function getEventTypeBadgeVariant(type: string): "default" | "secondary" | "outl
   }
 }
 
-function NewsSection({ posts, locale }: { posts: any[]; locale: string }) {
+async function NewsSection({ posts, locale }: { posts: any[]; locale: string }) {
   if (posts.length === 0) return null;
+  const t = await getTranslations();
 
   return (
     <section className="py-16">
       <Container className="flex flex-col gap-10 sm:gap-16">
         <div className="flex max-w-2xl flex-col gap-6">
           <div className="flex flex-col gap-2">
-            <Subheading>Latest News</Subheading>
+            <Subheading>{t("homepage.latestNews")}</Subheading>
           </div>
           <Link
             href={`/${locale}/posts`}
             className="text-sm font-semibold text-gray-900 underline underline-offset-4"
           >
-            View all →
+            {t("homepage.viewAll")} →
           </Link>
         </div>
         <div>
@@ -103,7 +104,7 @@ function NewsSection({ posts, locale }: { posts: any[]; locale: string }) {
   );
 }
 
-function EventsSection({ events, locale }: { events: any[]; locale: string }) {
+async function EventsSection({ events, locale }: { events: any[]; locale: string }) {
   if (events.length === 0) return null;
 
   // Show upcoming events (limit to 3)
@@ -116,19 +117,20 @@ function EventsSection({ events, locale }: { events: any[]; locale: string }) {
     .slice(0, 3);
 
   if (upcomingEvents.length === 0) return null;
+  const t = await getTranslations();
 
   return (
     <section className="py-16">
       <Container className="flex flex-col gap-10 sm:gap-16">
         <div className="flex max-w-2xl flex-col gap-6">
           <div className="flex flex-col gap-2">
-            <Subheading>Upcoming Events</Subheading>
+            <Subheading>{t("homepage.upcomingEvents")}</Subheading>
           </div>
           <Link
             href={`/${locale}/events`}
             className="text-sm font-semibold text-gray-900 underline underline-offset-4"
           >
-            View all →
+            {t("homepage.viewAll")} →
           </Link>
         </div>
         <div>
@@ -151,7 +153,7 @@ function EventsSection({ events, locale }: { events: any[]; locale: string }) {
                 badge={
                   event.type && (
                     <Badge variant={getEventTypeBadgeVariant(event.type)} className="w-fit">
-                      {getEventTypeLabel(event.type)}
+                      {getEventTypeLabel(event.type, t)}
                     </Badge>
                   )
                 }
@@ -195,7 +197,7 @@ function EventsSection({ events, locale }: { events: any[]; locale: string }) {
                       href={getEventUrl(locale, event.slug, event.type)}
                       className="text-gray-900 underline underline-offset-4 font-semibold"
                     >
-                      Learn more →
+                      {t("homepage.learnMore")} →
                     </Link>
                   )
                 }
@@ -208,7 +210,7 @@ function EventsSection({ events, locale }: { events: any[]; locale: string }) {
   );
 }
 
-function PartnersSection({
+async function PartnersSection({
   partners,
   locale,
 }: {
@@ -216,6 +218,7 @@ function PartnersSection({
   locale: string;
 }) {
   if (partners.length === 0) return null;
+  const t = await getTranslations();
 
   // Limit to 6 partners for home page
   const featuredPartners = partners.slice(0, 6);
@@ -225,13 +228,13 @@ function PartnersSection({
       <Container className="flex flex-col gap-10 sm:gap-16">
         <div className="flex max-w-2xl flex-col gap-6">
           <div className="flex flex-col gap-2">
-            <Subheading>Our Partners</Subheading>
+            <Subheading>{t("homepage.ourPartners")}</Subheading>
           </div>
           <Link
             href={`/${locale}/partners`}
             className="text-sm font-semibold text-gray-900 underline underline-offset-4"
           >
-            View all →
+            {t("homepage.viewAll")} →
           </Link>
         </div>
         <div>
@@ -262,6 +265,7 @@ export default async function Page({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const t = await getTranslations();
 
   // Fetch all data in parallel
   const [members, posts, events, partners, settings] = await Promise.all([
@@ -283,8 +287,8 @@ export default async function Page({
           "@type": "Organization",
           name: "International Federation of Liberal Youth",
           alternateName: "IFLRY",
-          url: "https://new.iflry.org",
-          logo: "https://new.iflry.org/logo.png",
+          url: SITE_URL,
+          logo: `${SITE_URL}/logo.png`,
           foundingDate: "1947",
           description:
             "The global umbrella organisation for liberal youth organisations, globalising freedom since 1947.",
@@ -301,20 +305,18 @@ export default async function Page({
               <div className="flex gap-x-10 gap-y-16 max-lg:flex-col sm:gap-y-24">
                 <div className="flex shrink-0 flex-col items-start gap-6 pt-16 sm:pt-32 lg:basis-lg lg:py-40">
                   {settings?.announcementBanner?.enabled && settings?.announcementBanner?.text && (
-                    <AnnouncementBadge 
-                      href={settings.announcementBanner.href || "#"} 
-                      text={settings.announcementBanner.text} 
-                      cta={settings.announcementBanner.cta || "Learn more"} 
-                      variant="overlay" 
+                    <AnnouncementBadge
+                      href={settings.announcementBanner.href || "#"}
+                      text={settings.announcementBanner.text}
+                      cta={settings.announcementBanner.cta || t("homepage.learnMore")}
+                      variant="overlay"
                     />
                   )}
                   <Heading className="max-w-5xl" color="light">
-                    Globalising freedom since 1947
+                    {t("homepage.tagline")}
                   </Heading>
                   <div className="flex max-w-3xl flex-col gap-4 text-lg/8 text-white/70">
-                    <p>
-                      International Federation of Liberal Youth
-                    </p>
+                    <p>International Federation of Liberal Youth</p>
                   </div>
                   <a
                     href="https://iflry.us4.list-manage.com/subscribe?u=f084df7f03936bcc68ef9dc7d&id=e229b70e26"
@@ -322,7 +324,7 @@ export default async function Page({
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 rounded-full bg-white/15 px-5 py-2.5 text-sm/7 font-medium text-white inset-ring-1 inset-ring-white/10 hover:bg-white/20"
                   >
-                    Subscribe to newsletter <ArrowNarrowRightIcon />
+                    {t("homepage.subscribe")} <ArrowNarrowRightIcon />
                   </a>
                 </div>
                 <div>
@@ -349,17 +351,16 @@ export default async function Page({
         <Container>
           <div className="rounded-3xl bg-gradient-to-br from-gray-900 to-gray-800 p-8 md:p-12 text-center">
             <h2 className="mb-4 text-3xl font-bold md:text-4xl text-white">
-              Support IFLRY
+              {t("homepage.supportHeading")}
             </h2>
             <p className="mb-6 text-lg text-white/70">
-              Help us continue our mission to promote liberal values and empower
-              young leaders worldwide.
+              {t("homepage.supportBody")}
             </p>
             <Link
               href={`/${locale}/donation`}
               className="inline-flex items-center gap-2 rounded-full bg-white/15 px-6 py-2.5 text-sm font-semibold text-white inset-ring-1 inset-ring-white/20 transition-colors hover:bg-white/25"
             >
-              Donate Now <ArrowNarrowRightIcon />
+              {t("homepage.donateNow")} <ArrowNarrowRightIcon />
             </Link>
           </div>
         </Container>

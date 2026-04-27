@@ -13,5 +13,26 @@
     "page-not-found": {
         "title": "Page non trouvée",
         "description": "La page que vous cherchez n'existe pas."
+    },
+    "homepage": {
+        "tagline": "Une liberté mondialisée depuis 1947",
+        "subscribe": "S'abonner à la newsletter",
+        "latestNews": "Dernières actualités",
+        "upcomingEvents": "Événements à venir",
+        "ourPartners": "Nos partenaires",
+        "viewAll": "Tout voir",
+        "learnMore": "En savoir plus",
+        "supportHeading": "Soutenez l'IFLRY",
+        "supportBody": "Aidez-nous à poursuivre notre mission de promotion des valeurs libérales et d'autonomisation des jeunes responsables dans le monde entier.",
+        "donateNow": "Faire un don"
+    },
+    "eventType": {
+        "ga": "Assemblée générale",
+        "seminar": "Séminaire",
+        "workshop": "Atelier"
+    },
+    "newsletter": {
+        "heading": "Newsletter",
+        "subheading": "Recevez les dernières nouvelles et mises à jour de l'IFLRY."
     }
 }

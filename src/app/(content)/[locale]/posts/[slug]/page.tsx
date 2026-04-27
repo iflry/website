@@ -17,6 +17,7 @@ import { Main } from "@/src/components/elements/main";
 import { DocumentCentered } from "@/src/components/sections/document-centered";
 import { JsonLd } from "@/src/components/json-ld";
 import { Breadcrumbs } from "@/src/components/breadcrumbs";
+import { SITE_URL } from "@/src/lib/site-url";
 
 type Props = {
   params: Promise<{ slug: string, locale: string }>;
@@ -95,7 +96,7 @@ export default async function PostPage({ params }: Props) {
           publisher: {
             "@type": "Organization",
             name: "IFLRY",
-            url: "https://new.iflry.org",
+            url: SITE_URL,
           },
         }}
       />
