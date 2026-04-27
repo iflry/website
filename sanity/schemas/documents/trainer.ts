@@ -50,6 +50,7 @@ export default defineType({
             { title: "Italian", value: "it" },
             { title: "Portuguese", value: "pt" },
             { title: "Russian", value: "ru" },
+            { title: "Ukrainian", value: "uk" },
             { title: "Arabic", value: "ar" },
             { title: "Chinese", value: "zh" },
             { title: "Japanese", value: "ja" },
