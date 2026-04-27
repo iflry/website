@@ -13,5 +13,26 @@
     "page-not-found": {
         "title": "Page Not Found",
         "description": "The page you are looking for does not exist."
+    },
+    "homepage": {
+        "tagline": "Globalising freedom since 1947",
+        "subscribe": "Subscribe to newsletter",
+        "latestNews": "Latest News",
+        "upcomingEvents": "Upcoming Events",
+        "ourPartners": "Our Partners",
+        "viewAll": "View all",
+        "learnMore": "Learn more",
+        "supportHeading": "Support IFLRY",
+        "supportBody": "Help us continue our mission to promote liberal values and empower young leaders worldwide.",
+        "donateNow": "Donate Now"
+    },
+    "eventType": {
+        "ga": "General Assembly",
+        "seminar": "Seminar",
+        "workshop": "Workshop"
+    },
+    "newsletter": {
+        "heading": "Newsletter",
+        "subheading": "Get the latest news and updates from IFLRY."
     }
 }

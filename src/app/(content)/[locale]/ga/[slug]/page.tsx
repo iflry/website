@@ -33,6 +33,7 @@ import { Section } from "@/src/components/elements/section";
 import { JsonLd } from "@/src/components/json-ld";
 import { Breadcrumbs } from "@/src/components/breadcrumbs";
 import { ArrowNarrowRightIcon } from "@/src/components/icons/arrow-narrow-right-icon";
+import { SITE_URL } from "@/src/lib/site-url";
 
 type Props = {
   params: Promise<{ slug: string; locale: string }>;
@@ -102,7 +103,7 @@ export default async function GAEventPage({ params }: Props) {
     return notFound();
   }
 
-  const baseUrl = "https://new.iflry.org";
+  const baseUrl = SITE_URL;
   const isInPersonClosed =
     !!event.registrationDeadline &&
     new Date(event.registrationDeadline) < new Date();

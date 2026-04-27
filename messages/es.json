@@ -13,5 +13,26 @@
     "page-not-found": {
         "title": "Página no encontrada",
         "description": "La página que estás buscando no existe."
+    },
+    "homepage": {
+        "tagline": "Globalizando la libertad desde 1947",
+        "subscribe": "Suscríbete al boletín",
+        "latestNews": "Últimas noticias",
+        "upcomingEvents": "Próximos eventos",
+        "ourPartners": "Nuestros aliados",
+        "viewAll": "Ver todo",
+        "learnMore": "Más información",
+        "supportHeading": "Apoya a IFLRY",
+        "supportBody": "Ayúdanos a continuar nuestra misión de promover los valores liberales y empoderar a líderes jóvenes en todo el mundo.",
+        "donateNow": "Donar ahora"
+    },
+    "eventType": {
+        "ga": "Asamblea General",
+        "seminar": "Seminario",
+        "workshop": "Taller"
+    },
+    "newsletter": {
+        "heading": "Boletín",
+        "subheading": "Recibe las últimas noticias y actualizaciones de IFLRY."
     }
 }
