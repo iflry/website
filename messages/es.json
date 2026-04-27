@@ -34,5 +34,33 @@
     "newsletter": {
         "heading": "Boletín",
         "subheading": "Recibe las últimas noticias y actualizaciones de IFLRY."
+    },
+    "ga": {
+        "breadcrumb": "Asamblea General",
+        "registerNow": "Inscríbete",
+        "registerOnline": "Inscríbete en línea",
+        "registerHere": "Inscríbete aquí",
+        "aboutEyebrow": "Sobre la AG",
+        "aboutHeading": "Sobre esta Asamblea General",
+        "programmeEyebrow": "Programa",
+        "programmeHeading": "Qué te espera",
+        "keyDates": "Fechas clave",
+        "importantDeadlines": "Fechas límite importantes",
+        "preSessionsEyebrow": "Pre-sesiones",
+        "preSessionsHeading": "Sesiones en línea antes de la AG",
+        "addToCalendar": "Añadir al calendario",
+        "registrationEyebrow": "Inscripción",
+        "registrationHeading": "Reserva tu plaza",
+        "registerForGA": "Inscríbete a la Asamblea General",
+        "registerOnlineOnly": "Solo inscripción en línea",
+        "registrationOpenBody": "Las inscripciones están abiertas. Invitamos cordialmente a todas las organizaciones miembros a confirmar su participación.",
+        "registrationClosedBody": "Las inscripciones presenciales están cerradas. La inscripción en línea sigue abierta — aún puedes registrarte para participar de forma remota.",
+        "registrationDeadline": "Fecha límite de inscripción",
+        "inPersonClosed": "Inscripción presencial cerrada",
+        "contact": "Contacto",
+        "partnersEyebrow": "Aliados",
+        "partnersHeading": "Organizada en cooperación con",
+        "membersEyebrow": "Organizaciones miembros participantes",
+        "membersHeading": "Organizaciones miembros"
     }
 }
