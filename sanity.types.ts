@@ -97,7 +97,7 @@ export type Trainer = {
   displayAsTrainer?: boolean;
   email?: string;
   expertises?: Array<string>;
-  languages?: Array<"en" | "fr" | "es" | "de" | "nl" | "it" | "pt" | "ru" | "ar" | "zh" | "ja">;
+  languages?: Array<"en" | "fr" | "es" | "de" | "nl" | "it" | "pt" | "ru" | "uk" | "ar" | "zh" | "ja">;
 };
 
 export type Role = {
@@ -1386,7 +1386,7 @@ export type EventsQueryResult = Array<{
     _id: string;
     email: string | null;
     expertises: Array<string> | null;
-    languages: Array<"ar" | "de" | "en" | "es" | "fr" | "it" | "ja" | "nl" | "pt" | "ru" | "zh"> | null;
+    languages: Array<"ar" | "de" | "en" | "es" | "fr" | "it" | "ja" | "nl" | "pt" | "ru" | "uk" | "zh"> | null;
     person: {
       _id: string;
       name: string | "Untitled";
@@ -1442,7 +1442,7 @@ export type UpcomingEventsQueryResult = Array<{
     _id: string;
     email: string | null;
     expertises: Array<string> | null;
-    languages: Array<"ar" | "de" | "en" | "es" | "fr" | "it" | "ja" | "nl" | "pt" | "ru" | "zh"> | null;
+    languages: Array<"ar" | "de" | "en" | "es" | "fr" | "it" | "ja" | "nl" | "pt" | "ru" | "uk" | "zh"> | null;
     person: {
       _id: string;
       name: string | "Untitled";
@@ -1501,7 +1501,7 @@ export type PastEventsQueryResult = Array<{
     _id: string;
     email: string | null;
     expertises: Array<string> | null;
-    languages: Array<"ar" | "de" | "en" | "es" | "fr" | "it" | "ja" | "nl" | "pt" | "ru" | "zh"> | null;
+    languages: Array<"ar" | "de" | "en" | "es" | "fr" | "it" | "ja" | "nl" | "pt" | "ru" | "uk" | "zh"> | null;
     person: {
       _id: string;
       name: string | "Untitled";
@@ -1597,7 +1597,7 @@ export type EventQueryResult = {
     _id: string;
     email: string | null;
     expertises: Array<string> | null;
-    languages: Array<"ar" | "de" | "en" | "es" | "fr" | "it" | "ja" | "nl" | "pt" | "ru" | "zh"> | null;
+    languages: Array<"ar" | "de" | "en" | "es" | "fr" | "it" | "ja" | "nl" | "pt" | "ru" | "uk" | "zh"> | null;
     person: {
       _id: string;
       name: string | "Untitled";
@@ -1690,7 +1690,7 @@ export type GaEventQueryResult = {
     _id: string;
     email: string | null;
     expertises: Array<string> | null;
-    languages: Array<"ar" | "de" | "en" | "es" | "fr" | "it" | "ja" | "nl" | "pt" | "ru" | "zh"> | null;
+    languages: Array<"ar" | "de" | "en" | "es" | "fr" | "it" | "ja" | "nl" | "pt" | "ru" | "uk" | "zh"> | null;
     person: {
       _id: string;
       name: string | "Untitled";
@@ -1816,7 +1816,7 @@ export type TrainersQueryResult = Array<{
   _id: string;
   email: string | null;
   expertises: Array<string> | null;
-  languages: Array<"ar" | "de" | "en" | "es" | "fr" | "it" | "ja" | "nl" | "pt" | "ru" | "zh"> | null;
+  languages: Array<"ar" | "de" | "en" | "es" | "fr" | "it" | "ja" | "nl" | "pt" | "ru" | "uk" | "zh"> | null;
   person: {
     _id: string;
     name: string | "Untitled";
