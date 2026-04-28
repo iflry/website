@@ -541,6 +541,10 @@
               },
               {
                 "type": "string",
+                "value": "uk"
+              },
+              {
+                "type": "string",
                 "value": "ar"
               },
               {
