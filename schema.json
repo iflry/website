@@ -3389,6 +3389,13 @@
         },
         "optional": true
       },
+      "documentsLink": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "attachments": {
         "type": "objectAttribute",
         "value": {
@@ -3483,6 +3490,13 @@
                   "type": "string"
                 },
                 "optional": true
+              },
+              "_type": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string",
+                  "value": "deadline"
+                }
               }
             },
             "rest": {
@@ -3569,6 +3583,13 @@
                   "type": "string"
                 },
                 "optional": true
+              },
+              "_type": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string",
+                  "value": "programmeHighlight"
+                }
               }
             },
             "rest": {
@@ -3613,6 +3634,13 @@
                   "type": "string"
                 },
                 "optional": true
+              },
+              "_type": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string",
+                  "value": "preSession"
+                }
               }
             },
             "rest": {
@@ -3687,6 +3715,13 @@
                   "type": "string"
                 },
                 "optional": true
+              },
+              "_type": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string",
+                  "value": "additionalContact"
+                }
               }
             },
             "rest": {

@@ -137,6 +137,13 @@ export default defineType({
       type: "datetime",
     }),
     defineField({
+      name: "documentsLink",
+      title: "GA Documents Link",
+      description: "URL to the Google Drive folder (or other location) with GA documents",
+      type: "url",
+      hidden: ({ parent }) => parent?.type !== "ga",
+    }),
+    defineField({
       name: "attachments",
       title: "Attachments",
       type: "array",
@@ -159,6 +166,7 @@ export default defineType({
       hidden: ({ parent }) => parent?.type !== "ga",
       of: [{
         type: "object",
+        name: "deadline",
         fields: [
           defineField({
             name: "label",
@@ -185,6 +193,7 @@ export default defineType({
       hidden: ({ parent }) => parent?.type !== "ga",
       of: [{
         type: "object",
+        name: "programmeHighlight",
         fields: [
           defineField({
             name: "icon",
@@ -230,6 +239,7 @@ export default defineType({
       hidden: ({ parent }) => parent?.type !== "ga",
       of: [{
         type: "object",
+        name: "preSession",
         fields: [
           defineField({
             name: "title",
@@ -268,6 +278,7 @@ export default defineType({
       hidden: ({ parent }) => parent?.type !== "ga",
       of: [{
         type: "object",
+        name: "additionalContact",
         fields: [
           defineField({
             name: "person",

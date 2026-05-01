@@ -15,6 +15,7 @@ import {
   Calendar,
   CalendarPlus,
   Users,
+  FolderOpen,
   type LucideIcon,
 } from "lucide-react";
 
@@ -165,17 +166,30 @@ export default async function GAEventPage({ params }: Props) {
                   </span>
                 )}
               </div>
-              {event.registrationLink && (
-                <a
-                  href={event.registrationLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-white/15 px-5 py-2.5 text-sm/7 font-medium text-white inset-ring-1 inset-ring-white/10 hover:bg-white/20"
-                >
-                  {isInPersonClosed ? t("ga.registerOnline") : t("ga.registerNow")}
-                  <ArrowNarrowRightIcon />
-                </a>
-              )}
+              <div className="flex flex-wrap gap-3">
+                {event.registrationLink && (
+                  <a
+                    href={event.registrationLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full bg-white/15 px-5 py-2.5 text-sm/7 font-medium text-white inset-ring-1 inset-ring-white/10 hover:bg-white/20"
+                  >
+                    {isInPersonClosed ? t("ga.registerOnline") : t("ga.registerNow")}
+                    <ArrowNarrowRightIcon />
+                  </a>
+                )}
+                {event.documentsLink && (
+                  <a
+                    href={event.documentsLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full bg-white/15 px-5 py-2.5 text-sm/7 font-medium text-white inset-ring-1 inset-ring-white/10 hover:bg-white/20"
+                  >
+                    <FolderOpen className="h-4 w-4" />
+                    {t("ga.viewDocuments")}
+                  </a>
+                )}
+              </div>
             </div>
           </Container>
         </Wallpaper>

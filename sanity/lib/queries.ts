@@ -437,6 +437,7 @@ export const gaEventQuery = defineQuery(`
     deadlines,
     programmeHighlights,
     preSessions,
+    documentsLink,
     visaNote,
     "additionalContacts": additionalContacts[]{
       "person": person->{
