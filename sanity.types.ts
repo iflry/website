@@ -507,6 +507,7 @@ export type Event = {
   }>;
   registrationLink?: string;
   registrationDeadline?: string;
+  documentsLink?: string;
   attachments?: Array<{
     asset?: {
       _ref: string;
@@ -522,18 +523,21 @@ export type Event = {
   deadlines?: Array<{
     label?: string;
     date?: string;
+    _type: "deadline";
     _key: string;
   }>;
   programmeHighlights?: Array<{
     icon?: "landmark" | "vote" | "mic" | "messages-square" | "map" | "handshake" | "book-open" | "globe" | "calendar" | "users";
     title?: string;
     description?: string;
+    _type: "programmeHighlight";
     _key: string;
   }>;
   preSessions?: Array<{
     title?: string;
     description?: string;
     date?: string;
+    _type: "preSession";
     _key: string;
   }>;
   visaNote?: string;
@@ -546,6 +550,7 @@ export type Event = {
     };
     email?: string;
     role?: string;
+    _type: "additionalContact";
     _key: string;
   }>;
 };
@@ -1607,7 +1612,7 @@ export type EventQueryResult = {
   }> | null;
 } | null;
 // Variable: gaEventQuery
-// Query: *[_type == "event" && slug.current == $slug && language == $language && type == "ga"][0] {    _id,    "title": coalesce(title, "Untitled"),    "slug": slug.current,    type,    location,    start,    end,    image,    description,    "contactPerson": {      "person": contactPerson.person->{        _id,        "name": coalesce(name, "Untitled"),        "picture": picture.asset->url      },      "email": contactPerson.email    },    "programme": programme->{      _id,      "title": coalesce(title, "Untitled"),      email    },    "partners": partners[]->{      _id,      "title": coalesce(title, "Untitled"),      "logo": logo.asset->url,      description    },    "members": members[]->{      _id,      _type,      name,      memberId,      "logo": logo.asset->url    },    registrationLink,    registrationDeadline,    "attachments": attachments[]{ "title": coalesce(title, "Document"), "url": asset->url },    "trainers": trainers[]->{      _id,      email,      expertises,      languages,      "person": person->{        _id,        "name": coalesce(name, "Untitled"),        "picture": picture.asset->url,        biography      }    },    deadlines,    programmeHighlights,    preSessions,    visaNote,    "additionalContacts": additionalContacts[]{      "person": person->{        _id,        "name": coalesce(name, "Untitled"),        "picture": picture.asset->url      },      email,      role    }  }
+// Query: *[_type == "event" && slug.current == $slug && language == $language && type == "ga"][0] {    _id,    "title": coalesce(title, "Untitled"),    "slug": slug.current,    type,    location,    start,    end,    image,    description,    "contactPerson": {      "person": contactPerson.person->{        _id,        "name": coalesce(name, "Untitled"),        "picture": picture.asset->url      },      "email": contactPerson.email    },    "programme": programme->{      _id,      "title": coalesce(title, "Untitled"),      email    },    "partners": partners[]->{      _id,      "title": coalesce(title, "Untitled"),      "logo": logo.asset->url,      description    },    "members": members[]->{      _id,      _type,      name,      memberId,      "logo": logo.asset->url    },    registrationLink,    registrationDeadline,    "attachments": attachments[]{ "title": coalesce(title, "Document"), "url": asset->url },    "trainers": trainers[]->{      _id,      email,      expertises,      languages,      "person": person->{        _id,        "name": coalesce(name, "Untitled"),        "picture": picture.asset->url,        biography      }    },    deadlines,    programmeHighlights,    preSessions,    documentsLink,    visaNote,    "additionalContacts": additionalContacts[]{      "person": person->{        _id,        "name": coalesce(name, "Untitled"),        "picture": picture.asset->url      },      email,      role    }  }
 export type GaEventQueryResult = {
   _id: string;
   title: string | "Untitled";
@@ -1701,20 +1706,24 @@ export type GaEventQueryResult = {
   deadlines: Array<{
     label?: string;
     date?: string;
+    _type: "deadline";
     _key: string;
   }> | null;
   programmeHighlights: Array<{
     icon?: "book-open" | "calendar" | "globe" | "handshake" | "landmark" | "map" | "messages-square" | "mic" | "users" | "vote";
     title?: string;
     description?: string;
+    _type: "programmeHighlight";
     _key: string;
   }> | null;
   preSessions: Array<{
     title?: string;
     description?: string;
     date?: string;
+    _type: "preSession";
     _key: string;
   }> | null;
+  documentsLink: string | null;
   visaNote: string | null;
   additionalContacts: Array<{
     person: {
@@ -1966,7 +1975,7 @@ declare module "@sanity/client" {
     "\n  *[_type == \"event\" && language == $language && dateTime(start) < dateTime($currentDate)] | order(start desc) [$offset...$limit] {\n    \n  _id,\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  type,\n  location,\n  start,\n  end,\n  \"image\": image.asset->url,\n  description,\n  \"contactPerson\": {\n    \"person\": contactPerson.person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url\n    },\n    \"email\": contactPerson.email\n  },\n  registrationLink,\n  registrationDeadline,\n  \"attachments\": attachments[]{ \"title\": coalesce(title, \"Document\"), \"url\": asset->url },\n  \"trainers\": trainers[]->{\n    _id,\n    email,\n    expertises,\n    languages,\n    \"person\": person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url,\n      biography\n    }\n  }\n\n  }\n": PastEventsQueryResult;
     "\n  count(*[_type == \"event\" && language == $language && dateTime(start) < dateTime($currentDate)])\n": PastEventsCountQueryResult;
     "\n  *[_type == \"event\" && slug.current == $slug && language == $language] [0] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    type,\n    location,\n    start,\n    end,\n    image,\n    description,\n    \"contactPerson\": {\n      \"person\": contactPerson.person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url\n      },\n      \"email\": contactPerson.email\n    },\n    \"programme\": programme->{\n      _id,\n      \"title\": coalesce(title, \"Untitled\"),\n      email\n    },\n    \"partners\": partners[]->{\n      _id,\n      \"title\": coalesce(title, \"Untitled\"),\n      \"logo\": logo.asset->url,\n      description\n    },\n    \"members\": members[]->{\n      _id,\n      _type,\n      name,\n      memberId,\n      \"logo\": logo.asset->url\n    },\n    registrationLink,\n    registrationDeadline,\n    \"attachments\": attachments[]{ \"title\": coalesce(title, \"Document\"), \"url\": asset->url },\n    \"trainers\": trainers[]->{\n      _id,\n      email,\n      expertises,\n      languages,\n      \"person\": person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url,\n        biography\n      }\n    }\n  }\n": EventQueryResult;
-    "\n  *[_type == \"event\" && slug.current == $slug && language == $language && type == \"ga\"][0] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    type,\n    location,\n    start,\n    end,\n    image,\n    description,\n    \"contactPerson\": {\n      \"person\": contactPerson.person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url\n      },\n      \"email\": contactPerson.email\n    },\n    \"programme\": programme->{\n      _id,\n      \"title\": coalesce(title, \"Untitled\"),\n      email\n    },\n    \"partners\": partners[]->{\n      _id,\n      \"title\": coalesce(title, \"Untitled\"),\n      \"logo\": logo.asset->url,\n      description\n    },\n    \"members\": members[]->{\n      _id,\n      _type,\n      name,\n      memberId,\n      \"logo\": logo.asset->url\n    },\n    registrationLink,\n    registrationDeadline,\n    \"attachments\": attachments[]{ \"title\": coalesce(title, \"Document\"), \"url\": asset->url },\n    \"trainers\": trainers[]->{\n      _id,\n      email,\n      expertises,\n      languages,\n      \"person\": person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url,\n        biography\n      }\n    },\n    deadlines,\n    programmeHighlights,\n    preSessions,\n    visaNote,\n    \"additionalContacts\": additionalContacts[]{\n      \"person\": person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url\n      },\n      email,\n      role\n    }\n  }\n": GaEventQueryResult;
+    "\n  *[_type == \"event\" && slug.current == $slug && language == $language && type == \"ga\"][0] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    type,\n    location,\n    start,\n    end,\n    image,\n    description,\n    \"contactPerson\": {\n      \"person\": contactPerson.person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url\n      },\n      \"email\": contactPerson.email\n    },\n    \"programme\": programme->{\n      _id,\n      \"title\": coalesce(title, \"Untitled\"),\n      email\n    },\n    \"partners\": partners[]->{\n      _id,\n      \"title\": coalesce(title, \"Untitled\"),\n      \"logo\": logo.asset->url,\n      description\n    },\n    \"members\": members[]->{\n      _id,\n      _type,\n      name,\n      memberId,\n      \"logo\": logo.asset->url\n    },\n    registrationLink,\n    registrationDeadline,\n    \"attachments\": attachments[]{ \"title\": coalesce(title, \"Document\"), \"url\": asset->url },\n    \"trainers\": trainers[]->{\n      _id,\n      email,\n      expertises,\n      languages,\n      \"person\": person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url,\n        biography\n      }\n    },\n    deadlines,\n    programmeHighlights,\n    preSessions,\n    documentsLink,\n    visaNote,\n    \"additionalContacts\": additionalContacts[]{\n      \"person\": person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url\n      },\n      email,\n      role\n    }\n  }\n": GaEventQueryResult;
     "\n  *[_type == \"event\" && _id == $id][0]{\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    language,\n    location,\n    \"preSessions\": preSessions[_key == $sessionKey]{\n      _key,\n      title,\n      description,\n      date\n    }\n  }\n": GaPreSessionQueryResult;
     "*[_type == \"event\" && type == \"ga\" && defined(slug.current)]{\"slug\": slug.current, language}": GaEventSlugsResult;
     "\n  *[_type == \"vacancy\" && language == $language] | order(deadline asc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    image,\n    location,\n    deadline\n  }\n": VacanciesQueryResult;
