@@ -254,7 +254,7 @@ export type Configuration = {
       _key: string;
     }>;
     socialLinks?: Array<{
-      platform?: "x" | "instagram" | "facebook";
+      platform?: "x" | "instagram" | "facebook" | "linkedin";
       url?: string;
       _type: "socialLink";
       _key: string;
@@ -935,7 +935,7 @@ export type SettingsQueryResult = {
       }> | null;
     }> | null;
     socialLinks: Array<{
-      platform: "facebook" | "instagram" | "x" | null;
+      platform: "facebook" | "instagram" | "linkedin" | "x" | null;
       url: string | null;
     }> | null;
   } | null;

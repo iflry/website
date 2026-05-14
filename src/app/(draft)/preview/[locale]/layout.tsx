@@ -3,6 +3,7 @@ import "../../../globals.css";
 import { VisualEditing } from "next-sanity";
 import { Fira_Sans } from "next/font/google";
 import { hasLocale } from "next-intl";
+import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import AlertBanner from "@/src/app/(content)/[locale]/alert-banner";
@@ -37,6 +38,8 @@ export default async function PreviewLayout({
   // Mark this request: any sanityFetch beneath returns drafts with stega.
   enableDraftFetch();
 
+  const messages = await getMessages();
+
   return (
     <html
       lang={locale}
@@ -46,6 +49,7 @@ export default async function PreviewLayout({
       <body>
         <SiteShell
           locale={locale}
+          messages={messages}
           topSlot={<AlertBanner />}
           bottomSlot={<VisualEditing />}
         >

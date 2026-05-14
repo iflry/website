@@ -12,7 +12,14 @@
     },
     "page-not-found": {
         "title": "Page non trouvée",
-        "description": "La page que vous cherchez n'existe pas."
+        "description": "La page que vous cherchez n'existe pas.",
+        "home": "Accueil"
+    },
+    "error": {
+        "title": "Une erreur s'est produite",
+        "description": "Une erreur inattendue s'est produite. Veuillez réessayer ou retourner à l'accueil.",
+        "retry": "Réessayer",
+        "home": "Accueil"
     },
     "homepage": {
         "tagline": "Une liberté mondialisée depuis 1947",

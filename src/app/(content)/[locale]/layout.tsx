@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { toPlainText } from "next-sanity";
 import { Fira_Sans } from "next/font/google";
 import { hasLocale } from "next-intl";
-import { getTranslations } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { sanityFetch } from "@/sanity/lib/fetch";
@@ -91,6 +91,8 @@ export default async function RootLayout({
     notFound();
   }
 
+  const messages = await getMessages();
+
   return (
     <html
       lang={locale}
@@ -98,7 +100,9 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body>
-        <SiteShell locale={locale}>{children}</SiteShell>
+        <SiteShell locale={locale} messages={messages}>
+          {children}
+        </SiteShell>
       </body>
     </html>
   );

@@ -205,6 +205,7 @@ export default defineType({
                       { title: "X (Twitter)", value: "x" },
                       { title: "Instagram", value: "instagram" },
                       { title: "Facebook", value: "facebook" },
+                      { title: "LinkedIn", value: "linkedin" },
                     ],
                   },
                 }),

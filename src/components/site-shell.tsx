@@ -6,6 +6,7 @@ import { coreDocumentsQuery, settingsQuery } from "@/sanity/lib/queries";
 import { Container } from "@/src/components/elements/container";
 import { FacebookIcon } from "@/src/components/icons/social/facebook-icon";
 import { InstagramIcon } from "@/src/components/icons/social/instagram-icon";
+import { LinkedInIcon } from "@/src/components/icons/social/linkedin-icon";
 import { XIcon } from "@/src/components/icons/social/x-icon";
 import LanguageSelector from "@/src/components/language-selector";
 import { FooterCategory } from "@/src/components/sections/footer-with-link-categories";
@@ -16,6 +17,7 @@ import {
   SocialLink,
 } from "@/src/components/sections/footer-with-newsletter-form-categories-and-social-icons";
 import { Link } from "@/src/i18n/navigation";
+import type { AbstractIntlMessages } from "next-intl";
 import { NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
@@ -30,6 +32,8 @@ const getSocialIcon = (platform: string) => {
       return <InstagramIcon />;
     case "facebook":
       return <FacebookIcon />;
+    case "linkedin":
+      return <LinkedInIcon />;
     default:
       return null;
   }
@@ -66,11 +70,13 @@ const resolveFooterLinkHref = (link: any): string => {
 
 export async function SiteShell({
   locale,
+  messages,
   children,
   topSlot,
   bottomSlot,
 }: {
   locale: string;
+  messages: AbstractIntlMessages;
   children: React.ReactNode;
   topSlot?: React.ReactNode;
   bottomSlot?: React.ReactNode;
@@ -87,7 +93,7 @@ export async function SiteShell({
   ]);
 
   return (
-    <NextIntlClientProvider>
+    <NextIntlClientProvider locale={locale} messages={messages}>
       <section className="min-h-screen">
         <header>
           {topSlot}
