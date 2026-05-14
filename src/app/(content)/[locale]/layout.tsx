@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { toPlainText } from "next-sanity";
 import { Fira_Sans } from "next/font/google";
 import { hasLocale } from "next-intl";
-import { getTranslations } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { sanityFetch } from "@/sanity/lib/fetch";
@@ -91,14 +91,18 @@ export default async function RootLayout({
     notFound();
   }
 
+  const messages = await getMessages();
+
   return (
     <html
       lang={locale}
-      className={`${firaSans.variable} bg-white text-black`}
+      className={`${firaSans.variable} min-h-screen bg-white text-black`}
       suppressHydrationWarning
     >
-      <body>
-        <SiteShell locale={locale}>{children}</SiteShell>
+      <body className="flex min-h-screen flex-col">
+        <SiteShell locale={locale} messages={messages}>
+          {children}
+        </SiteShell>
       </body>
     </html>
   );

@@ -6,6 +6,7 @@ import { coreDocumentsQuery, settingsQuery } from "@/sanity/lib/queries";
 import { Container } from "@/src/components/elements/container";
 import { FacebookIcon } from "@/src/components/icons/social/facebook-icon";
 import { InstagramIcon } from "@/src/components/icons/social/instagram-icon";
+import { LinkedInIcon } from "@/src/components/icons/social/linkedin-icon";
 import { XIcon } from "@/src/components/icons/social/x-icon";
 import LanguageSelector from "@/src/components/language-selector";
 import { FooterCategory } from "@/src/components/sections/footer-with-link-categories";
@@ -16,6 +17,7 @@ import {
   SocialLink,
 } from "@/src/components/sections/footer-with-newsletter-form-categories-and-social-icons";
 import { Link } from "@/src/i18n/navigation";
+import type { AbstractIntlMessages } from "next-intl";
 import { NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
@@ -30,6 +32,8 @@ const getSocialIcon = (platform: string) => {
       return <InstagramIcon />;
     case "facebook":
       return <FacebookIcon />;
+    case "linkedin":
+      return <LinkedInIcon />;
     default:
       return null;
   }
@@ -66,11 +70,13 @@ const resolveFooterLinkHref = (link: any): string => {
 
 export async function SiteShell({
   locale,
+  messages,
   children,
   topSlot,
   bottomSlot,
 }: {
   locale: string;
+  messages: AbstractIntlMessages;
   children: React.ReactNode;
   topSlot?: React.ReactNode;
   bottomSlot?: React.ReactNode;
@@ -87,9 +93,10 @@ export async function SiteShell({
   ]);
 
   return (
-    <NextIntlClientProvider>
-      <section className="min-h-screen">
-        <header>
+    <NextIntlClientProvider locale={locale} messages={messages}>
+      <div className="flex min-h-0 flex-1 flex-col">
+        <section className="flex min-h-0 flex-1 flex-col">
+          <header className="shrink-0">
           {topSlot}
           <Container className="py-6">
             <div className="flex items-center justify-between">
@@ -109,8 +116,9 @@ export async function SiteShell({
             </div>
           </Container>
         </header>
-        <main>{children}</main>
+        <main className="flex min-h-0 flex-1 flex-col">{children}</main>
         <FooterWithNewsletterFormCategoriesAndSocialIcons
+          className="shrink-0"
           id="footer"
           cta={
             <NewsletterForm
@@ -165,8 +173,9 @@ export async function SiteShell({
           }
         />
       </section>
-      {bottomSlot}
-      <SpeedInsights />
+        {bottomSlot}
+        <SpeedInsights />
+      </div>
     </NextIntlClientProvider>
   );
 }

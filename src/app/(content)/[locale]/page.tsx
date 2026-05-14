@@ -327,9 +327,9 @@ export default async function Page({
                     {t("homepage.subscribe")} <ArrowNarrowRightIcon />
                   </a>
                 </div>
-                <div>
-                  <div className="relative h-72 sm:h-92 md:h-125 lg:size-full">
-                    <div className="absolute inset-y-0 left-0 flex w-screen overflow-hidden *:h-full *:w-auto *:max-w-none max-lg:rounded-t-lg lg:rounded-tl-lg lg:-left-[8vw]">
+                <div className="min-h-0 lg:flex-1">
+                  <div className="relative h-72 min-h-0 sm:h-92 md:h-125 lg:h-full lg:min-h-0">
+                    <div className="absolute inset-y-0 flex min-h-0 w-[100dvw] max-w-none overflow-hidden max-lg:left-[calc(50%-50dvw)] max-lg:rounded-t-lg lg:left-[-8vw] lg:w-[calc(50dvw-8vw)] lg:rounded-tl-lg">
                       <HeroMap members={members} locale={locale} />
                     </div>
                   </div>
