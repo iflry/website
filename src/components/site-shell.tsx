@@ -94,8 +94,9 @@ export async function SiteShell({
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <section className="min-h-screen">
-        <header>
+      <div className="flex min-h-0 flex-1 flex-col">
+        <section className="flex min-h-0 flex-1 flex-col">
+          <header className="shrink-0">
           {topSlot}
           <Container className="py-6">
             <div className="flex items-center justify-between">
@@ -115,8 +116,9 @@ export async function SiteShell({
             </div>
           </Container>
         </header>
-        <main>{children}</main>
+        <main className="flex min-h-0 flex-1 flex-col">{children}</main>
         <FooterWithNewsletterFormCategoriesAndSocialIcons
+          className="shrink-0"
           id="footer"
           cta={
             <NewsletterForm
@@ -171,8 +173,9 @@ export async function SiteShell({
           }
         />
       </section>
-      {bottomSlot}
-      <SpeedInsights />
+        {bottomSlot}
+        <SpeedInsights />
+      </div>
     </NextIntlClientProvider>
   );
 }

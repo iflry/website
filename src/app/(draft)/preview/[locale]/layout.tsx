@@ -43,10 +43,10 @@ export default async function PreviewLayout({
   return (
     <html
       lang={locale}
-      className={`${firaSans.variable} bg-white text-black`}
+      className={`${firaSans.variable} min-h-screen bg-white text-black`}
       suppressHydrationWarning
     >
-      <body>
+      <body className="flex min-h-screen flex-col">
         <SiteShell
           locale={locale}
           messages={messages}
