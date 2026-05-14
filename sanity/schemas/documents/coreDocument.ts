@@ -22,8 +22,20 @@ export default defineType({
     defineField({
       name: "file",
       title: "File",
+      description: "Upload a file, or use External URL instead.",
       type: "file",
-      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "externalUrl",
+      title: "External URL",
+      description: "Link to an externally-hosted document (e.g. https://docs.iflry.com/...). Used in place of an uploaded file when set.",
+      type: "url",
+      validation: (rule) =>
+        rule.custom((value, context) => {
+          const file = (context.document as any)?.file
+          if (!value && !file) return "Either a file or an external URL is required"
+          return true
+        }),
     }),
     defineField({
       name: "order",

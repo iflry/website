@@ -137,6 +137,30 @@ export default defineType({
       type: "datetime",
     }),
     defineField({
+      name: "customButton",
+      title: "Custom Button",
+      description: "Optional button with a custom label, logo, and link (e.g. a Stripe payment link)",
+      type: "object",
+      fields: [
+        defineField({
+          name: "label",
+          title: "Label",
+          type: "string",
+        }),
+        defineField({
+          name: "url",
+          title: "URL",
+          type: "url",
+        }),
+        defineField({
+          name: "logo",
+          title: "Logo",
+          description: "Optional small image shown next to the label",
+          type: "image",
+        }),
+      ],
+    }),
+    defineField({
       name: "documentsLink",
       title: "GA Documents Link",
       description: "URL to the Google Drive folder (or other location) with GA documents",

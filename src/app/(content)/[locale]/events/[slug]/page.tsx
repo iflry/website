@@ -195,18 +195,39 @@ export default async function EventPage({ params }: Props) {
             </div>
           )}
 
-          {(event.registrationLink || event.registrationDeadline) && (
+          {(event.registrationLink || event.registrationDeadline || event.customButton?.url) && (
             <div className="mb-10 flex flex-col items-center gap-3 rounded-lg border border-gray-200 bg-white px-6 py-8">
-              {event.registrationLink && (
-                <a
-                  href={event.registrationLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white px-6 py-2.5 text-sm font-semibold text-gray-700 transition-all hover:border-gray-400 hover:text-gray-900 hover:shadow-sm"
-                >
-                  Register →
-                </a>
-              )}
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                {event.registrationLink && (
+                  <a
+                    href={event.registrationLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white px-6 py-2.5 text-sm font-semibold text-gray-700 transition-all hover:border-gray-400 hover:text-gray-900 hover:shadow-sm"
+                  >
+                    Register →
+                  </a>
+                )}
+                {event.customButton?.url && event.customButton?.label && (
+                  <a
+                    href={event.customButton.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white px-6 py-2.5 text-sm font-semibold text-gray-700 transition-all hover:border-gray-400 hover:text-gray-900 hover:shadow-sm"
+                  >
+                    {event.customButton.logo && (
+                      <Image
+                        src={event.customButton.logo}
+                        alt=""
+                        width={20}
+                        height={20}
+                        className="h-5 w-5 object-contain"
+                      />
+                    )}
+                    {event.customButton.label}
+                  </a>
+                )}
+              </div>
               {event.registrationDeadline && (
                 <p className="text-sm text-gray-400">
                   Deadline: <DateComponent dateString={event.registrationDeadline} />

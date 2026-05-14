@@ -153,7 +153,7 @@ export const coreDocumentsQuery = defineQuery(`
     _id,
     "title": coalesce(title, "Untitled"),
     description,
-    "fileUrl": file.asset->url
+    "fileUrl": coalesce(externalUrl, file.asset->url)
   }
 `)
 
@@ -366,6 +366,11 @@ export const eventQuery = defineQuery(`
     },
     registrationLink,
     registrationDeadline,
+    "customButton": {
+      "label": customButton.label,
+      "url": customButton.url,
+      "logo": customButton.logo.asset->url
+    },
     "attachments": attachments[]{ "title": coalesce(title, "Document"), "url": asset->url },
     "trainers": trainers[]->{
       _id,
