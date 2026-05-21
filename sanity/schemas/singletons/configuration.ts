@@ -161,6 +161,7 @@ export default defineType({
                               { title: "Trainers", value: "trainers" },
                               { title: "Vacancies", value: "vacancies" },
                               { title: "Custom URL", value: "custom" },
+                              { title: "Knowledge hub", value: "knowledge" },
                             ],
                             layout: "radio",
                           },

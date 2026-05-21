@@ -16,7 +16,7 @@
 export type NavigationItem = {
   _type: "navigationItem";
   title?: string;
-  linkType?: "page" | "events" | "posts" | "trainers" | "vacancies" | "documents" | "custom" | "submenu";
+  linkType?: "page" | "events" | "posts" | "trainers" | "vacancies" | "documents" | "knowledge" | "custom" | "submenu";
   page?: {
     _ref: string;
     _type: "reference";
@@ -239,7 +239,7 @@ export type Configuration = {
       title?: string;
       links?: Array<{
         title?: string;
-        linkType?: "page" | "events" | "posts" | "trainers" | "vacancies" | "custom";
+        linkType?: "page" | "events" | "posts" | "trainers" | "vacancies" | "custom" | "knowledge";
         page?: {
           _ref: string;
           _type: "reference";
@@ -310,7 +310,49 @@ export type InternationalizedArrayReferenceValue = {
     _type: "reference";
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "vacancy";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "knowledgeArticle";
   };
+};
+
+export type KnowledgeArticle = {
+  _id: string;
+  _type: "knowledgeArticle";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  language?: string;
+  title?: string;
+  slug?: Slug;
+  parent?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "knowledgeArticle";
+  };
+  private?: boolean;
+  order?: number;
+  content?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
 };
 
 export type Vacancy = {
@@ -834,7 +876,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = NavigationItem | DonationItem | CoreDocument | Trainer | Role | RegionalNetwork | Partner | Configuration | InternationalizedArrayStringValue | InternationalizedArrayString | TranslationMetadata | InternationalizedArrayReferenceValue | Vacancy | ProgrammePage | Page | Event | Programme | Post | Person | MemberOrganisation | InternationalizedArrayReference | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = NavigationItem | DonationItem | CoreDocument | Trainer | Role | RegionalNetwork | Partner | Configuration | InternationalizedArrayStringValue | InternationalizedArrayString | TranslationMetadata | InternationalizedArrayReferenceValue | KnowledgeArticle | Vacancy | ProgrammePage | Page | Event | Programme | Post | Person | MemberOrganisation | InternationalizedArrayReference | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: settingsQuery
@@ -866,7 +908,7 @@ export type SettingsQueryResult = {
   }>;
   navigation: Array<{
     title: string | null;
-    linkType: "custom" | "documents" | "events" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
+    linkType: "custom" | "documents" | "events" | "knowledge" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
     page: {
       slug: Slug | null;
       type: "documents" | "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
@@ -874,7 +916,7 @@ export type SettingsQueryResult = {
     customUrl: string | null;
     children: Array<{
       title: string | null;
-      linkType: "custom" | "documents" | "events" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
+      linkType: "custom" | "documents" | "events" | "knowledge" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
       page: {
         slug: Slug | null;
         type: "documents" | "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
@@ -882,7 +924,7 @@ export type SettingsQueryResult = {
       customUrl: string | null;
       children: Array<{
         title: string | null;
-        linkType: "custom" | "documents" | "events" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
+        linkType: "custom" | "documents" | "events" | "knowledge" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
         page: {
           slug: Slug | null;
           type: "documents" | "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
@@ -890,7 +932,7 @@ export type SettingsQueryResult = {
         customUrl: string | null;
         children: Array<{
           title: string | null;
-          linkType: "custom" | "documents" | "events" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
+          linkType: "custom" | "documents" | "events" | "knowledge" | "page" | "posts" | "submenu" | "trainers" | "vacancies" | null;
           page: {
             slug: Slug | null;
             type: "documents" | "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
@@ -926,7 +968,7 @@ export type SettingsQueryResult = {
       title: string | null;
       links: Array<{
         title: string | null;
-        linkType: "custom" | "events" | "page" | "posts" | "trainers" | "vacancies" | null;
+        linkType: "custom" | "events" | "knowledge" | "page" | "posts" | "trainers" | "vacancies" | null;
         page: {
           slug: Slug | null;
           type: "documents" | "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
@@ -1900,6 +1942,95 @@ export type RegionalNetworksQueryResult = Array<{
   twitter: string | null;
   ig: string | null;
 }>;
+// Variable: knowledgeArticlesByLanguageQuery
+// Query: *[_type == "knowledgeArticle" && language == $language && defined(slug.current) && ($includePrivate || coalesce(private, false) != true)]  | order(order asc, title asc) {    _id,    "title": coalesce(title, "Untitled"),    "slug": slug.current,    "parentId": parent._ref,    order,    "private": coalesce(private, false)  }
+export type KnowledgeArticlesByLanguageQueryResult = Array<{
+  _id: string;
+  title: string | "Untitled";
+  slug: string | null;
+  parentId: string | null;
+  order: number | null;
+  private: boolean | false;
+}>;
+// Variable: knowledgeArticlesByLanguageNavQuery
+// Query: *[_type == "knowledgeArticle" && language == $language && defined(slug.current)]  | order(order asc, title asc) {    _id,    "title": coalesce(title, "Untitled"),    "slug": slug.current,    "parentId": parent._ref,    order,    "private": coalesce(private, false)  }
+export type KnowledgeArticlesByLanguageNavQueryResult = Array<{
+  _id: string;
+  title: string | "Untitled";
+  slug: string | null;
+  parentId: string | null;
+  order: number | null;
+  private: boolean | false;
+}>;
+// Variable: knowledgeArticleSlugsQuery
+// Query: *[_type == "knowledgeArticle" && defined(slug.current) && coalesce(private, false) != true] {    "slug": slug.current,    language  }
+export type KnowledgeArticleSlugsQueryResult = Array<{
+  slug: string | null;
+  language: string | null;
+}>;
+// Variable: knowledgeArticleBySlugQuery
+// Query: *[_type == "knowledgeArticle" && slug.current == $slug && language == $language][0] {    _id,    "title": coalesce(title, "Untitled"),    "slug": slug.current,    "private": coalesce(private, false),    content,    order,    "parentChain": parent->{      "title": coalesce(title, "Untitled"),      "slug": slug.current,      "parent": parent->{        "title": coalesce(title, "Untitled"),        "slug": slug.current,        "parent": parent->{          "title": coalesce(title, "Untitled"),          "slug": slug.current,          "parent": parent->{            "title": coalesce(title, "Untitled"),            "slug": slug.current,            "parent": parent->{              "title": coalesce(title, "Untitled"),              "slug": slug.current            }          }        }      }    }  }
+export type KnowledgeArticleBySlugQueryResult = {
+  _id: string;
+  title: string | "Untitled";
+  slug: string | null;
+  private: boolean | false;
+  content: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  order: number | null;
+  parentChain: {
+    title: string | "Untitled";
+    slug: string | null;
+    parent: {
+      title: string | "Untitled";
+      slug: string | null;
+      parent: {
+        title: string | "Untitled";
+        slug: string | null;
+        parent: {
+          title: string | "Untitled";
+          slug: string | null;
+          parent: {
+            title: string | "Untitled";
+            slug: string | null;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+} | null;
+// Variable: knowledgeArticleChildrenQuery
+// Query: *[_type == "knowledgeArticle" && language == $language && defined(slug.current) && parent._ref == $parentId && ($includePrivate || coalesce(private, false) != true)]  | order(order asc, title asc) {    _id,    "title": coalesce(title, "Untitled"),    "slug": slug.current,    "plain": coalesce(pt::text(content), "")  }
+export type KnowledgeArticleChildrenQueryResult = Array<{
+  _id: string;
+  title: string | "Untitled";
+  slug: string | null;
+  plain: string;
+}>;
+// Variable: knowledgeSearchQuery
+// Query: *[_type == "knowledgeArticle" && language == $language && defined(slug.current) && ($includePrivate || coalesce(private, false) != true) && (title match $terms || pt::text(content) match $terms)]  | order(order asc, title asc) {    _id,    "title": coalesce(title, "Untitled"),    "slug": slug.current,    "plain": coalesce(pt::text(content), "")  }
+export type KnowledgeSearchQueryResult = Array<{
+  _id: string;
+  title: string | "Untitled";
+  slug: string | null;
+  plain: string;
+}>;
 
 // Source: ./src/app/(content)/[locale]/events/[slug]/page.tsx
 // Variable: eventSlugs
@@ -2005,6 +2136,12 @@ declare module "@sanity/client" {
     "\n  *[_type == \"trainer\" && displayAsTrainer == true] {\n    _id,\n    email,\n    expertises,\n    languages,\n    \"person\": person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      picture,\n      biography\n    }\n  }\n": TrainersQueryResult;
     "\n  *[_type == \"memberOrganisation\"] | order(name asc) {\n    _id,\n    name,\n    memberId,\n    country,\n    countryName,\n    membershipType,\n    primaryRegion,\n    secondaryRegion,\n    votes,\n    \"logo\": logo.asset->url,\n    website,\n    wiki,\n    fb,\n    twitter,\n    ig\n  }\n": MemberOrganisationsQueryResult;
     "\n  *[_type == \"regionalNetwork\"] | order(name asc) {\n    _id,\n    name,\n    fullName,\n    memberId,\n    region,\n    \"logo\": logo.asset->url,\n    website,\n    wiki,\n    fb,\n    twitter,\n    ig\n  }\n": RegionalNetworksQueryResult;
+    "\n  *[_type == \"knowledgeArticle\" && language == $language && defined(slug.current) && ($includePrivate || coalesce(private, false) != true)]\n  | order(order asc, title asc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    \"parentId\": parent._ref,\n    order,\n    \"private\": coalesce(private, false)\n  }\n": KnowledgeArticlesByLanguageQueryResult;
+    "\n  *[_type == \"knowledgeArticle\" && language == $language && defined(slug.current)]\n  | order(order asc, title asc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    \"parentId\": parent._ref,\n    order,\n    \"private\": coalesce(private, false)\n  }\n": KnowledgeArticlesByLanguageNavQueryResult;
+    "\n  *[_type == \"knowledgeArticle\" && defined(slug.current) && coalesce(private, false) != true] {\n    \"slug\": slug.current,\n    language\n  }\n": KnowledgeArticleSlugsQueryResult;
+    "\n  *[_type == \"knowledgeArticle\" && slug.current == $slug && language == $language][0] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    \"private\": coalesce(private, false),\n    content,\n    order,\n    \"parentChain\": parent->{\n      \"title\": coalesce(title, \"Untitled\"),\n      \"slug\": slug.current,\n      \"parent\": parent->{\n        \"title\": coalesce(title, \"Untitled\"),\n        \"slug\": slug.current,\n        \"parent\": parent->{\n          \"title\": coalesce(title, \"Untitled\"),\n          \"slug\": slug.current,\n          \"parent\": parent->{\n            \"title\": coalesce(title, \"Untitled\"),\n            \"slug\": slug.current,\n            \"parent\": parent->{\n              \"title\": coalesce(title, \"Untitled\"),\n              \"slug\": slug.current\n            }\n          }\n        }\n      }\n    }\n  }\n": KnowledgeArticleBySlugQueryResult;
+    "\n  *[_type == \"knowledgeArticle\" && language == $language && defined(slug.current) && parent._ref == $parentId && ($includePrivate || coalesce(private, false) != true)]\n  | order(order asc, title asc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    \"plain\": coalesce(pt::text(content), \"\")\n  }\n": KnowledgeArticleChildrenQueryResult;
+    "\n  *[_type == \"knowledgeArticle\" && language == $language && defined(slug.current) && ($includePrivate || coalesce(private, false) != true) && (title match $terms || pt::text(content) match $terms)]\n  | order(order asc, title asc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    \"plain\": coalesce(pt::text(content), \"\")\n  }\n": KnowledgeSearchQueryResult;
     "*[_type == \"event\" && defined(slug.current)]{\"slug\": slug.current, language}": EventSlugsResult;
     "*[_type == \"page\" && defined(slug.current)]{\"slug\": slug.current}": PageSlugsResult;
     "*[_type == \"post\" && defined(slug.current)]{\"slug\": slug.current}": PostSlugsResult;

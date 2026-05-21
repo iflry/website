@@ -23,6 +23,7 @@ export default defineType({
           { title: "Trainers", value: "trainers" },
           { title: "Vacancies", value: "vacancies" },
           { title: "Documents", value: "documents" },
+          { title: "Knowledge hub", value: "knowledge" },
           { title: "Custom URL", value: "custom" },
           { title: "Submenu", value: "submenu" },
         ],
@@ -78,6 +79,9 @@ export default defineType({
           break;
         case "documents":
           subtitle = "Documents";
+          break;
+        case "knowledge":
+          subtitle = "Knowledge hub";
           break;
         case "custom":
           subtitle = customUrl || "Custom URL";
