@@ -12,7 +12,14 @@
     },
     "page-not-found": {
         "title": "Page Not Found",
-        "description": "The page you are looking for does not exist."
+        "description": "The page you are looking for does not exist.",
+        "home": "Home"
+    },
+    "error": {
+        "title": "Something went wrong",
+        "description": "An unexpected error occurred. Please try again or return to the home page.",
+        "retry": "Try again",
+        "home": "Home"
     },
     "homepage": {
         "tagline": "Globalising freedom since 1947",

@@ -38,15 +38,15 @@ export default function HeroMap({ members, locale }: HeroMapProps) {
   };
 
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <div className="flex min-h-0 min-w-0 flex-1 flex-col">
       <ComposableMap
         projectionConfig={{
           scale: 180,
           center: [0, 20],
         }}
-        className="w-full h-full"
-        style={{ 
-          width: "100%", 
+        className="block h-full min-h-0 w-full min-w-0 flex-1 max-h-none max-w-none"
+        style={{
+          width: "100%",
           height: "100%",
           maxWidth: "100%",
           maxHeight: "100%",

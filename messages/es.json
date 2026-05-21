@@ -12,7 +12,14 @@
     },
     "page-not-found": {
         "title": "Página no encontrada",
-        "description": "La página que estás buscando no existe."
+        "description": "La página que estás buscando no existe.",
+        "home": "Inicio"
+    },
+    "error": {
+        "title": "Algo salió mal",
+        "description": "Ocurrió un error inesperado. Inténtalo de nuevo o vuelve a la página de inicio.",
+        "retry": "Intentar de nuevo",
+        "home": "Inicio"
     },
     "homepage": {
         "tagline": "Globalizando la libertad desde 1947",
