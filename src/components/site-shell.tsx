@@ -61,6 +61,8 @@ const resolveFooterLinkHref = (link: any): string => {
       return `/trainers`;
     case "vacancies":
       return `/vacancies`;
+    case "knowledge":
+      return `/knowledge`;
     case "custom":
       return link.customUrl || `/`;
     default:

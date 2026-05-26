@@ -6,7 +6,7 @@ import { MenuIcon, XIcon, ChevronDownIcon } from "lucide-react"
 
 interface NavigationItemData {
   title?: string | null
-  linkType?: "page" | "events" | "posts" | "trainers" | "vacancies" | "documents" | "custom" | "submenu" | null
+  linkType?: "page" | "events" | "posts" | "trainers" | "vacancies" | "documents" | "knowledge" | "custom" | "submenu" | null
   page?: {
     language?: string | null
     slug?: { current?: string | null } | null
@@ -36,6 +36,8 @@ function resolveHref(item: NavigationItemData, language: string): string {
       return `/${language}/vacancies`
     case "documents":
       return `/${language}/documents`
+    case "knowledge":
+      return `/${language}/knowledge`
     case "custom":
       return item.customUrl || `/${language}`
     default:

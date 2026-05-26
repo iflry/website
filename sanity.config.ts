@@ -30,6 +30,7 @@ import memberOrganisation from './sanity/schemas/documents/memberOrganisation';
 import regionalNetwork from './sanity/schemas/documents/regionalNetwork';
 import coreDocument from './sanity/schemas/documents/coreDocument';
 import donationItem from './sanity/schemas/documents/donationItem';
+import knowledgeArticle from './sanity/schemas/documents/knowledgeArticle';
 import navigationItem from './sanity/schemas/objects/navigationItem';
 import { EarthGlobeIcon } from '@sanity/icons';
 
@@ -41,7 +42,7 @@ const LANGUAGES = [
 ] 
 
 const SINGLETON_SCHEMA_TYPES = [configuration]
-const LOCALIZED_SCHEMA_TYPES = [post, event, page, programmePage, vacancy]
+const LOCALIZED_SCHEMA_TYPES = [post, event, page, programmePage, vacancy, knowledgeArticle]
 const DEFAULT_SCHEMA_TYPES = [person, partner, programme, memberOrganisation, regionalNetwork, role, trainer, coreDocument, donationItem]
 const OBJECT_SCHEMA_TYPES = [navigationItem]
 
@@ -147,6 +148,10 @@ export default defineConfig({
           {
             route: "/posts/:slug",
             filter: `_type == "post" && slug.current == $slug`,
+          },
+          {
+            route: "/knowledge/:slug",
+            filter: `_type == "knowledgeArticle" && slug.current == $slug`,
           },
         ]),
         locations: {
@@ -334,6 +339,25 @@ export default defineConfig({
                 {
                   title: "People",
                   href: "/people"
+                },
+              ],
+            }),
+          }),
+          knowledgeArticle: defineLocations({
+            select: {
+              title: "title",
+              slug: "slug.current",
+              language: "language",
+            },
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: doc?.title,
+                  href: resolveHref("knowledgeArticle", doc?.language, doc?.slug)!,
+                },
+                {
+                  title: "Knowledge hub",
+                  href: `/${doc?.language}/knowledge`,
                 },
               ],
             }),

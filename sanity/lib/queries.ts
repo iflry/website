@@ -550,3 +550,86 @@ export const regionalNetworksQuery = defineQuery(`
     ig
   }
 `)
+
+export const knowledgeArticlesByLanguageQuery = defineQuery(`
+  *[_type == "knowledgeArticle" && language == $language && defined(slug.current) && ($includePrivate || coalesce(private, false) != true)]
+  | order(order asc, title asc) {
+    _id,
+    "title": coalesce(title, "Untitled"),
+    "slug": slug.current,
+    "parentId": parent._ref,
+    order,
+    "private": coalesce(private, false),
+    "plain": coalesce(pt::text(content), "")
+  }
+`)
+
+export const knowledgeArticlesByLanguageNavQuery = defineQuery(`
+  *[_type == "knowledgeArticle" && language == $language && defined(slug.current)]
+  | order(order asc, title asc) {
+    _id,
+    "title": coalesce(title, "Untitled"),
+    "slug": slug.current,
+    "parentId": parent._ref,
+    order,
+    "private": coalesce(private, false)
+  }
+`)
+
+export const knowledgeArticleSlugsQuery = defineQuery(`
+  *[_type == "knowledgeArticle" && defined(slug.current) && coalesce(private, false) != true] {
+    "slug": slug.current,
+    language
+  }
+`)
+
+export const knowledgeArticleBySlugQuery = defineQuery(`
+  *[_type == "knowledgeArticle" && slug.current == $slug && language == $language][0] {
+    _id,
+    "title": coalesce(title, "Untitled"),
+    "slug": slug.current,
+    "private": coalesce(private, false),
+    content,
+    order,
+    "parentChain": parent->{
+      "title": coalesce(title, "Untitled"),
+      "slug": slug.current,
+      "parent": parent->{
+        "title": coalesce(title, "Untitled"),
+        "slug": slug.current,
+        "parent": parent->{
+          "title": coalesce(title, "Untitled"),
+          "slug": slug.current,
+          "parent": parent->{
+            "title": coalesce(title, "Untitled"),
+            "slug": slug.current,
+            "parent": parent->{
+              "title": coalesce(title, "Untitled"),
+              "slug": slug.current
+            }
+          }
+        }
+      }
+    }
+  }
+`)
+
+export const knowledgeArticleChildrenQuery = defineQuery(`
+  *[_type == "knowledgeArticle" && language == $language && defined(slug.current) && parent._ref == $parentId && ($includePrivate || coalesce(private, false) != true)]
+  | order(order asc, title asc) {
+    _id,
+    "title": coalesce(title, "Untitled"),
+    "slug": slug.current,
+    "plain": coalesce(pt::text(content), "")
+  }
+`)
+
+export const knowledgeSearchQuery = defineQuery(`
+  *[_type == "knowledgeArticle" && language == $language && defined(slug.current) && ($includePrivate || coalesce(private, false) != true) && (title match $terms || pt::text(content) match $terms)]
+  | order(order asc, title asc) {
+    _id,
+    "title": coalesce(title, "Untitled"),
+    "slug": slug.current,
+    "plain": coalesce(pt::text(content), "")
+  }
+`)
