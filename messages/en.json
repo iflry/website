@@ -8,7 +8,13 @@
         "executive-director": "Executive Director",
         "intern": "Intern",
         "project-manager": "Project Manager",
-        "ombudsperson": "Ombudsperson"
+        "ombudsperson": "Ombudsperson",
+        "vacant": "Vacant"
+    },
+    "people": {
+        "bureauBuddies": "Bureau Buddies",
+        "region": "Region",
+        "buddies": "Bureau Buddy"
     },
     "page-not-found": {
         "title": "Page Not Found",

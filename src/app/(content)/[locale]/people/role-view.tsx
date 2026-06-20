@@ -17,6 +17,7 @@ interface RoleViewProps {
   officeRole: OfficeRole | null;
   biography?: any;
   locale?: string;
+  buddyRegions?: { _id: string; name: string | null }[] | null;
 }
 
 function getBiographyText(biography: any, locale?: string): string | null {
@@ -29,8 +30,9 @@ function getBiographyText(biography: any, locale?: string): string | null {
   return firstBio?.value || null;
 }
 
-export default async function RoleView({ picture, name, title, email, type, bureauRole, officeRole, biography, locale }: RoleViewProps) {
+export default async function RoleView({ picture, name, title, email, type, bureauRole, officeRole, biography, locale, buddyRegions }: RoleViewProps) {
   const t = await getTranslations("role")
+  const isVacant = !name;
 
   function getRole() {
     if (title) return title
@@ -58,11 +60,11 @@ export default async function RoleView({ picture, name, title, email, type, bure
         return t("ombudsperson")
     }
   }
-  
+
 
   return (
     <div className="flex flex-col gap-3 text-sm/7">
-      {picture ? (
+      {picture && !isVacant ? (
         <div className="relative aspect-3/4 w-full overflow-hidden rounded-sm outline -outline-offset-1 outline-black/5">
           <Image
             src={picture}
@@ -74,15 +76,23 @@ export default async function RoleView({ picture, name, title, email, type, bure
         </div>
       ) : (
         <div className="aspect-3/4 w-full overflow-hidden rounded-sm outline -outline-offset-1 outline-black/5 bg-gray-100 flex items-center justify-center">
-          <span className="text-xl text-gray-400">{name?.charAt(0) || ""}</span>
+          {isVacant ? (
+            <span className="text-sm font-medium text-gray-400 uppercase tracking-wide">
+              {t("vacant")}
+            </span>
+          ) : (
+            <span className="text-xl text-gray-400">{name?.charAt(0) || ""}</span>
+          )}
         </div>
       )}
       <div>
-        <p className="font-semibold text-gray-900">{name}</p>
+        <p className={isVacant ? "font-semibold text-gray-400 italic" : "font-semibold text-gray-900"}>
+          {isVacant ? t("vacant") : name}
+        </p>
         {getRole() && (
           <p className="text-gray-600">{getRole()}</p>
         )}
-        {email && (
+        {email && !isVacant && (
           <p className="mt-1">
             <Link
               href={`mailto:${email}`}
@@ -92,7 +102,21 @@ export default async function RoleView({ picture, name, title, email, type, bure
             </Link>
           </p>
         )}
-        {getBiographyText(biography, locale) && (
+        {type === "bureau-member" && buddyRegions && buddyRegions.length > 0 && (
+          <div className="mt-2 flex flex-wrap gap-1">
+            {buddyRegions.map((region) =>
+              region.name ? (
+                <span
+                  key={region._id}
+                  className="inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-700"
+                >
+                  {region.name}
+                </span>
+              ) : null,
+            )}
+          </div>
+        )}
+        {!isVacant && getBiographyText(biography, locale) && (
           <p className="mt-2 text-gray-600 text-xs/5">{getBiographyText(biography, locale)}</p>
         )}
       </div>

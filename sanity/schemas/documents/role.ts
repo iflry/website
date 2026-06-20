@@ -67,13 +67,21 @@ export default defineType({
         hidden: ({document}) => document?.type !== 'regional-representative'
     }),
     defineField({
+        name: 'buddyRegions',
+        title: 'Bureau Buddy Regions',
+        description: 'Regions this Bureau member is the buddy for.',
+        type: 'array',
+        of: [{ type: 'reference', to: [{ type: 'bureauRegion' }] }],
+        hidden: ({document}) => document?.type !== 'bureau-member'
+    }),
+    defineField({
         name: 'person',
         title: 'Person',
+        description: 'Leave empty to mark this role as vacant.',
         type: 'reference',
         to: [
             {type: personType.name}
         ],
-        validation: (rule) => rule.required()
     }),
     defineField({
         name: 'title',
@@ -85,7 +93,6 @@ export default defineType({
         name: "email",
         title: "Email",
         type: "email",
-        validation: (rule) => rule.required(),
     }),
     defineField({
         name: "start",
@@ -119,9 +126,9 @@ export default defineType({
         const roleTypeItem = roleType.find(item => item.value === type);
         subtitle = roleTypeItem ? roleTypeItem.title : String(type);
       }
-      
+
       return {
-        title: name,
+        title: name || 'Vacant',
         subtitle: title ? `${subtitle} (${title})` : subtitle,
         media: picture
       };
