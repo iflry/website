@@ -10,6 +10,10 @@ export const settingsQuery = defineQuery(`
         slug,
         type
       },
+      coreDocument-> {
+        "title": coalesce(title, "Untitled"),
+        "fileUrl": coalesce(externalUrl, file.asset->url)
+      },
       customUrl,
       children[] {
         title,
@@ -17,6 +21,10 @@ export const settingsQuery = defineQuery(`
         page-> {
           slug,
           type
+        },
+        coreDocument-> {
+          "title": coalesce(title, "Untitled"),
+          "fileUrl": coalesce(externalUrl, file.asset->url)
         },
         customUrl,
         children[] {
@@ -26,6 +34,10 @@ export const settingsQuery = defineQuery(`
             slug,
             type
           },
+          coreDocument-> {
+            "title": coalesce(title, "Untitled"),
+            "fileUrl": coalesce(externalUrl, file.asset->url)
+          },
           customUrl,
           children[] {
             title,
@@ -33,6 +45,10 @@ export const settingsQuery = defineQuery(`
             page-> {
               slug,
               type
+            },
+            coreDocument-> {
+              "title": coalesce(title, "Untitled"),
+              "fileUrl": coalesce(externalUrl, file.asset->url)
             },
             customUrl
           }
@@ -218,7 +234,16 @@ export const peopleQuery = defineQuery(`
     "organization": organization->name,
     "name": person->name,
     "picture": person->picture.asset->url,
-    "biography": person->biography
+    "biography": person->biography,
+    "buddyRegions": buddyRegions[]->{ _id, name, sortOrder }
+  }
+`)
+
+export const bureauRegionsQuery = defineQuery(`
+  *[_type == "bureauRegion"] | order(coalesce(sortOrder, 9999) asc, name asc) {
+    _id,
+    name,
+    sortOrder
   }
 `)
 

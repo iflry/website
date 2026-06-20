@@ -31,6 +31,7 @@ import regionalNetwork from './sanity/schemas/documents/regionalNetwork';
 import coreDocument from './sanity/schemas/documents/coreDocument';
 import donationItem from './sanity/schemas/documents/donationItem';
 import knowledgeArticle from './sanity/schemas/documents/knowledgeArticle';
+import bureauRegion from './sanity/schemas/documents/bureauRegion';
 import navigationItem from './sanity/schemas/objects/navigationItem';
 import { EarthGlobeIcon } from '@sanity/icons';
 
@@ -43,7 +44,7 @@ const LANGUAGES = [
 
 const SINGLETON_SCHEMA_TYPES = [configuration]
 const LOCALIZED_SCHEMA_TYPES = [post, event, page, programmePage, vacancy, knowledgeArticle]
-const DEFAULT_SCHEMA_TYPES = [person, partner, programme, memberOrganisation, regionalNetwork, role, trainer, coreDocument, donationItem]
+const DEFAULT_SCHEMA_TYPES = [person, partner, programme, memberOrganisation, regionalNetwork, role, trainer, coreDocument, donationItem, bureauRegion]
 const OBJECT_SCHEMA_TYPES = [navigationItem]
 
 const structure: StructureResolver = (S) => {

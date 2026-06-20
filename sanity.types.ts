@@ -29,6 +29,16 @@ export type NavigationItem = {
   } & NavigationItem>;
 };
 
+export type BureauRegion = {
+  _id: string;
+  _type: "bureauRegion";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  sortOrder?: number;
+};
+
 export type DonationItem = {
   _id: string;
   _type: "donationItem";
@@ -116,6 +126,13 @@ export type Role = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "regionalNetwork";
   };
+  buddyRegions?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "bureauRegion";
+  }>;
   person?: {
     _ref: string;
     _type: "reference";
@@ -876,11 +893,11 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = NavigationItem | DonationItem | CoreDocument | Trainer | Role | RegionalNetwork | Partner | Configuration | InternationalizedArrayStringValue | InternationalizedArrayString | TranslationMetadata | InternationalizedArrayReferenceValue | KnowledgeArticle | Vacancy | ProgrammePage | Page | Event | Programme | Post | Person | MemberOrganisation | InternationalizedArrayReference | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = NavigationItem | BureauRegion | DonationItem | CoreDocument | Trainer | Role | RegionalNetwork | Partner | Configuration | InternationalizedArrayStringValue | InternationalizedArrayString | TranslationMetadata | InternationalizedArrayReferenceValue | KnowledgeArticle | Vacancy | ProgrammePage | Page | Event | Programme | Post | Person | MemberOrganisation | InternationalizedArrayReference | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: settingsQuery
-// Query: *[_type == "configuration" && language == $language][0] {    ...,    navigation[] {      title,      linkType,      page-> {        slug,        type      },      customUrl,      children[] {        title,        linkType,        page-> {          slug,          type        },        customUrl,        children[] {          title,          linkType,          page-> {            slug,            type          },          customUrl,          children[] {            title,            linkType,            page-> {              slug,              type            },            customUrl          }        }      }    },    announcementBanner {      enabled,      text,      cta,      href    },    footer {      fineprint,      columns[] {        title,        links[] {          title,          linkType,          page-> {            slug,            type          },          customUrl        }      },      socialLinks[] {        platform,        url      }    }  }
+// Query: *[_type == "configuration" && language == $language][0] {    ...,    navigation[] {      title,      linkType,      page-> {        slug,        type      },      coreDocument-> {        "title": coalesce(title, "Untitled"),        "fileUrl": coalesce(externalUrl, file.asset->url)      },      customUrl,      children[] {        title,        linkType,        page-> {          slug,          type        },        coreDocument-> {          "title": coalesce(title, "Untitled"),          "fileUrl": coalesce(externalUrl, file.asset->url)        },        customUrl,        children[] {          title,          linkType,          page-> {            slug,            type          },          coreDocument-> {            "title": coalesce(title, "Untitled"),            "fileUrl": coalesce(externalUrl, file.asset->url)          },          customUrl,          children[] {            title,            linkType,            page-> {              slug,              type            },            coreDocument-> {              "title": coalesce(title, "Untitled"),              "fileUrl": coalesce(externalUrl, file.asset->url)            },            customUrl          }        }      }    },    announcementBanner {      enabled,      text,      cta,      href    },    footer {      fineprint,      columns[] {        title,        links[] {          title,          linkType,          page-> {            slug,            type          },          customUrl        }      },      socialLinks[] {        platform,        url      }    }  }
 export type SettingsQueryResult = {
   _id: string;
   _type: "configuration";
@@ -913,6 +930,7 @@ export type SettingsQueryResult = {
       slug: Slug | null;
       type: "documents" | "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
     } | null;
+    coreDocument: null;
     customUrl: string | null;
     children: Array<{
       title: string | null;
@@ -921,6 +939,7 @@ export type SettingsQueryResult = {
         slug: Slug | null;
         type: "documents" | "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
       } | null;
+      coreDocument: null;
       customUrl: string | null;
       children: Array<{
         title: string | null;
@@ -929,6 +948,7 @@ export type SettingsQueryResult = {
           slug: Slug | null;
           type: "documents" | "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
         } | null;
+        coreDocument: null;
         customUrl: string | null;
         children: Array<{
           title: string | null;
@@ -937,6 +957,7 @@ export type SettingsQueryResult = {
             slug: Slug | null;
             type: "documents" | "members" | "other" | "partners" | "people" | "programmes" | "trainers" | "vacancies" | null;
           } | null;
+          coreDocument: null;
           customUrl: string | null;
         }> | null;
       }> | null;
@@ -1381,7 +1402,7 @@ export type EventsByProgrammeQueryResult = Array<{
   }> | null;
 }>;
 // Variable: peopleQuery
-// Query: *[_type == "role" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {    _id,    type,    email,    title,    bureauRole,    officeRole,    "organization": organization->name,    "name": person->name,    "picture": person->picture.asset->url,    "biography": person->biography  }
+// Query: *[_type == "role" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {    _id,    type,    email,    title,    bureauRole,    officeRole,    "organization": organization->name,    "name": person->name,    "picture": person->picture.asset->url,    "biography": person->biography,    "buddyRegions": buddyRegions[]->{ _id, name, sortOrder }  }
 export type PeopleQueryResult = Array<{
   _id: string;
   type: "advisory-council" | "bureau-member" | "honorary-member" | "individual-member" | "office" | "ombudsperson" | "regional-representative" | null;
@@ -1393,6 +1414,18 @@ export type PeopleQueryResult = Array<{
   name: string | null;
   picture: string | null;
   biography: InternationalizedArrayString | null;
+  buddyRegions: Array<{
+    _id: string;
+    name: string | null;
+    sortOrder: number | null;
+  }> | null;
+}>;
+// Variable: bureauRegionsQuery
+// Query: *[_type == "bureauRegion"] | order(coalesce(sortOrder, 9999) asc, name asc) {    _id,    name,    sortOrder  }
+export type BureauRegionsQueryResult = Array<{
+  _id: string;
+  name: string | null;
+  sortOrder: number | null;
 }>;
 // Variable: peopleArchiveQuery
 // Query: *[_type == "role" && defined(end) && dateTime(end + 'T00:00:00Z') < dateTime($currentDate)] | order(end desc) {    _id,    type,    email,    title,    bureauRole,    officeRole,    "organization": organization->name,    "name": person->name,    "picture": person->picture.asset->url,    start,    end  }
@@ -1943,7 +1976,7 @@ export type RegionalNetworksQueryResult = Array<{
   ig: string | null;
 }>;
 // Variable: knowledgeArticlesByLanguageQuery
-// Query: *[_type == "knowledgeArticle" && language == $language && defined(slug.current) && ($includePrivate || coalesce(private, false) != true)]  | order(order asc, title asc) {    _id,    "title": coalesce(title, "Untitled"),    "slug": slug.current,    "parentId": parent._ref,    order,    "private": coalesce(private, false)  }
+// Query: *[_type == "knowledgeArticle" && language == $language && defined(slug.current) && ($includePrivate || coalesce(private, false) != true)]  | order(order asc, title asc) {    _id,    "title": coalesce(title, "Untitled"),    "slug": slug.current,    "parentId": parent._ref,    order,    "private": coalesce(private, false),    "plain": coalesce(pt::text(content), "")  }
 export type KnowledgeArticlesByLanguageQueryResult = Array<{
   _id: string;
   title: string | "Untitled";
@@ -1951,6 +1984,7 @@ export type KnowledgeArticlesByLanguageQueryResult = Array<{
   parentId: string | null;
   order: number | null;
   private: boolean | false;
+  plain: string;
 }>;
 // Variable: knowledgeArticlesByLanguageNavQuery
 // Query: *[_type == "knowledgeArticle" && language == $language && defined(slug.current)]  | order(order asc, title asc) {    _id,    "title": coalesce(title, "Untitled"),    "slug": slug.current,    "parentId": parent._ref,    order,    "private": coalesce(private, false)  }
@@ -2106,7 +2140,7 @@ export type VacancySlugsQueryResult = Array<{
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "\n  *[_type == \"configuration\" && language == $language][0] {\n    ...,\n    navigation[] {\n      title,\n      linkType,\n      page-> {\n        slug,\n        type\n      },\n      customUrl,\n      children[] {\n        title,\n        linkType,\n        page-> {\n          slug,\n          type\n        },\n        customUrl,\n        children[] {\n          title,\n          linkType,\n          page-> {\n            slug,\n            type\n          },\n          customUrl,\n          children[] {\n            title,\n            linkType,\n            page-> {\n              slug,\n              type\n            },\n            customUrl\n          }\n        }\n      }\n    },\n    announcementBanner {\n      enabled,\n      text,\n      cta,\n      href\n    },\n    footer {\n      fineprint,\n      columns[] {\n        title,\n        links[] {\n          title,\n          linkType,\n          page-> {\n            slug,\n            type\n          },\n          customUrl\n        }\n      },\n      socialLinks[] {\n        platform,\n        url\n      }\n    }\n  }\n": SettingsQueryResult;
+    "\n  *[_type == \"configuration\" && language == $language][0] {\n    ...,\n    navigation[] {\n      title,\n      linkType,\n      page-> {\n        slug,\n        type\n      },\n      coreDocument-> {\n        \"title\": coalesce(title, \"Untitled\"),\n        \"fileUrl\": coalesce(externalUrl, file.asset->url)\n      },\n      customUrl,\n      children[] {\n        title,\n        linkType,\n        page-> {\n          slug,\n          type\n        },\n        coreDocument-> {\n          \"title\": coalesce(title, \"Untitled\"),\n          \"fileUrl\": coalesce(externalUrl, file.asset->url)\n        },\n        customUrl,\n        children[] {\n          title,\n          linkType,\n          page-> {\n            slug,\n            type\n          },\n          coreDocument-> {\n            \"title\": coalesce(title, \"Untitled\"),\n            \"fileUrl\": coalesce(externalUrl, file.asset->url)\n          },\n          customUrl,\n          children[] {\n            title,\n            linkType,\n            page-> {\n              slug,\n              type\n            },\n            coreDocument-> {\n              \"title\": coalesce(title, \"Untitled\"),\n              \"fileUrl\": coalesce(externalUrl, file.asset->url)\n            },\n            customUrl\n          }\n        }\n      }\n    },\n    announcementBanner {\n      enabled,\n      text,\n      cta,\n      href\n    },\n    footer {\n      fineprint,\n      columns[] {\n        title,\n        links[] {\n          title,\n          linkType,\n          page-> {\n            slug,\n            type\n          },\n          customUrl\n        }\n      },\n      socialLinks[] {\n        platform,\n        url\n      }\n    }\n  }\n": SettingsQueryResult;
     "\n  *[_type == \"post\" && defined(slug.current) && language == $language] | order(date desc, _updatedAt desc) [0...$quantity] {\n    content,\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  type,\n  image,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n  \"attachments\": attachments[]{ \"title\": coalesce(title, \"Document\"), \"url\": asset->url },\n\n  }\n": FeaturedPostsQueryResult;
     "\n  *[_type == \"post\" && defined(slug.current) && language == $language && ($type == \"\" || type == $type)] | order(date desc, _updatedAt desc) [$offset...$limit] {\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  type,\n  image,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{\"name\": coalesce(name, \"Anonymous\"), picture},\n  \"attachments\": attachments[]{ \"title\": coalesce(title, \"Document\"), \"url\": asset->url },\n\n  }\n": PostsQueryResult;
     "\n  count(*[_type == \"post\" && defined(slug.current) && language == $language && ($type == \"\" || type == $type)])\n": PostsCountQueryResult;
@@ -2120,7 +2154,8 @@ declare module "@sanity/client" {
     "\n  *[_type == \"programme\"] {\n    _id,\n    email,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"managers\": managers[]->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url\n    },\n    \"page\": *[_type == \"programmePage\" && programme._ref == ^._id && language == $language][0] {\n      \"slug\": slug.current,\n      description\n    }\n  }\n": ProgrammesQueryResult;
     "\n  *[_type == \"programmePage\" && slug.current == $slug && language == $language][0] {\n    _id,\n    \"slug\": slug.current,\n    description,\n    \"programme\": programme->{\n      _id,\n      \"title\": coalesce(title, \"Untitled\"),\n      email,\n      \"managers\": managers[]->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        picture,\n        biography\n      }\n    }\n  }\n": ProgrammePageQueryResult;
     "\n  *[_type == \"event\" && programme._ref == $programmeId && language == $language] | order(start desc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    type,\n    location,\n    start,\n    end,\n    \"image\": image.asset->url,\n    description\n  }\n": EventsByProgrammeQueryResult;
-    "\n  *[_type == \"role\" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {\n    _id,\n    type,\n    email,\n    title,\n    bureauRole,\n    officeRole,\n    \"organization\": organization->name,\n    \"name\": person->name,\n    \"picture\": person->picture.asset->url,\n    \"biography\": person->biography\n  }\n": PeopleQueryResult;
+    "\n  *[_type == \"role\" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {\n    _id,\n    type,\n    email,\n    title,\n    bureauRole,\n    officeRole,\n    \"organization\": organization->name,\n    \"name\": person->name,\n    \"picture\": person->picture.asset->url,\n    \"biography\": person->biography,\n    \"buddyRegions\": buddyRegions[]->{ _id, name, sortOrder }\n  }\n": PeopleQueryResult;
+    "\n  *[_type == \"bureauRegion\"] | order(coalesce(sortOrder, 9999) asc, name asc) {\n    _id,\n    name,\n    sortOrder\n  }\n": BureauRegionsQueryResult;
     "\n  *[_type == \"role\" && defined(end) && dateTime(end + 'T00:00:00Z') < dateTime($currentDate)] | order(end desc) {\n    _id,\n    type,\n    email,\n    title,\n    bureauRole,\n    officeRole,\n    \"organization\": organization->name,\n    \"name\": person->name,\n    \"picture\": person->picture.asset->url,\n    start,\n    end\n  }\n": PeopleArchiveQueryResult;
     "\n  *[_type == \"event\" && language == $language] | order(start desc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    type,\n    location,\n    start,\n    end,\n    \"image\": image.asset->url,\n    description,\n    \"contactPerson\": {\n      \"person\": contactPerson.person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url\n      },\n      \"email\": contactPerson.email\n    },\n    \"trainers\": trainers[]->{\n      _id,\n      email,\n      expertises,\n      languages,\n      \"person\": person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url,\n        biography\n      }\n    }\n  }\n": EventsQueryResult;
     "\n  *[_type == \"event\" && language == $language && dateTime(start) >= dateTime($currentDate)] | order(start asc) [$offset...$limit] {\n    \n  _id,\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  type,\n  location,\n  start,\n  end,\n  \"image\": image.asset->url,\n  description,\n  \"contactPerson\": {\n    \"person\": contactPerson.person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url\n    },\n    \"email\": contactPerson.email\n  },\n  registrationLink,\n  registrationDeadline,\n  \"attachments\": attachments[]{ \"title\": coalesce(title, \"Document\"), \"url\": asset->url },\n  \"trainers\": trainers[]->{\n    _id,\n    email,\n    expertises,\n    languages,\n    \"person\": person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url,\n      biography\n    }\n  }\n\n  }\n": UpcomingEventsQueryResult;
@@ -2136,7 +2171,7 @@ declare module "@sanity/client" {
     "\n  *[_type == \"trainer\" && displayAsTrainer == true] {\n    _id,\n    email,\n    expertises,\n    languages,\n    \"person\": person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      picture,\n      biography\n    }\n  }\n": TrainersQueryResult;
     "\n  *[_type == \"memberOrganisation\"] | order(name asc) {\n    _id,\n    name,\n    memberId,\n    country,\n    countryName,\n    membershipType,\n    primaryRegion,\n    secondaryRegion,\n    votes,\n    \"logo\": logo.asset->url,\n    website,\n    wiki,\n    fb,\n    twitter,\n    ig\n  }\n": MemberOrganisationsQueryResult;
     "\n  *[_type == \"regionalNetwork\"] | order(name asc) {\n    _id,\n    name,\n    fullName,\n    memberId,\n    region,\n    \"logo\": logo.asset->url,\n    website,\n    wiki,\n    fb,\n    twitter,\n    ig\n  }\n": RegionalNetworksQueryResult;
-    "\n  *[_type == \"knowledgeArticle\" && language == $language && defined(slug.current) && ($includePrivate || coalesce(private, false) != true)]\n  | order(order asc, title asc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    \"parentId\": parent._ref,\n    order,\n    \"private\": coalesce(private, false)\n  }\n": KnowledgeArticlesByLanguageQueryResult;
+    "\n  *[_type == \"knowledgeArticle\" && language == $language && defined(slug.current) && ($includePrivate || coalesce(private, false) != true)]\n  | order(order asc, title asc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    \"parentId\": parent._ref,\n    order,\n    \"private\": coalesce(private, false),\n    \"plain\": coalesce(pt::text(content), \"\")\n  }\n": KnowledgeArticlesByLanguageQueryResult;
     "\n  *[_type == \"knowledgeArticle\" && language == $language && defined(slug.current)]\n  | order(order asc, title asc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    \"parentId\": parent._ref,\n    order,\n    \"private\": coalesce(private, false)\n  }\n": KnowledgeArticlesByLanguageNavQueryResult;
     "\n  *[_type == \"knowledgeArticle\" && defined(slug.current) && coalesce(private, false) != true] {\n    \"slug\": slug.current,\n    language\n  }\n": KnowledgeArticleSlugsQueryResult;
     "\n  *[_type == \"knowledgeArticle\" && slug.current == $slug && language == $language][0] {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    \"private\": coalesce(private, false),\n    content,\n    order,\n    \"parentChain\": parent->{\n      \"title\": coalesce(title, \"Untitled\"),\n      \"slug\": slug.current,\n      \"parent\": parent->{\n        \"title\": coalesce(title, \"Untitled\"),\n        \"slug\": slug.current,\n        \"parent\": parent->{\n          \"title\": coalesce(title, \"Untitled\"),\n          \"slug\": slug.current,\n          \"parent\": parent->{\n            \"title\": coalesce(title, \"Untitled\"),\n            \"slug\": slug.current,\n            \"parent\": parent->{\n              \"title\": coalesce(title, \"Untitled\"),\n              \"slug\": slug.current\n            }\n          }\n        }\n      }\n    }\n  }\n": KnowledgeArticleBySlugQueryResult;

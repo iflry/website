@@ -8,7 +8,13 @@
         "executive-director": "Director Ejecutivo",
         "intern": "Interno",
         "project-manager": "Gerente de Proyectos",
-        "ombudsperson": "Ombudsman"
+        "ombudsperson": "Ombudsman",
+        "vacant": "Vacante"
+    },
+    "people": {
+        "bureauBuddies": "Padrinos del Bureau",
+        "region": "Región",
+        "buddies": "Padrino del Bureau"
     },
     "page-not-found": {
         "title": "Página no encontrada",
