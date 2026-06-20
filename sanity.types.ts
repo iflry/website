@@ -1420,13 +1420,6 @@ export type PeopleQueryResult = Array<{
     sortOrder: number | null;
   }> | null;
 }>;
-// Variable: bureauRegionsQuery
-// Query: *[_type == "bureauRegion"] | order(coalesce(sortOrder, 9999) asc, name asc) {    _id,    name,    sortOrder  }
-export type BureauRegionsQueryResult = Array<{
-  _id: string;
-  name: string | null;
-  sortOrder: number | null;
-}>;
 // Variable: peopleArchiveQuery
 // Query: *[_type == "role" && defined(end) && dateTime(end + 'T00:00:00Z') < dateTime($currentDate)] | order(end desc) {    _id,    type,    email,    title,    bureauRole,    officeRole,    "organization": organization->name,    "name": person->name,    "picture": person->picture.asset->url,    start,    end  }
 export type PeopleArchiveQueryResult = Array<{
@@ -2155,7 +2148,6 @@ declare module "@sanity/client" {
     "\n  *[_type == \"programmePage\" && slug.current == $slug && language == $language][0] {\n    _id,\n    \"slug\": slug.current,\n    description,\n    \"programme\": programme->{\n      _id,\n      \"title\": coalesce(title, \"Untitled\"),\n      email,\n      \"managers\": managers[]->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        picture,\n        biography\n      }\n    }\n  }\n": ProgrammePageQueryResult;
     "\n  *[_type == \"event\" && programme._ref == $programmeId && language == $language] | order(start desc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    type,\n    location,\n    start,\n    end,\n    \"image\": image.asset->url,\n    description\n  }\n": EventsByProgrammeQueryResult;
     "\n  *[_type == \"role\" && dateTime($date) >= dateTime(start + 'T00:00:00Z') && (dateTime($date) < dateTime(end + 'T00:00:00Z') || !defined(end))] {\n    _id,\n    type,\n    email,\n    title,\n    bureauRole,\n    officeRole,\n    \"organization\": organization->name,\n    \"name\": person->name,\n    \"picture\": person->picture.asset->url,\n    \"biography\": person->biography,\n    \"buddyRegions\": buddyRegions[]->{ _id, name, sortOrder }\n  }\n": PeopleQueryResult;
-    "\n  *[_type == \"bureauRegion\"] | order(coalesce(sortOrder, 9999) asc, name asc) {\n    _id,\n    name,\n    sortOrder\n  }\n": BureauRegionsQueryResult;
     "\n  *[_type == \"role\" && defined(end) && dateTime(end + 'T00:00:00Z') < dateTime($currentDate)] | order(end desc) {\n    _id,\n    type,\n    email,\n    title,\n    bureauRole,\n    officeRole,\n    \"organization\": organization->name,\n    \"name\": person->name,\n    \"picture\": person->picture.asset->url,\n    start,\n    end\n  }\n": PeopleArchiveQueryResult;
     "\n  *[_type == \"event\" && language == $language] | order(start desc) {\n    _id,\n    \"title\": coalesce(title, \"Untitled\"),\n    \"slug\": slug.current,\n    type,\n    location,\n    start,\n    end,\n    \"image\": image.asset->url,\n    description,\n    \"contactPerson\": {\n      \"person\": contactPerson.person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url\n      },\n      \"email\": contactPerson.email\n    },\n    \"trainers\": trainers[]->{\n      _id,\n      email,\n      expertises,\n      languages,\n      \"person\": person->{\n        _id,\n        \"name\": coalesce(name, \"Untitled\"),\n        \"picture\": picture.asset->url,\n        biography\n      }\n    }\n  }\n": EventsQueryResult;
     "\n  *[_type == \"event\" && language == $language && dateTime(start) >= dateTime($currentDate)] | order(start asc) [$offset...$limit] {\n    \n  _id,\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  type,\n  location,\n  start,\n  end,\n  \"image\": image.asset->url,\n  description,\n  \"contactPerson\": {\n    \"person\": contactPerson.person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url\n    },\n    \"email\": contactPerson.email\n  },\n  registrationLink,\n  registrationDeadline,\n  \"attachments\": attachments[]{ \"title\": coalesce(title, \"Document\"), \"url\": asset->url },\n  \"trainers\": trainers[]->{\n    _id,\n    email,\n    expertises,\n    languages,\n    \"person\": person->{\n      _id,\n      \"name\": coalesce(name, \"Untitled\"),\n      \"picture\": picture.asset->url,\n      biography\n    }\n  }\n\n  }\n": UpcomingEventsQueryResult;

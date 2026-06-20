@@ -239,14 +239,6 @@ export const peopleQuery = defineQuery(`
   }
 `)
 
-export const bureauRegionsQuery = defineQuery(`
-  *[_type == "bureauRegion"] | order(coalesce(sortOrder, 9999) asc, name asc) {
-    _id,
-    name,
-    sortOrder
-  }
-`)
-
 export const peopleArchiveQuery = defineQuery(`
   *[_type == "role" && defined(end) && dateTime(end + 'T00:00:00Z') < dateTime($currentDate)] | order(end desc) {
     _id,

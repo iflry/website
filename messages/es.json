@@ -11,11 +11,6 @@
         "ombudsperson": "Ombudsman",
         "vacant": "Vacante"
     },
-    "people": {
-        "bureauBuddies": "Padrinos del Bureau",
-        "region": "Región",
-        "buddies": "Padrino del Bureau"
-    },
     "page-not-found": {
         "title": "Página no encontrada",
         "description": "La página que estás buscando no existe.",
