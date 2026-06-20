@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { pageTypeQuery, peopleQuery, bureauRegionsQuery } from "@/sanity/lib/queries";
+import { pageTypeQuery, peopleQuery } from "@/sanity/lib/queries";
 import RoleView, { RoleType, BureauRole, OfficeRole } from "./role-view";
 import PortableText from "@/src/components/portable-text";
 import { PortableTextBlock } from "next-sanity";
@@ -43,14 +42,17 @@ const officeRoleOrder: Record<OfficeRole, number> = {
   "intern": 3
 };
 
+// Single-slot positions that always appear on the page, even when no role doc
+// currently fills them. Renders as "Vacant" via RoleView.
+const requiredBureauRoles: BureauRole[] = ["president", "secretary-general", "treasurer"];
+const requiredTypes: RoleType[] = ["ombudsperson"];
+
 export default async function PeoplePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const t = await getTranslations()
   const currentDate = new Date().toISOString()
-  const [page, people, bureauRegions] = await Promise.all([
+  const [page, people] = await Promise.all([
     sanityFetch({ query: pageTypeQuery, params: { type: "people", language: locale } }),
-    sanityFetch({ query: peopleQuery, params: { date: currentDate, language: locale } }),
-    sanityFetch({ query: bureauRegionsQuery, params: {} })
+    sanityFetch({ query: peopleQuery, params: { date: currentDate, language: locale } })
   ])
   
   const peopleByType: Record<string, any[]> = {};
@@ -60,6 +62,43 @@ export default async function PeoplePage({ params }: { params: Promise<{ locale:
         peopleByType[person.type] = [];
       }
       peopleByType[person.type].push(person);
+    }
+  });
+
+  // Inject synthetic vacant entries for singleton positions that no current
+  // role doc fills, so the section always appears with a "Vacant" tile.
+  const bureauList = peopleByType["bureau-member"] ?? (peopleByType["bureau-member"] = []);
+  requiredBureauRoles.forEach((bureauRole) => {
+    const filled = bureauList.some((p) => p.bureauRole === bureauRole);
+    if (!filled) {
+      bureauList.push({
+        _id: `vacant-bureau-${bureauRole}`,
+        type: "bureau-member",
+        bureauRole,
+        name: null,
+        picture: null,
+        title: null,
+        email: null,
+        officeRole: null,
+        biography: null,
+        buddyRegions: null,
+      });
+    }
+  });
+  requiredTypes.forEach((type) => {
+    if (!peopleByType[type] || peopleByType[type].length === 0) {
+      peopleByType[type] = [{
+        _id: `vacant-${type}`,
+        type,
+        bureauRole: null,
+        officeRole: null,
+        name: null,
+        picture: null,
+        title: null,
+        email: null,
+        biography: null,
+        buddyRegions: null,
+      }];
     }
   });
   
@@ -132,55 +171,6 @@ export default async function PeoplePage({ params }: { params: Promise<{ locale:
               </div>
             </div>
           ))}
-          {(() => {
-            const bureau = peopleByType["bureau-member"] ?? [];
-            const buddiesByRegion = bureauRegions
-              .map((region) => ({
-                region,
-                buddies: bureau
-                  .filter((person) =>
-                    (person.buddyRegions ?? []).some((r: any) => r?._id === region._id),
-                  )
-                  .sort((a, b) => {
-                    const orderA = a.bureauRole ? (bureauRoleOrder[a.bureauRole as BureauRole] || 999) : 999;
-                    const orderB = b.bureauRole ? (bureauRoleOrder[b.bureauRole as BureauRole] || 999) : 999;
-                    return orderA - orderB;
-                  }),
-              }))
-              .filter((row) => row.buddies.length > 0);
-
-            if (buddiesByRegion.length === 0) return null;
-
-            return (
-              <div>
-                <Subheading className="mb-8">{t("people.bureauBuddies")}</Subheading>
-                <div className="overflow-hidden rounded-sm outline -outline-offset-1 outline-black/5">
-                  <table className="min-w-full divide-y divide-gray-200 text-sm">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th scope="col" className="px-4 py-3 text-left font-semibold text-gray-900">
-                          {t("people.region")}
-                        </th>
-                        <th scope="col" className="px-4 py-3 text-left font-semibold text-gray-900">
-                          {t("people.buddies")}
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200 bg-white">
-                      {buddiesByRegion.map(({ region, buddies }) => (
-                        <tr key={region._id}>
-                          <td className="px-4 py-3 font-medium text-gray-900 align-top">{region.name}</td>
-                          <td className="px-4 py-3 text-gray-700">
-                            {buddies.map((b) => b.name).filter(Boolean).join(", ")}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            );
-          })()}
         </div>
       </Section>
     </Main>
