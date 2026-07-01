@@ -26,7 +26,6 @@ export default defineType({
       name: "email",
       title: "Email",
       type: "email",
-      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "expertises",
